@@ -1,0 +1,322 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  EMPLOYEE
+  HR
+  ADMIN
+}
+
+enum EmployeeGroup {
+  PROBATION
+  OFFICIAL
+  MANAGER
+}
+
+enum DocumentSourceType {
+  UPLOAD
+  CRAWL
+  MANUAL
+}
+
+enum DocumentStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  ARCHIVED
+  EXPIRED
+}
+
+enum FaqStatus {
+  DRAFT
+  APPROVED
+  ARCHIVED
+}
+
+enum ConfidenceLevel {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum CrawlSourceType {
+  OFFICIAL
+  GOVERNMENT
+  LEGAL_DATABASE
+  REFERENCE
+  NEWS
+}
+
+enum CrawlTrustLevel {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum CrawlFrequency {
+  DAILY
+  WEEKLY
+  MANUAL
+}
+
+enum LegalDocumentType {
+  LAW
+  DECREE
+  CIRCULAR
+  DECISION
+  OFFICIAL_DISPATCH
+  GUIDANCE
+  NEWS
+  OTHER
+}
+
+enum CrawlItemStatus {
+  NEW
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  ARCHIVED
+}
+
+enum LegalUpdateImpactLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum LegalUpdateStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model User {
+  id                 String        @id @default(cuid())
+  name               String
+  email              String        @unique
+  role               UserRole      @default(EMPLOYEE)
+  employeeGroup      EmployeeGroup @default(OFFICIAL)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  questionLogs       QuestionLog[]
+  reviewedCrawlItems CrawlItem[]   @relation("CrawlItemReviewer")
+}
+
+model Category {
+  id            String         @id @default(cuid())
+  name          String
+  slug          String         @unique
+  description   String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  faqs          FAQ[]
+  documents     Document[]
+  crawlKeywords CrawlKeyword[]
+  legalUpdates  LegalUpdate[]
+}
+
+model FAQ {
+  id              String          @id @default(cuid())
+  question        String
+  shortAnswer     String
+  detailedAnswer  String?
+  categoryId      String?
+  category        Category?       @relation(fields: [categoryId], references: [id])
+  status          FaqStatus       @default(DRAFT)
+  employeeGroup   EmployeeGroup?
+  confidenceLevel ConfidenceLevel @default(HIGH)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  citations       Citation[]
+
+  @@index([status])
+  @@index([question])
+}
+
+model Document {
+  id            String             @id @default(cuid())
+  title         String
+  fileName      String?
+  fileType      String?
+  sourceType    DocumentSourceType @default(UPLOAD)
+  status        DocumentStatus     @default(DRAFT)
+  version       Int                @default(1)
+  effectiveDate DateTime?
+  expiryDate    DateTime?
+  categoryId    String?
+  category      Category?          @relation(fields: [categoryId], references: [id])
+  storagePath   String?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  chunks        DocumentChunk[]
+  citations     Citation[]
+
+  @@index([status])
+}
+
+model DocumentChunk {
+  id         String     @id @default(cuid())
+  documentId String
+  document   Document   @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  content    String
+  chunkIndex Int
+  /// Optional embedding vector for pgvector / external ANN later; mock search can ignore or use.
+  embedding  Json?
+  metadata   Json?
+  createdAt  DateTime   @default(now())
+  citations  Citation[]
+
+  @@index([documentId])
+}
+
+model Citation {
+  id              String         @id @default(cuid())
+  faqId           String?
+  faq             FAQ?           @relation(fields: [faqId], references: [id], onDelete: Cascade)
+  documentId      String?
+  document        Document?      @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentChunkId String?
+  chunk           DocumentChunk? @relation(fields: [documentChunkId], references: [id], onDelete: SetNull)
+  title           String
+  sourceUrl       String?
+  legalArticle    String?
+  legalClause     String?
+  effectiveDate   DateTime?
+}
+
+model QuestionLog {
+  id                 String           @id @default(cuid())
+  userId             String?
+  user               User?            @relation(fields: [userId], references: [id])
+  question           String
+  normalizedQuestion String?
+  answer             String?
+  confidenceLevel    ConfidenceLevel?
+  needsHrReview      Boolean          @default(false)
+  createdAt          DateTime         @default(now())
+
+  @@index([createdAt])
+}
+
+model CrawlSource {
+  id             String          @id @default(cuid())
+  name           String
+  baseUrl        String
+  domain         String
+  sourceType     CrawlSourceType @default(OFFICIAL)
+  trustLevel     CrawlTrustLevel @default(HIGH)
+  active         Boolean         @default(true)
+  crawlFrequency CrawlFrequency  @default(WEEKLY)
+  lastCrawledAt  DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  items          CrawlItem[]
+
+  @@unique([domain, baseUrl])
+  @@index([active])
+  @@index([domain])
+}
+
+model CrawlKeyword {
+  id         String    @id @default(cuid())
+  keyword    String    @unique
+  active     Boolean   @default(true)
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([active])
+}
+
+model CrawlItem {
+  id                String             @id @default(cuid())
+  sourceId          String
+  source            CrawlSource        @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  title             String
+  url               String
+  canonicalUrl      String             @unique
+  domain            String
+  contentText       String
+  rawHtml           String?
+  summary           String?
+  detectedTopics    Json?
+  detectedKeywords  Json?
+  legalDocumentType LegalDocumentType?
+  documentNumber    String?
+  issuedDate        DateTime?
+  effectiveDate     DateTime?
+  expiryDate        DateTime?
+  status            CrawlItemStatus    @default(PENDING_REVIEW)
+  reviewNote        String?
+  reviewedById      String?
+  reviewedBy        User?              @relation("CrawlItemReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewedAt        DateTime?
+  publishedAt       DateTime?
+  duplicateOfId     String?
+  duplicateOf       CrawlItem?         @relation("CrawlItemDuplicate", fields: [duplicateOfId], references: [id], onDelete: SetNull)
+  duplicates        CrawlItem[]        @relation("CrawlItemDuplicate")
+  contentHash       String
+  crawledAt         DateTime           @default(now())
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  legalUpdate       LegalUpdate?
+
+  @@index([sourceId])
+  @@index([status])
+  @@index([contentHash])
+  @@index([domain])
+  @@index([crawledAt])
+}
+
+model LegalUpdate {
+  id                String                 @id @default(cuid())
+  crawlItemId       String                 @unique
+  crawlItem         CrawlItem              @relation(fields: [crawlItemId], references: [id], onDelete: Cascade)
+  title             String
+  slug              String                 @unique
+  summary           String?
+  body              String
+  sourceUrl         String
+  sourceName        String
+  categoryId        String?
+  category          Category?              @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  legalDocumentType LegalDocumentType?
+  documentNumber    String?
+  issuedDate        DateTime?
+  effectiveDate     DateTime?
+  publishedAt       DateTime?
+  impactLevel       LegalUpdateImpactLevel @default(MEDIUM)
+  affectedGroups    Json?
+  hrActionRequired  Boolean                @default(false)
+  hrActionSummary   String?
+  status            LegalUpdateStatus      @default(DRAFT)
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+
+  @@index([status])
+  @@index([publishedAt])
+  @@index([legalDocumentType])
+}
+
+model ReviewAuditLog {
+  id         String   @id @default(cuid())
+  entityType String
+  entityId   String
+  action     String
+  oldStatus  String?
+  newStatus  String?
+  note       String?
+  actorId    String?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}

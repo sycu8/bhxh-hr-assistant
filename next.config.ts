@@ -1,7 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  serverExternalPackages: ["@prisma/client", ".prisma/client"],
+  async redirects() {
+    return [
+      {
+        source: "/cap-nhat-phap-luat",
+        destination: "/legal-updates",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

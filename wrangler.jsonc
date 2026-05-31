@@ -1,0 +1,57 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "bhxh-hr-assistant",
+  "main": "cloudflare/worker-entry.ts",
+  "compatibility_date": "2026-05-11",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "vars": {
+    "NEXT_PRIVATE_MINIMAL_MODE": "1",
+    "MEDIA_DEFAULT_MAX_WIDTH": "1280",
+    "CLOUDFLARE_ACCOUNT_ID": "YOUR_CLOUDFLARE_ACCOUNT_ID",
+    "HR_EMAIL_FROM": "noreply@your-verified-domain.com",
+    "HR_CONTACT_EMAIL": "hr-cnb@your-company.com",
+    "CRON_WORKER_BASE_URL": "https://YOUR-WORKER.your-subdomain.workers.dev"
+  },
+  "send_email": [
+    {
+      "name": "EMAIL"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA_BUCKET",
+      "bucket_name": "bhxh-hr-assistant-media"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "triggers": {
+    "crons": ["0 23 * * *"]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "APP_CACHE",
+      "id": "YOUR_KV_NAMESPACE_ID"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "APP_CONFIG_D1",
+      "database_name": "bhxh-hr-assistant-config",
+      "database_id": "YOUR_D1_DATABASE_ID",
+      "migrations_dir": "migrations/d1"
+    }
+  ],
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "YOUR_HYPERDRIVE_ID",
+      "localConnectionString": "postgresql://postgres:postgres@127.0.0.1:5432/postgres"
+    }
+  ]
+}
