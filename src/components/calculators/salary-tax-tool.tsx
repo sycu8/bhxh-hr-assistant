@@ -14,10 +14,9 @@ import {
   ShieldCheck,
   Wallet,
 } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 
-type CalculatorMode = "gross-to-net" | "net-to-gross" | "take-home";
+import type { CalculatorMode } from "@/lib/calculators/salary-tax-modes";
 type SalaryRegion = "I" | "II" | "III" | "IV";
 
 type SalaryTaxResult = {
@@ -142,16 +141,12 @@ function parseMoneyInput(value: string) {
   return Number(value || 0);
 }
 
-function isCalculatorMode(value: string | null): value is CalculatorMode {
-  return value === "gross-to-net" || value === "net-to-gross" || value === "take-home";
-}
+type SalaryTaxToolProps = {
+  initialMode?: CalculatorMode;
+};
 
-export function SalaryTaxTool() {
-  const searchParams = useSearchParams();
-  const requestedMode = searchParams.get("mode");
-  const [mode, setMode] = useState<CalculatorMode>(
-    isCalculatorMode(requestedMode) ? requestedMode : "gross-to-net",
-  );
+export function SalaryTaxTool({ initialMode = "gross-to-net" }: SalaryTaxToolProps) {
+  const [mode, setMode] = useState<CalculatorMode>(initialMode);
   const [grossSalary, setGrossSalary] = useState("35000000");
   const [targetNetSalary, setTargetNetSalary] = useState("30000000");
   const [insuranceSalaryBase, setInsuranceSalaryBase] = useState("35000000");

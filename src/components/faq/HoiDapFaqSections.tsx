@@ -15,7 +15,7 @@ type Props = {
   entries: HoiDapFaqEntry[];
 };
 
-export function HoiDapFaqSections({ entries }: Props) {
+function HoiDapFaqSectionsView({ entries }: Props) {
   const { items, page, totalPages, totalItems, setPage } = useClientPagination(
     entries,
     FAQ_PAGE_SIZE,
@@ -60,4 +60,8 @@ export function HoiDapFaqSections({ entries }: Props) {
       />
     </div>
   );
+}
+
+export function HoiDapFaqSections({ entries }: Props) {
+  return <HoiDapFaqSectionsView key={`${entries.length}|${FAQ_PAGE_SIZE}`} entries={entries} />;
 }

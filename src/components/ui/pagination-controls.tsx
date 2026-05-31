@@ -18,6 +18,51 @@ type PaginationControlsProps = {
   onPageChange?: (page: number) => void;
 };
 
+function PaginationNavButton({
+  targetPage,
+  disabled,
+  label,
+  children,
+  buildHref,
+  onPageChange,
+}: {
+  targetPage: number;
+  disabled: boolean;
+  label: string;
+  children: ReactNode;
+  buildHref?: (page: number) => string;
+  onPageChange?: (page: number) => void;
+}) {
+  const classes = cn(
+    "min-h-12 h-12 min-w-[6.5rem] rounded-xl px-4 text-base sm:min-h-11 sm:h-11 sm:text-sm",
+    disabled && "pointer-events-none opacity-40",
+  );
+
+  if (buildHref && !disabled) {
+    return (
+      <Button variant="ctaSecondary" size="touch" className={classes} asChild>
+        <Link href={buildHref(targetPage)} scroll aria-label={label}>
+          {children}
+        </Link>
+      </Button>
+    );
+  }
+
+  return (
+    <Button
+      type="button"
+      variant="ctaSecondary"
+      size="touch"
+      className={classes}
+      disabled={disabled}
+      aria-label={label}
+      onClick={() => onPageChange?.(targetPage)}
+    >
+      {children}
+    </Button>
+  );
+}
+
 export function PaginationControls({
   page,
   totalPages,
@@ -31,47 +76,6 @@ export function PaginationControls({
 
   const canPrev = page > 1;
   const canNext = page < totalPages;
-
-  const NavButton = ({
-    targetPage,
-    disabled,
-    label,
-    children,
-  }: {
-    targetPage: number;
-    disabled: boolean;
-    label: string;
-    children: ReactNode;
-  }) => {
-    const classes = cn(
-      "min-h-12 h-12 min-w-[6.5rem] rounded-xl px-4 text-base sm:min-h-11 sm:h-11 sm:text-sm",
-      disabled && "pointer-events-none opacity-40",
-    );
-
-    if (buildHref && !disabled) {
-      return (
-        <Button variant="ctaSecondary" size="touch" className={classes} asChild>
-          <Link href={buildHref(targetPage)} scroll aria-label={label}>
-            {children}
-          </Link>
-        </Button>
-      );
-    }
-
-    return (
-      <Button
-        type="button"
-        variant="ctaSecondary"
-        size="touch"
-        className={classes}
-        disabled={disabled}
-        aria-label={label}
-        onClick={() => onPageChange?.(targetPage)}
-      >
-        {children}
-      </Button>
-    );
-  };
 
   return (
     <nav
@@ -92,14 +96,26 @@ export function PaginationControls({
         </span>
       </p>
       <div className="flex items-center justify-center gap-2">
-        <NavButton targetPage={page - 1} disabled={!canPrev} label="Trang trước">
+        <PaginationNavButton
+          targetPage={page - 1}
+          disabled={!canPrev}
+          label="Trang trước"
+          buildHref={buildHref}
+          onPageChange={onPageChange}
+        >
           <ChevronLeft className="mr-1 h-4 w-4" />
           Trước
-        </NavButton>
-        <NavButton targetPage={page + 1} disabled={!canNext} label="Trang sau">
+        </PaginationNavButton>
+        <PaginationNavButton
+          targetPage={page + 1}
+          disabled={!canNext}
+          label="Trang sau"
+          buildHref={buildHref}
+          onPageChange={onPageChange}
+        >
           Sau
           <ChevronRight className="ml-1 h-4 w-4" />
-        </NavButton>
+        </PaginationNavButton>
       </div>
     </nav>
   );

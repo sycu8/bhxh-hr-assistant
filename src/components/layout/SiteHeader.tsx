@@ -37,6 +37,7 @@ function NavLink({
     <Link
       href={item.href}
       className={navLinkClass(item, active)}
+      aria-label={item.label}
       onClick={onNavigate}
     >
       {item.shortLabel && item.shortLabel !== item.label ? (
@@ -51,10 +52,99 @@ function NavLink({
   );
 }
 
-export function SiteHeader() {
-  const pathname = usePathname();
+function MoreMenu({
+  moreItems,
+  moreActive,
+  isActive,
+}: {
+  moreItems: SiteNavLink[];
+  moreActive: boolean;
+  isActive: (href: string) => boolean;
+}) {
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!moreOpen) return;
+    const onPointerDown = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [moreOpen]);
+
+  return (
+    <div className="relative" ref={moreRef}>
+      <button
+        type="button"
+        className={cn(
+          navLinkClass({ href: "#", label: "Thêm" }, moreActive),
+          "inline-flex items-center gap-1",
+        )}
+        aria-expanded={moreOpen}
+        aria-haspopup="true"
+        onClick={() => setMoreOpen((o) => !o)}
+      >
+        <span className="md:hidden">
+          {moreOpen ? (
+            <X className="h-4 w-4" aria-hidden />
+          ) : (
+            <Menu className="h-4 w-4" aria-hidden />
+          )}
+        </span>
+        Thêm
+      </button>
+      {moreOpen ? (
+        <div
+          className="absolute right-0 top-full z-50 mt-1 w-[min(100vw-1.5rem,16rem)] rounded-xl border border-border bg-card p-2 shadow-lg md:w-56"
+          role="menu"
+        >
+          <div className="md:hidden">
+            {MORE_NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                role="menuitem"
+                className={cn(
+                  "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                  isActive(item.href)
+                    ? "bg-muted text-foreground"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                )}
+                onClick={() => setMoreOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          <div className="hidden md:block">
+            {moreItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                role="menuitem"
+                className={cn(
+                  "block rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  isActive(item.href)
+                    ? "bg-muted text-foreground"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                )}
+                onClick={() => setMoreOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export function SiteHeader() {
+  const pathname = usePathname();
 
   const isActive = (href: string) =>
     href === "/"
@@ -71,21 +161,6 @@ export function SiteHeader() {
   );
 
   const moreActive = MORE_NAV.some((item) => isActive(item.href));
-
-  useEffect(() => {
-    setMoreOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    if (!moreOpen) return;
-    const onPointerDown = (e: MouseEvent) => {
-      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
-        setMoreOpen(false);
-      }
-    };
-    document.addEventListener("pointerdown", onPointerDown);
-    return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [moreOpen]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-card/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-card/80">
@@ -122,70 +197,12 @@ export function SiteHeader() {
             ))}
           </div>
 
-          <div className="relative" ref={moreRef}>
-            <button
-              type="button"
-              className={cn(
-                navLinkClass({ href: "#", label: "Thêm" }, moreActive),
-                "inline-flex items-center gap-1",
-              )}
-              aria-expanded={moreOpen}
-              aria-haspopup="true"
-              onClick={() => setMoreOpen((o) => !o)}
-            >
-              <span className="md:hidden">
-                {moreOpen ? (
-                  <X className="h-4 w-4" aria-hidden />
-                ) : (
-                  <Menu className="h-4 w-4" aria-hidden />
-                )}
-              </span>
-              Thêm
-            </button>
-            {moreOpen ? (
-              <div
-                className="absolute right-0 top-full z-50 mt-1 w-[min(100vw-1.5rem,16rem)] rounded-xl border border-border bg-card p-2 shadow-lg md:w-56"
-                role="menu"
-              >
-                <div className="md:hidden">
-                  {MORE_NAV.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      role="menuitem"
-                      className={cn(
-                        "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                        isActive(item.href)
-                          ? "bg-muted text-foreground"
-                          : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                      )}
-                      onClick={() => setMoreOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-                <div className="hidden md:block">
-                  {moreItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      role="menuitem"
-                      className={cn(
-                        "block rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                        isActive(item.href)
-                          ? "bg-muted text-foreground"
-                          : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                      )}
-                      onClick={() => setMoreOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </div>
+          <MoreMenu
+            key={pathname}
+            moreItems={moreItems}
+            moreActive={moreActive}
+            isActive={isActive}
+          />
         </nav>
       </div>
     </header>

@@ -19,7 +19,7 @@ export const PUBLIC_ROUTE_SPECS: PublicRouteSpec[] = [
   { path: "/calculators/chinh-sach-mien-giam", mustContain: "Giảm trừ bản thân" },
   {
     path: "/cong-cu-luong-thue",
-    mustContain: "Tính ngay",
+    mustContain: "Tính lương",
   },
   {
     path: "/cong-cu-luong-thue?mode=gross-to-net",

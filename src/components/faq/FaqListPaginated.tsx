@@ -13,13 +13,14 @@ type FaqListPaginatedProps<T> = {
   emptyMessage?: string;
 };
 
-export function FaqListPaginated<T>({
+function FaqListPaginatedView<T>({
   items,
-  pageSize = FAQ_PAGE_SIZE,
+  pageSize,
   getKey,
   renderItem,
-  emptyMessage = "Chưa có mục nào.",
-}: FaqListPaginatedProps<T>) {
+  emptyMessage,
+}: Required<Pick<FaqListPaginatedProps<T>, "pageSize">> &
+  FaqListPaginatedProps<T>) {
   const { items: pageItems, page, totalPages, totalItems, setPage } =
     useClientPagination(items, pageSize);
 
@@ -55,5 +56,24 @@ export function FaqListPaginated<T>({
         onPageChange={setPage}
       />
     </div>
+  );
+}
+
+export function FaqListPaginated<T>({
+  items,
+  pageSize = FAQ_PAGE_SIZE,
+  getKey,
+  renderItem,
+  emptyMessage = "Chưa có mục nào.",
+}: FaqListPaginatedProps<T>) {
+  return (
+    <FaqListPaginatedView
+      key={`${items.length}|${pageSize}`}
+      items={items}
+      pageSize={pageSize}
+      getKey={getKey}
+      renderItem={renderItem}
+      emptyMessage={emptyMessage}
+    />
   );
 }

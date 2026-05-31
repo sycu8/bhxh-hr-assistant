@@ -6,7 +6,7 @@ import { PaginationControls } from "@/components/ui/pagination-controls";
 import { useClientPagination } from "@/hooks/use-client-pagination";
 import { DEFAULT_PAGE_SIZE } from "@/lib/pagination/constants";
 
-export function SearchHitsPaginated({ hits }: { hits: SearchHitDto[] }) {
+function SearchHitsPaginatedView({ hits }: { hits: SearchHitDto[] }) {
   const { items, page, totalPages, totalItems, setPage } = useClientPagination(
     hits,
     DEFAULT_PAGE_SIZE,
@@ -27,5 +27,11 @@ export function SearchHitsPaginated({ hits }: { hits: SearchHitDto[] }) {
         onPageChange={setPage}
       />
     </div>
+  );
+}
+
+export function SearchHitsPaginated({ hits }: { hits: SearchHitDto[] }) {
+  return (
+    <SearchHitsPaginatedView key={`${hits.length}|${DEFAULT_PAGE_SIZE}`} hits={hits} />
   );
 }

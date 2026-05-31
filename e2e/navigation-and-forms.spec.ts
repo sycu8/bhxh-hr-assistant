@@ -1,32 +1,37 @@
 import { test, expect } from "@playwright/test";
+import { expectPageText, gotoStable, mainNav } from "./helpers";
 
 test.describe("Header navigation", () => {
   test("primary nav links work", async ({ page }) => {
-    await page.goto("/");
-    await page.getByRole("link", { name: "Tra cứu", exact: true }).first().click();
+    const nav = mainNav(page);
+
+    await gotoStable(page, "/");
+    await nav.getByRole("link", { name: "Tra cứu" }).click();
     await expect(page).toHaveURL(/\/search/);
 
-    await page.goto("/");
-    await page.getByRole("link", { name: "FAQ", exact: true }).first().click();
+    await gotoStable(page, "/");
+    await nav.getByRole("link", { name: "FAQ" }).click();
     await expect(page).toHaveURL(/\/hoi-dap/);
 
-    await page.goto("/");
-    await page.getByRole("link", { name: /Hỏi HR|HR/ }).first().click();
+    await gotoStable(page, "/");
+    await nav.getByRole("link", { name: "Hỏi HR" }).click();
     await expect(page).toHaveURL(/\/ask-hr/);
   });
 
   test("desktop calculators nav opens hub", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/");
-    const toolsLink = page.getByRole("link", { name: /Công cụ/ }).first();
-    await toolsLink.click();
+    await gotoStable(page, "/");
+    await mainNav(page).getByRole("link", { name: "Công cụ NV" }).click();
     await expect(page).toHaveURL(/\/calculators/);
   });
 });
 
 test.describe("Tính lương tool", () => {
   test("calculate button returns result panel", async ({ page }) => {
-    await page.goto("/cong-cu-luong-thue?mode=gross-to-net");
+    await gotoStable(page, "/cong-cu-luong-thue?mode=gross-to-net");
+    await expect(page.getByRole("button", { name: "Tính ngay" })).toBeVisible({
+      timeout: 15_000,
+    });
 
     const moneyInputs = page.getByPlaceholder("Ví dụ: 35.000.000");
     await moneyInputs.first().fill("35000000");
@@ -43,8 +48,12 @@ test.describe("Tính lương tool", () => {
 
 test.describe("Hỏi HR form", () => {
   test("submit disabled until required fields filled", async ({ page }) => {
-    await page.goto("/ask-hr");
+    await gotoStable(page, "/ask-hr");
+    await expectPageText(page, "Gửi email cho HR");
+
     const form = page.getByRole("form", { name: "Gửi câu hỏi tới HR" });
+    await expect(form).toBeVisible({ timeout: 15_000 });
+
     const submit = form.getByRole("button", { name: /Gửi email cho HR/ });
     await expect(submit).toBeDisabled();
 
@@ -60,13 +69,15 @@ test.describe("Hỏi HR form", () => {
 
 test.describe("Legal updates filters", () => {
   test("search input and pagination controls present", async ({ page }) => {
-    await page.goto("/legal-updates");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    const search = page.getByPlaceholder(/tìm|search/i).or(page.locator('input[type="search"]'));
-    if ((await search.count()) > 0) {
-      await search.first().fill("BHXH");
-      await page.keyboard.press("Enter");
-      await expect(page).toHaveURL(/q=/);
-    }
+    await gotoStable(page, "/legal-updates");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible({
+      timeout: 15_000,
+    });
+
+    const search = page.getByLabel("Tìm văn bản");
+    await expect(search).toBeVisible();
+    await search.fill("BHXH");
+    await page.getByRole("button", { name: "Tìm kiếm" }).click();
+    await expect(page).toHaveURL(/q=BHXH/i);
   });
 });
