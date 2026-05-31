@@ -2,9 +2,9 @@ import { Suspense } from "react";
 import { SalaryTaxTool } from "@/components/calculators/salary-tax-tool";
 
 export const metadata = {
-  title: "Công cụ lương và thuế",
+  title: "Tính lương",
   description:
-    "Tính gross sang net, net sang gross và thực nhận sau bảo hiểm, thuế thu nhập cá nhân.",
+    "Tính lương gộp sang thực nhận, thực nhận sang gộp và bảng chi tiết bảo hiểm, thuế TNCN cho nhân viên.",
 };
 
 export default function SalaryTaxToolsPage() {

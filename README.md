@@ -14,7 +14,7 @@ Repository: [github.com/sycu8/bhxh-hr-assistant](https://github.com/sycu8/bhxh-h
 | **FAQ** (`/hoi-dap`) | Câu hỏi thường gặp soạn sẵn, có trang chi tiết và trích nguồn. |
 | **Cập nhật pháp luật** (`/legal-updates`) | Danh sách văn bản đã publish; tìm kiếm, lọc ngày ban hành, **phân trang** (tối ưu mobile). |
 | **Hỏi HR** (`/ask-hr`) | Form gửi email tới HR qua Cloudflare Email Service (không `mailto`). |
-| **Công cụ** (`/calculators`, `/cong-cu-luong-thue`) | Ước tính lương, BHXH/BHYT/BHTN, thuế TNCN. |
+| **Công cụ cho Nhân viên** (`/calculators`) | Lương/thuế, tra cứu, FAQ, chủ đề quyền lợi, pháp luật, Hỏi HR. |
 | **Admin** (`/admin`) | Duyệt crawl, import tài liệu, revalidate cache. |
 | **Cron** | Quét nguồn chính thống **06:00 ICT** mỗi ngày (`0 23 * * *` UTC). |
 
@@ -131,7 +131,7 @@ pnpm exec wrangler secret put CLOUDFLARE_EMAIL_API_TOKEN
 
 2. Tạo trên Cloudflare: Worker, **Hyperdrive** (Postgres), **KV**, **D1**, **R2**, bật **Email Sending** cho domain From.
 
-3. Điền vào `wrangler.jsonc`: `id` KV, D1, Hyperdrive, `HR_CONTACT_EMAIL`, `HR_EMAIL_FROM`, `CRON_WORKER_BASE_URL`, v.v.
+3. Sao chép `wrangler.jsonc.example` → `wrangler.local.jsonc` (đã gitignore) và điền ID/bindings thật; deploy dùng file local này.
 
 4. D1 migration:
 
@@ -210,3 +210,26 @@ Dự án nội bộ FTI. Vấn đề vận hành: liên hệ đội HR/C&B hoặ
 ## Lịch sử tên
 
 - Tên Worker/package có thể là `vn-insurance-fti` hoặc `bhxh-hr-assistant` tùy môi trường — chuẩn hoá dần về **bhxh-hr-assistant** trên GitHub.
+
+---
+
+## Kiểm thử
+
+```bash
+pnpm test          # Vitest (logic, API, catalog công cụ)
+pnpm build && pnpm test:e2e   # Playwright — trang, nút, form
+pnpm test:all      # Cả hai
+```
+
+Chi tiết và lỗi đã ghi nhận: [docs/TEST-REPORT.md](docs/TEST-REPORT.md).
+
+## Quy trình bảo trì (README + GitHub)
+
+Mỗi lần đổi tính năng hoặc cấu hình:
+
+1. Sửa code → cập nhật **README** (phần liên quan).
+2. Không commit secret (xem `.env.example`, `wrangler.jsonc.example`).
+3. `pnpm test` → commit → `git push origin main`.
+
+Rule Cursor cho agent: `.cursor/rules/sync-readme-github.mdc`.  
+Áp dụng cho dự án khác: chạy `scripts/bootstrap-cursor-readme-github-rule.ps1 -Target "D:\path\to\project"`.

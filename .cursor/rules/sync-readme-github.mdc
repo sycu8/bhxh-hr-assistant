@@ -1,0 +1,17 @@
+---
+description: Cập nhật README và đồng bộ GitHub sau mỗi thay đổi trong repo này.
+alwaysApply: true
+---
+
+# vn-insurance-fti — README + GitHub
+
+Repo: https://github.com/sycu8/bhxh-hr-assistant
+
+Sau mỗi thay đổi tính năng / deploy / cấu hình:
+
+1. Cập nhật `README.md` (setup, API, Cloudflare bindings, menu, cron 06:00 ICT).
+2. Secrets chỉ trong `wrangler secret` / GitHub Actions secrets — `wrangler.jsonc` dùng placeholder `YOUR_*`.
+3. `HR_CONTACT_EMAIL`, `CLOUDFLARE_*` qua env/vars, không hard-code email cá nhân.
+4. Cuối task: test (`pnpm test`), commit, `git push origin` (nhánh `main`).
+
+Deploy production: `pnpm run deploy` — ghi version/URL vào README nếu user cần ghi nhận release.

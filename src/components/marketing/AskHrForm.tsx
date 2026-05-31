@@ -161,7 +161,12 @@ export function AskHrForm({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={submit} className="space-y-4" noValidate>
+        <form
+          onSubmit={submit}
+          className="space-y-4"
+          noValidate
+          aria-label="Gửi câu hỏi tới HR"
+        >
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="replyEmail">
               Email của bạn <RequiredMark />

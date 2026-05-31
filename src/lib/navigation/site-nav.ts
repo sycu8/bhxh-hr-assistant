@@ -15,15 +15,17 @@ export const PRIMARY_NAV: SiteNavLink[] = [
 /** Màn rộng: thêm trực tiếp, không cần menu Thêm. */
 export const DESKTOP_EXTRA_NAV: SiteNavLink[] = [
   { href: "/legal-updates", label: "Pháp luật", shortLabel: "PL" },
-  { href: "/calculators", label: "Công cụ", shortLabel: "Công cụ" },
+  { href: "/calculators", label: "Công cụ NV", shortLabel: "Công cụ" },
 ];
 
 /** Gom các mục ít dùng / quản trị. */
 export const MORE_NAV: SiteNavLink[] = [
   { href: "/legal-updates", label: "Cập nhật pháp luật" },
   { href: "/nguon-phap-luat", label: "Mục lục nguồn" },
-  { href: "/calculators", label: "Công cụ lương & thuế" },
-  { href: "/cong-cu-luong-thue", label: "Tính lương chi tiết" },
+  { href: "/calculators", label: "Công cụ cho Nhân viên" },
+  { href: "/cong-cu-luong-thue", label: "Tính lương" },
+  { href: "/calculators/luong-co-ban", label: "Lương cơ bản" },
+  { href: "/calculators/chinh-sach-mien-giam", label: "Miễn giảm" },
   { href: "/admin", label: "Quản trị" },
 ];
 

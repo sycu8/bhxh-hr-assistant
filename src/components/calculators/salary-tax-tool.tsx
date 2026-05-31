@@ -224,14 +224,14 @@ export function SalaryTaxTool() {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-100/80">
-              Công cụ nghiệp vụ HR/C&B
+              Công cụ cho Nhân viên
             </p>
             <h1 className="mt-3 text-balance text-2xl font-semibold tracking-tight sm:text-3xl lg:text-4xl">
-              Tính lương thực nhận, thuế và bảo hiểm
+              Tính lương
             </h1>
             <p className="mt-3 max-w-2xl text-pretty text-sm leading-relaxed text-blue-100/85 sm:text-base sm:leading-6">
-              Dùng cùng một lời tính cho gross sang net, net sang gross và bảng
-              diễn giải chi tiết theo quy định đang áp dụng cho kỳ tính thuế năm 2026.
+              Ước tính lương gộp → thực nhận, thực nhận → gộp và bảng chi tiết BHXH, BHYT, BHTN,
+              thuế TNCN theo cấu hình kỳ thuế năm 2026.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:min-w-[360px]">

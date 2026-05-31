@@ -40,11 +40,16 @@ yarn-error.log*
 # OpenNext / Wrangler local
 .open-next/
 .wrangler/
+wrangler.local.jsonc
 output/
 
 # local tooling / OCR artifacts
 .codex-logs/
 .playwright-cli/
+/playwright-report/
+/e2e/test-results/
+/e2e/test-results.json
+/test-results/
 .superpowers/
 *.traineddata
 /tmp/
