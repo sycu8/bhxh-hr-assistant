@@ -23,6 +23,17 @@ export function SiteFooter() {
         chính thức của HR/C&amp;B. Khi câu trả lời thiếu căn cứ hoặc phụ thuộc hồ sơ
         cá nhân, hãy chuyển sang bước Hỏi HR.
       </p>
+      <p className="mx-auto mt-3 px-4 text-center text-xs text-muted-foreground">
+        Created by{" "}
+        <Link
+          href="https://www.linkedin.com/in/sycule/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-medium text-foreground underline-offset-4 hover:underline"
+        >
+          Lê Sỹ Cường
+        </Link>
+      </p>
     </footer>
   );
 }
