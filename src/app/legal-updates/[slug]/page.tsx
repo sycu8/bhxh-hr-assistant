@@ -121,8 +121,10 @@ export default async function LegalUpdateDetailPage({ params }: Props) {
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
             Nội dung chi tiết
           </h2>
-          <div className="mt-3 whitespace-pre-wrap rounded-2xl border border-border/80 bg-card p-4 text-sm leading-relaxed text-foreground shadow-sm">
-            {update.body}
+          <div className="mt-3 max-w-none whitespace-pre-wrap rounded-2xl border border-border/80 bg-card p-4 sm:p-6 text-sm leading-7 text-foreground shadow-sm [&_p]:mb-0">
+            {update.body?.trim()
+              ? update.body
+              : "Chưa có nội dung chi tiết. Vui lòng mở văn bản gốc."}
           </div>
         </section>
       </article>
