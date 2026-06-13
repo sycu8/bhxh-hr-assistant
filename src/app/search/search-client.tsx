@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AlertCircle, ArrowRight, Loader2, Search } from "lucide-react";
 import { AnswerCard } from "@/components/portal/answer-card";
@@ -18,6 +18,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  TurnstileWidget,
+  isTurnstileRequiredOnClient,
+  type TurnstileWidgetHandle,
+} from "@/components/security/turnstile-widget";
 import type { AnswerCardDto, SearchHitDto } from "@/lib/types/answer-card";
 
 type SearchApiSuccess = {
@@ -46,14 +51,23 @@ export function SearchClient() {
   const [q, setQ] = useState("");
   const [categorySlug, setCategorySlug] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hits, setHits] = useState<SearchHitDto[] | null>(null);
   const [answer, setAnswer] = useState<AnswerCardDto | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
+  const turnstileRequired = isTurnstileRequiredOnClient();
 
   const runSearch = useCallback(
-    async (query: string, cat?: string) => {
+    async (query: string, cat?: string, token?: string | null) => {
+      if (turnstileRequired && !token) {
+        setError("Vui lòng hoàn thành xác minh Turnstile trước khi tra cứu.");
+        return;
+      }
       setError(null);
       setLoading(true);
+      setSearched(true);
       setHits(null);
       setAnswer(null);
       try {
@@ -65,22 +79,27 @@ export function SearchClient() {
             employeeGroup: "OFFICIAL",
             categorySlug: cat || undefined,
             hitLimit: 12,
+            turnstileToken: token ?? undefined,
           }),
         });
         const json = (await res.json()) as SearchApiSuccess | SearchApiError;
         if (!json.success) {
           setError(json.error.message);
+          turnstileRef.current?.reset();
+          setTurnstileToken(null);
           return;
         }
         setHits(json.data.hits);
         setAnswer(json.data.answer);
       } catch {
         setError("Không kết nối được máy chủ. Vui lòng thử lại.");
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
       } finally {
         setLoading(false);
       }
     },
-    [],
+    [turnstileRequired],
   );
 
   useEffect(() => {
@@ -91,10 +110,15 @@ export function SearchClient() {
       setCategorySlug(fromCat || undefined);
     });
     if (fromQ.length >= 2) {
+      if (turnstileRequired && !turnstileToken) {
+        setSearched(false);
+        return;
+      }
       // eslint-disable-next-line react-hooks/set-state-in-effect -- URL query should hydrate search results on direct visits.
-      void runSearch(fromQ, fromCat || undefined);
+      setSearched(true);
+      void runSearch(fromQ, fromCat || undefined, turnstileToken);
     }
-  }, [searchParams, runSearch]);
+  }, [searchParams, runSearch, turnstileToken, turnstileRequired]);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,7 +126,11 @@ export function SearchClient() {
       setError("Vui lòng nhập ít nhất 2 ký tự.");
       return;
     }
-    void runSearch(q.trim(), categorySlug);
+    if (turnstileRequired && !turnstileToken) {
+      setError("Vui lòng hoàn thành xác minh Turnstile trước khi tra cứu.");
+      return;
+    }
+    void runSearch(q.trim(), categorySlug, turnstileToken);
   };
 
   const askHrHref = buildAskHrHref(
@@ -157,7 +185,9 @@ export function SearchClient() {
               type="submit"
               variant="cta"
               size="touch"
-              disabled={loading}
+              disabled={
+                loading || (turnstileRequired && !turnstileToken)
+              }
               className="w-full shrink-0 sm:w-40"
             >
               {loading ? (
@@ -170,6 +200,13 @@ export function SearchClient() {
               )}
             </Button>
           </form>
+          <TurnstileWidget
+            ref={turnstileRef}
+            action="search"
+            onToken={setTurnstileToken}
+            onExpire={() => setTurnstileToken(null)}
+            className="mt-3 flex justify-center sm:justify-start"
+          />
         </CardContent>
       </Card>
 
@@ -188,11 +225,20 @@ export function SearchClient() {
         </div>
       ) : null}
 
-      {!loading && hits && answer ? (
+      {!loading && searched && answer ? (
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
           <div className="space-y-6">
             <AnswerCard answer={answer} />
-            <SearchHitsPaginated hits={hits} />
+            {hits && hits.length > 0 ? (
+              <SearchHitsPaginated hits={hits} />
+            ) : (
+              <Card className="border-dashed border-amber-200 bg-amber-50/50">
+                <CardContent className="py-8 text-center text-sm leading-relaxed text-amber-950/85">
+                  Không có thêm nguồn liên quan rõ ràng. Hãy đối chiếu câu trả lời
+                  ở trên hoặc chuyển sang HR nếu cần xác minh hồ sơ cá nhân.
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           <aside className="space-y-4 lg:sticky lg:top-20">
@@ -212,7 +258,7 @@ export function SearchClient() {
                   className="w-full justify-between"
                 >
                   <Link href="/nguon-phap-luat">
-                    Kiểm tra nguồn
+                    Nguồn tham khảo
                     <ArrowRight className="h-5 w-5" aria-hidden />
                   </Link>
                 </Button>
@@ -238,6 +284,47 @@ export function SearchClient() {
             </Card>
           </aside>
         </div>
+      ) : null}
+
+      {!loading && searched && !answer && !error ? (
+        <Card className="border-dashed">
+          <CardContent className="py-10 text-center text-sm text-muted-foreground">
+            Không nhận được kết quả. Vui lòng thử lại hoặc{" "}
+            <Link href="/ask-hr" className="font-medium text-accent underline-offset-4 hover:underline">
+              tạo ticket HR
+            </Link>
+            .
+          </CardContent>
+        </Card>
+      ) : null}
+
+      {!loading && !searched && !error ? (
+        <Card className="border-sky-100 bg-sky-50/40">
+          <CardHeader>
+            <CardTitle className="text-base">Bắt đầu tra cứu</CardTitle>
+            <CardDescription className="text-pretty leading-relaxed">
+              Nhập tình huống của bạn ở trên — ví dụ thai sản, nghỉ việc giữa
+              tháng, mức đóng BHXH, hoặc quyền lợi BHYT.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-wrap gap-2 pb-6">
+            {["Đóng BHXH khi nghỉ không lương", "Chế độ thai sản", "Mức đóng BHYT"].map(
+              (sample) => (
+                <button
+                  key={sample}
+                  type="button"
+                  className="rounded-full border border-sky-200 bg-white px-3 py-1.5 text-xs font-medium text-sky-950 hover:bg-sky-50"
+                  onClick={() => {
+                    setQ(sample);
+                    void runSearch(sample, categorySlug);
+                  }}
+                >
+                  {sample}
+                </button>
+              ),
+            )}
+          </CardContent>
+        </Card>
       ) : null}
     </div>
   );

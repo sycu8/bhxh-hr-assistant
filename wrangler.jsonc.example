@@ -14,7 +14,10 @@
     "CLOUDFLARE_ACCOUNT_ID": "YOUR_CLOUDFLARE_ACCOUNT_ID",
     "HR_EMAIL_FROM": "noreply@your-verified-domain.com",
     "HR_CONTACT_EMAIL": "hr-cnb@your-company.com",
-    "CRON_WORKER_BASE_URL": "https://YOUR-WORKER.your-subdomain.workers.dev"
+    "CRON_WORKER_BASE_URL": "https://YOUR-WORKER.your-subdomain.workers.dev",
+    "ADMIN_ACTION_RATE_LIMIT_MAX": "120",
+    "ADMIN_ACTION_RATE_WINDOW_SEC": "600",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "1x00000000000000000000AA"
   },
   "send_email": [{ "name": "EMAIL" }],
   "r2_buckets": [

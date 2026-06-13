@@ -30,8 +30,8 @@ export default async function AskHrPage({ searchParams }: Props) {
           </h1>
           <p className="mt-2 max-w-prose text-pretty text-sm leading-relaxed text-muted-foreground">
             Đây là bước cuối khi câu trả lời chưa đủ căn cứ, mức tin cậy thấp,
-            hoặc tình huống phụ thuộc hồ sơ cá nhân. Gửi trực tiếp qua email tới{" "}
-            {HR_CONTACT_EMAIL} (không cần mở ứng dụng mail).
+            hoặc tình huống phụ thuộc hồ sơ cá nhân. Tạo ticket HR — HR/C&amp;B (
+            {HR_CONTACT_EMAIL}) sẽ xử lý và phản hồi qua email công ty bạn nhập.
           </p>
         </div>
         <EmployeeJourney current="hr" compact />

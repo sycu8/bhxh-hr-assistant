@@ -4,8 +4,12 @@ export const SALARY_TAX_RULES_2026 = {
   dependentDeduction: 6_200_000,
   personalDeductionEffectiveFrom: "2026-01-01",
   salaryIncomeTaxEffectiveFrom: "2026-01-01",
+  /** Mức đang áp dụng trước 01/7/2026 — dùng cho tính lương hiện tại. */
   baseSalary: 2_340_000,
   baseSalaryEffectiveFrom: "2024-07-01",
+  /** Nghị định tăng lương cơ sở — hiệu lực 01/7/2026. */
+  upcomingBaseSalary: 2_530_000,
+  upcomingBaseSalaryEffectiveFrom: "2026-07-01",
   regionalMinimumWages: {
     I: 5_310_000,
     II: 4_730_000,
@@ -29,8 +33,14 @@ export const SALARY_TAX_RULES_2026 = {
 
 export type SalaryRegion = keyof typeof SALARY_TAX_RULES_2026.regionalMinimumWages;
 
-export function getBhxhBhytCap() {
-  return SALARY_TAX_RULES_2026.baseSalary * 20;
+export function getBhxhBhytCap(
+  baseSalary: number = SALARY_TAX_RULES_2026.baseSalary,
+) {
+  return baseSalary * 20;
+}
+
+export function getUpcomingBhxhBhytCap() {
+  return getBhxhBhytCap(SALARY_TAX_RULES_2026.upcomingBaseSalary);
 }
 
 export function getBhtnCapByRegion(region: SalaryRegion) {

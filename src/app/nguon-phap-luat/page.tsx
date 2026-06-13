@@ -18,7 +18,7 @@ export default function LegalSourceIndexPage() {
       <header className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
         <div>
           <h1 className="text-balance text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Kiểm tra nguồn trước khi áp dụng
+            Nguồn tham khảo trước khi áp dụng
           </h1>
           <p className="mt-2 max-w-prose text-pretty text-sm leading-relaxed text-muted-foreground">
             Mục này gom các liên kết tham khảo để đối chiếu với câu trả lời.

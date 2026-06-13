@@ -1,14 +1,15 @@
 import { ok, parseJsonBody, withApiHandler } from "@/lib/api/response";
+import { resolveSocialInsuranceRates } from "@/lib/services/calculator-config.service";
 import { CalculatorService } from "@/lib/services/calculator.service";
 import { salaryTaxCalculatorSchema } from "@/lib/validators/calculator.schema";
 
 export const runtime = "nodejs";
 
-const calculatorService = new CalculatorService();
-
 export const POST = withApiHandler(async (req: Request) => {
   const raw = (await parseJsonBody<Record<string, unknown>>(req)) ?? {};
   const body = salaryTaxCalculatorSchema.parse(raw);
+  const rates = await resolveSocialInsuranceRates();
+  const calculatorService = new CalculatorService(rates);
   const result = calculatorService.computeSalaryTax(body);
 
   return ok({

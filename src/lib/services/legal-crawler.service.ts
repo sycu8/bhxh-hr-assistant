@@ -1,5 +1,10 @@
 import { createHash } from "node:crypto";
 import * as cheerio from "cheerio";
+import {
+  detectInsuranceLegalTopics,
+  INSURANCE_LEGAL_TOPIC_RULES,
+  isInsuranceLegalDocumentRelevant,
+} from "@/lib/crawl/bhxh-legal-relevance";
 
 export type DiscoveredUrl = {
   url: string;
@@ -67,6 +72,7 @@ export interface CrawlItemWriteRepository {
   findDuplicateByCanonicalUrl(
     canonicalUrl: string,
   ): Promise<{ id: string } | null>;
+  findExistingCanonicalUrls(canonicalUrls: string[]): Promise<Set<string>>;
   findDuplicateByContentHash(contentHash: string): Promise<{ id: string } | null>;
   createPendingItem(draft: CrawlItemDraft): Promise<{ id: string }>;
   markSourceCrawled(sourceId: string, at: Date): Promise<void>;
@@ -89,19 +95,6 @@ const TRACKING_PARAMS = new Set([
   "fbclid",
   "gclid",
 ]);
-
-const TOPIC_RULES: Array<{ topic: string; terms: string[] }> = [
-  { topic: "BHXH", terms: ["bhxh", "bảo hiểm xã hội"] },
-  { topic: "BHYT", terms: ["bhyt", "bảo hiểm y tế"] },
-  { topic: "BHTN", terms: ["bhtn", "bảo hiểm thất nghiệp", "trợ cấp thất nghiệp"] },
-  { topic: "Thai sản", terms: ["thai sản", "chế độ thai sản"] },
-  { topic: "Ốm đau", terms: ["ốm đau", "chế độ ốm đau"] },
-  { topic: "Hưu trí", terms: ["hưu trí", "lương hưu"] },
-  { topic: "Tử tuất", terms: ["tử tuất"] },
-  { topic: "Tai nạn lao động", terms: ["tai nạn lao động", "bệnh nghề nghiệp"] },
-  { topic: "Doanh nghiệp", terms: ["doanh nghiệp", "người sử dụng lao động"] },
-  { topic: "Người lao động", terms: ["người lao động", "hợp đồng lao động"] },
-];
 
 const CRAWL_INGEST_CONCURRENCY = 8;
 
@@ -136,11 +129,10 @@ export function detectKeywords(text: string, keywords: string[]): string[] {
 }
 
 export function detectTopics(text: string): string[] {
-  const lower = text.toLocaleLowerCase("vi-VN");
-  return TOPIC_RULES.filter((rule) =>
-    rule.terms.some((term) => lower.includes(term)),
-  ).map((rule) => rule.topic);
+  return detectInsuranceLegalTopics(text);
 }
+
+export { INSURANCE_LEGAL_TOPIC_RULES as TOPIC_RULES };
 
 export function detectLegalDocumentType(
   title: string,
@@ -468,10 +460,24 @@ export class OfficialSourceCrawlerService {
     };
     const now = new Date();
 
-    for (let i = 0; i < urls.length; i += CRAWL_INGEST_CONCURRENCY) {
-      const batch = urls.slice(i, i + CRAWL_INGEST_CONCURRENCY);
+    const normalized = urls.map((candidate) => ({
+      candidate,
+      canonicalUrl: normalizeCrawlerUrl(candidate.url, source.baseUrl),
+    }));
+    const existingUrls = await this.deps.itemRepo.findExistingCanonicalUrls(
+      normalized.map((entry) => entry.canonicalUrl),
+    );
+    const fresh = normalized.filter(
+      (entry) => !existingUrls.has(entry.canonicalUrl),
+    );
+    result.duplicates += normalized.length - fresh.length;
+
+    for (let i = 0; i < fresh.length; i += CRAWL_INGEST_CONCURRENCY) {
+      const batch = fresh.slice(i, i + CRAWL_INGEST_CONCURRENCY);
       const outcomes = await Promise.all(
-        batch.map((candidate) => this.ingestCandidate(source, candidate, now)),
+        batch.map(({ candidate, canonicalUrl }) =>
+          this.ingestCandidate(source, candidate, canonicalUrl, now),
+        ),
       );
       for (const outcome of outcomes) {
         result[outcome]++;
@@ -485,14 +491,10 @@ export class OfficialSourceCrawlerService {
   private async ingestCandidate(
     source: CrawlSourceForCrawler,
     candidate: DiscoveredUrl,
+    canonicalUrl: string,
     now: Date,
   ): Promise<"created" | "duplicates" | "skippedIrrelevant" | "failed"> {
     try {
-      const canonicalUrl = normalizeCrawlerUrl(candidate.url, source.baseUrl);
-      const urlDupe =
-        await this.deps.itemRepo.findDuplicateByCanonicalUrl(canonicalUrl);
-      if (urlDupe) return "duplicates";
-
       const extracted = await this.deps.adapter.fetchAndExtract(canonicalUrl);
       if (!extracted.contentText.trim()) return "skippedIrrelevant";
 
@@ -501,9 +503,14 @@ export class OfficialSourceCrawlerService {
         textForDetection,
         this.deps.keywords,
       );
-      const keepWithoutKeywordHit =
-        this.deps.adapter.sourceKey === "bhxh-legal-document-list";
-      if (detectedKeywords.length === 0 && !keepWithoutKeywordHit) {
+      const relevant =
+        detectedKeywords.length > 0 ||
+        isInsuranceLegalDocumentRelevant({
+          title: extracted.title,
+          body: extracted.contentText,
+          documentNumber: extractDocumentNumber(extracted.title),
+        });
+      if (!relevant) {
         return "skippedIrrelevant";
       }
 
@@ -519,7 +526,6 @@ export class OfficialSourceCrawlerService {
         canonicalUrl,
         domain: new URL(canonicalUrl).hostname,
         contentText: extracted.contentText,
-        rawHtml: extracted.rawHtml,
         summary: summarizeLegalDocumentText(
           extracted.contentText,
           extracted.title,

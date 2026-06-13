@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatEffectiveDate, formatVnd } from "@/lib/format/currency";
 import { EMPLOYEE_TOOLS_SECTION_TITLE } from "@/lib/navigation/employee-tools";
+import { BASE_SALARY_INCREASE_2026 } from "@/lib/data/ftel-company-policies";
 import {
   getBhxhBhytCap,
   getBhtnCapByRegion,
+  getUpcomingBhxhBhytCap,
   SALARY_TAX_RULES_2026,
 } from "@/lib/services/salary-tax-rules";
 
@@ -18,9 +20,16 @@ export const metadata: Metadata = {
 };
 
 export default function BaseSalaryReferencePage() {
-  const { baseSalary, baseSalaryEffectiveFrom, regionalMinimumWages, regionalMinimumWageEffectiveFrom } =
-    SALARY_TAX_RULES_2026;
+  const {
+    baseSalary,
+    baseSalaryEffectiveFrom,
+    upcomingBaseSalary,
+    upcomingBaseSalaryEffectiveFrom,
+    regionalMinimumWages,
+    regionalMinimumWageEffectiveFrom,
+  } = SALARY_TAX_RULES_2026;
   const bhxhBhytCap = getBhxhBhytCap();
+  const upcomingCap = getUpcomingBhxhBhytCap();
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
@@ -59,6 +68,32 @@ export default function BaseSalaryReferencePage() {
               Trần đóng BHXH + BHYT (×20):{" "}
               <span className="font-medium text-foreground">{formatVnd(bhxhBhytCap)}</span>
             </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-primary/20 bg-primary/5 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-base">Lương cơ sở từ 01/7/2026</CardTitle>
+            <CardDescription>
+              Theo Nghị định tăng lương cơ sở — {BASE_SALARY_INCREASE_2026.legalReference}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <p className="text-2xl font-semibold tabular-nums">
+              {formatVnd(upcomingBaseSalary)}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Hiệu lực từ: {formatEffectiveDate(upcomingBaseSalaryEffectiveFrom)}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Trần đóng BHXH + BHYT (×20):{" "}
+              <span className="font-medium text-foreground">{formatVnd(upcomingCap)}</span>
+            </p>
+            <Button asChild variant="outline" size="sm" className="mt-2">
+              <Link href="/legal-updates/tang-luong-co-so-2-53-trieu-2026">
+                Văn bản tóm tắt
+              </Link>
+            </Button>
           </CardContent>
         </Card>
 

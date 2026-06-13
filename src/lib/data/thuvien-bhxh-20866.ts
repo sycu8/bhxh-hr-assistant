@@ -41,24 +41,30 @@ export const THUVIEN_BHXH_20866_SECTIONS: CatalogSection[] = [
         href: "https://thuvienphapluat.vn/van-ban/Bao-hiem/Luat-Bao-hiem-xa-hoi-2024-557190.aspx",
       },
       {
-        label: "Luật Phục hồi, phá sản 2025 (142/2025/QH15)",
-        href: "https://thuvienphapluat.vn/van-ban/Doanh-nghiep/Luat-Phuc-hoi-pha-san-2025-so-142-2025-QH15-675210.aspx",
-      },
-      {
-        label: "Luật Dân số 2025 (113/2025/QH15) — hiệu lực 01/7/2026",
+        label: "Luật Dân số 2025 (113/2025/QH15) — chế độ thai sản, hiệu lực 01/7/2026",
         href: "https://thuvienphapluat.vn/van-ban/Van-hoa-Xa-hoi/Luat-dan-so-2025-so-113-2025-QH15-443680.aspx",
       },
+    ],
+  },
+  {
+    id: "luatvietnam",
+    heading: "LuatVietnam.vn — nguồn crawl bổ sung (HR duyệt)",
+    links: [
       {
-        label: "Luật Thanh tra 2025 (84/2025/QH15)",
-        href: "https://thuvienphapluat.vn/van-ban/Bo-may-hanh-chinh/Luat-Thanh-tra-2025-so-84-2025-QH15-655378.aspx",
+        label: "LuatVietnam — tra cứu văn bản pháp luật Việt Nam",
+        href: "https://luatvietnam.vn/",
       },
       {
-        label: "Luật Việc làm 2025 (74/2025/QH15)",
-        href: "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Luat-Viec-lam-2025-so-74-2025-QH15-530912.aspx",
+        label: "Tìm Nghị định 168/2026/NĐ-CP (Luật Dân số)",
+        href: "https://luatvietnam.vn/tim-van-ban.html?keywords=Nghị%20định%20168%2F2026",
       },
       {
-        label: "Luật Nhà giáo 2025 (73/2025/QH15)",
-        href: "https://thuvienphapluat.vn/van-ban/Giao-duc/Luat-Nha-giao-2025-so-73-2025-QH15-621345.aspx",
+        label: "Tìm văn bản lương cơ sở 2026",
+        href: "https://luatvietnam.vn/tim-van-ban.html?keywords=lương%20cơ%20sở%202026",
+      },
+      {
+        label: "Chuyên mục Bảo hiểm — tin pháp luật",
+        href: "https://luatvietnam.vn/",
       },
     ],
   },

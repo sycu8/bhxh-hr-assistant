@@ -12,6 +12,33 @@ export type LegalUpdateItem = {
 /** Dữ liệu minh họa — thay bằng CrawlItem / bản tin đã duyệt khi có module pháp lý */
 export const LEGAL_UPDATES: LegalUpdateItem[] = [
   {
+    id: "curated-nd-168-2026",
+    date: "2026-05-31",
+    title: "Nghị định 168/2026/NĐ-CP — Luật Dân số (01/7/2026)",
+    summary:
+      "Nghỉ thai sản 7 tháng (nữ), 10 ngày (nam); điều kiện con thứ hai; hỗ trợ sàng lọc 900.000 đồng từ 2027.",
+    sourceHint: "LuatVietnam.vn + tóm tắt HR",
+    documentUrl: "/legal-updates/nghi-dinh-168-2026-nd-cp-luat-dan-so",
+  },
+  {
+    id: "curated-luong-co-so-2026-07",
+    date: "2026-05-31",
+    title: "Lương cơ sở 2,53 triệu — trần BHXH 50,6 triệu (01/7/2026)",
+    summary:
+      "Cập nhật mức lương cơ sở và trần căn cứ đóng BHXH cho doanh nghiệp từ 01/7/2026.",
+    sourceHint: "LuatVietnam.vn",
+    documentUrl: "/legal-updates/tang-luong-co-so-2-53-trieu-2026",
+  },
+  {
+    id: "curated-ftel-ho-tro-thai-san-2025",
+    date: "2026-05-31",
+    title: "FPT — Hỗ trợ thai sản Level 2/3/4 năm 2025",
+    summary:
+      "Chính sách nội bộ FTEL: 5 / 15 / 40 triệu đồng theo Level, cộng BHXH và trợ cấp Công ty.",
+    sourceHint: "FPT Telecom — chính sách nội bộ",
+    documentUrl: "/calculators/che-do-thai-san",
+  },
+  {
     id: "tlpl-bhxh-tong-hop-20866",
     date: "2026-05-08",
     title: "TLPL — tổng hợp Luật BHXH 2026 & văn bản hướng dẫn",

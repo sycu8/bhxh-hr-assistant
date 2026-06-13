@@ -24,6 +24,7 @@ function makeRepo(overrides: Partial<CrawlItemWriteRepository> = {}) {
   const created: CrawlItemDraft[] = [];
   const repo: CrawlItemWriteRepository = {
     findDuplicateByCanonicalUrl: vi.fn().mockResolvedValue(null),
+    findExistingCanonicalUrls: vi.fn().mockResolvedValue(new Set<string>()),
     findDuplicateByContentHash: vi.fn().mockResolvedValue(null),
     createPendingItem: vi.fn().mockImplementation(async (draft: CrawlItemDraft) => {
       created.push(draft);
@@ -106,11 +107,15 @@ describe("OfficialSourceCrawlerService", () => {
 
   it("skips duplicate canonical URLs before fetching remote content", async () => {
     const { repo } = makeRepo({
-      findDuplicateByCanonicalUrl: vi.fn().mockResolvedValue({ id: "old-1" }),
+      findExistingCanonicalUrls: vi
+        .fn()
+        .mockImplementation(async (urls: string[]) => new Set(urls)),
     });
     const adapter: CrawlProviderAdapter = {
       sourceKey: "generic",
-      discoverUrls: vi.fn().mockResolvedValue([{ url: "https://vbpl.vn/doc?id=1&utm_source=x" }]),
+      discoverUrls: vi.fn().mockResolvedValue([
+        { url: "https://vbpl.vn/doc?id=1&utm_source=x" },
+      ]),
       fetchAndExtract: vi.fn(),
     };
 
@@ -126,7 +131,7 @@ describe("OfficialSourceCrawlerService", () => {
     expect(adapter.fetchAndExtract).not.toHaveBeenCalled();
   });
 
-  it("keeps every item from the authoritative BHXH legal document list even without keyword hits", async () => {
+  it("skips BHXH list items that are not insurance-related even without keyword hits", async () => {
     const { repo, created } = makeRepo();
     const adapter: CrawlProviderAdapter = {
       sourceKey: "bhxh-legal-document-list",
@@ -138,8 +143,40 @@ describe("OfficialSourceCrawlerService", () => {
       ]),
       fetchAndExtract: vi.fn().mockResolvedValue({
         url: "https://baohiemxahoi.gov.vn/vanban/Pages/default.aspx?ItemID=1002",
-        title: "420/QĐ-BHXH",
-        contentText: "Quyết định ban hành quy chế thực hiện dân chủ trong hoạt động của cơ quan.",
+        title: "Kết quả đấu thầu thuốc generic năm 2024",
+        contentText:
+          "Trích yếu: Kết quả đấu thầu thuốc generic Loại văn bản: Thông báo",
+      }),
+    };
+
+    const service = new OfficialSourceCrawlerService({
+      adapter,
+      itemRepo: repo,
+      keywords: ["thai sản"],
+    });
+
+    const result = await service.crawlSource(source);
+
+    expect(result.created).toBe(0);
+    expect(result.skippedIrrelevant).toBe(1);
+    expect(created).toHaveLength(0);
+  });
+
+  it("keeps BHXH list items about insurance policy", async () => {
+    const { repo, created } = makeRepo();
+    const adapter: CrawlProviderAdapter = {
+      sourceKey: "bhxh-legal-document-list",
+      discoverUrls: vi.fn().mockResolvedValue([
+        {
+          url: "https://baohiemxahoi.gov.vn/vanban/Pages/default.aspx?ItemID=1003",
+          title: "366/QĐ-BHXH",
+        },
+      ]),
+      fetchAndExtract: vi.fn().mockResolvedValue({
+        url: "https://baohiemxahoi.gov.vn/vanban/Pages/default.aspx?ItemID=1003",
+        title: "366/QĐ-BHXH",
+        contentText:
+          "Trích yếu: Ban hành Quy trình thu bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp Loại văn bản: Quyết định",
       }),
     };
 
@@ -153,10 +190,9 @@ describe("OfficialSourceCrawlerService", () => {
 
     expect(result.created).toBe(1);
     expect(created[0]).toMatchObject({
-      title: "420/QĐ-BHXH",
+      title: "366/QĐ-BHXH",
       canonicalUrl:
-        "https://baohiemxahoi.gov.vn/vanban/Pages/default.aspx?ItemID=1002",
-      detectedKeywords: [],
+        "https://baohiemxahoi.gov.vn/vanban/Pages/default.aspx?ItemID=1003",
     });
   });
 });
@@ -205,25 +241,41 @@ describe("BhxhLegalDocumentListAdapter", () => {
 });
 
 describe("CrawlReviewService", () => {
-  it("approves a crawl item by creating a published legal update and audit log", async () => {
-    const repo: CrawlReviewRepository = {
-      getItemForReview: vi.fn().mockResolvedValue({
-        id: "item-1",
-        status: "PENDING_REVIEW",
-        title: "Quyết định hướng dẫn BHXH",
-        summary: "Tóm tắt chính sách BHXH.",
-        contentText: "Nội dung chi tiết đã được crawl.",
-        url: "https://baohiemxahoi.gov.vn/qd",
-        sourceName: "BHXH Việt Nam",
-        legalDocumentType: "DECISION",
-        documentNumber: "123/QĐ-BHXH",
-        issuedDate: new Date("2026-05-01T00:00:00.000Z"),
-        effectiveDate: new Date("2026-06-01T00:00:00.000Z"),
-      }),
+  const reviewItem = {
+    id: "item-1",
+    status: "PENDING_REVIEW" as const,
+    title: "Quyết định hướng dẫn BHXH",
+    summary: "Tóm tắt chính sách BHXH.",
+    contentText: "Nội dung chi tiết đã được crawl.",
+    url: "https://baohiemxahoi.gov.vn/qd",
+    sourceName: "BHXH Việt Nam",
+    legalDocumentType: "DECISION" as const,
+    documentNumber: "123/QĐ-BHXH",
+    issuedDate: new Date("2026-05-01T00:00:00.000Z"),
+    effectiveDate: new Date("2026-06-01T00:00:00.000Z"),
+  };
+
+  function makeReviewRepo(
+    overrides: Partial<CrawlReviewRepository> = {},
+  ): CrawlReviewRepository {
+    return {
+      getItemForReview: vi.fn().mockResolvedValue(reviewItem),
+      getItemsForReview: vi.fn().mockResolvedValue([reviewItem]),
       updateItemReviewStatus: vi.fn().mockResolvedValue(undefined),
+      bulkUpdateItemReviewStatus: vi.fn().mockResolvedValue(undefined),
+      approveItemAtomically: vi.fn().mockResolvedValue({
+        id: "lu-1",
+        slug: "quyet-dinh-huong-dan-bhxh",
+      }),
       createLegalUpdate: vi.fn().mockResolvedValue({ id: "lu-1" }),
       createAuditLog: vi.fn().mockResolvedValue(undefined),
+      createAuditLogs: vi.fn().mockResolvedValue(undefined),
+      ...overrides,
     };
+  }
+
+  it("approves a crawl item atomically with audit log", async () => {
+    const repo = makeReviewRepo();
 
     const service = new CrawlReviewService(repo);
     const result = await service.approve("item-1", {
@@ -236,14 +288,9 @@ describe("CrawlReviewService", () => {
     });
 
     expect(result.legalUpdateId).toBe("lu-1");
-    expect(repo.updateItemReviewStatus).toHaveBeenCalledWith(
-      "item-1",
-      expect.objectContaining({
-        newStatus: "APPROVED",
-        actorId: "admin-1",
-      }),
-    );
-    expect(repo.createLegalUpdate).toHaveBeenCalledWith(
+    expect(result.slug).toBe("quyet-dinh-huong-dan-bhxh");
+    expect(repo.approveItemAtomically).toHaveBeenCalledWith(
+      reviewItem,
       expect.objectContaining({
         crawlItemId: "item-1",
         title: "Quyết định hướng dẫn BHXH",
@@ -253,14 +300,44 @@ describe("CrawlReviewService", () => {
         impactLevel: "HIGH",
         affectedGroups: ["HR", "EMPLOYER"],
       }),
-    );
-    expect(repo.createAuditLog).toHaveBeenCalledWith(
       expect.objectContaining({
         entityType: "CrawlItem",
         entityId: "item-1",
         action: "APPROVE",
         oldStatus: "PENDING_REVIEW",
         newStatus: "APPROVED",
+      }),
+    );
+  });
+
+  it("rejects a crawl item and writes audit log", async () => {
+    const repo = makeReviewRepo({
+      getItemForReview: vi.fn().mockResolvedValue({
+        ...reviewItem,
+        id: "item-2",
+        title: "Tin không phù hợp",
+        summary: null,
+        contentText: "Nội dung không liên quan.",
+        url: "https://example.com/a",
+        legalDocumentType: null,
+        documentNumber: null,
+        issuedDate: null,
+        effectiveDate: null,
+      }),
+    });
+
+    const service = new CrawlReviewService(repo);
+    await service.reject("item-2", { note: "Không liên quan BHXH" });
+
+    expect(repo.updateItemReviewStatus).toHaveBeenCalledWith(
+      "item-2",
+      expect.objectContaining({ newStatus: "REJECTED" }),
+    );
+    expect(repo.createLegalUpdate).not.toHaveBeenCalled();
+    expect(repo.createAuditLog).toHaveBeenCalledWith(
+      expect.objectContaining({
+        action: "REJECT",
+        newStatus: "REJECTED",
       }),
     );
   });

@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { ApiError } from "@/lib/api/errors";
+import { assertSafeOutboundUrl } from "@/lib/security/ssrf";
 import { openAiGenerateImageUrl } from "@/lib/media/openai-image-generate";
 import { optimizeImageFetchUrl, guessExtensionFromContentType } from "@/lib/media/optimize-fetch-url";
 import type { R2Bucket } from "@/lib/media/media-bucket";
@@ -28,6 +29,7 @@ export class MediaIngestService {
     const urls: Array<{ url: string; title?: string; prefix: string }> = [];
 
     if (body.mode === "url") {
+      assertSafeOutboundUrl(body.sourceUrl!);
       urls.push({ url: body.sourceUrl!, title: "remote", prefix: "url" });
     } else if (body.mode === "search") {
       const key = this.secrets.unsplashAccessKey;

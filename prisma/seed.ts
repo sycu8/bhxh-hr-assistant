@@ -4,11 +4,10 @@ import {
   DocumentStatus,
   FaqStatus,
   ConfidenceLevel,
-  CrawlFrequency,
-  CrawlSourceType,
-  CrawlTrustLevel,
 } from "@prisma/client";
 import { getDb } from "../src/lib/db/prisma";
+import { seedCmsData } from "./seed-cms";
+import { INSURANCE_CRAWL_SOURCES } from "../src/lib/crawl/allowed-sources";
 
 async function main() {
   const prisma = getDb();
@@ -58,62 +57,7 @@ async function main() {
   const [catBhxh, catBhyt, catBhtn, catThaiSan] = cats;
 
   await prisma.crawlSource.createMany({
-    data: [
-      {
-        name: "Cổng thông tin điện tử Bảo hiểm xã hội Việt Nam",
-        baseUrl: "https://baohiemxahoi.gov.vn",
-        domain: "baohiemxahoi.gov.vn",
-        sourceType: CrawlSourceType.OFFICIAL,
-        trustLevel: CrawlTrustLevel.HIGH,
-        active: true,
-        crawlFrequency: CrawlFrequency.DAILY,
-      },
-      {
-        name: "Danh mục văn bản BHXH Việt Nam",
-        baseUrl: "https://baohiemxahoi.gov.vn/vanban/pages/default.aspx",
-        domain: "baohiemxahoi.gov.vn",
-        sourceType: CrawlSourceType.OFFICIAL,
-        trustLevel: CrawlTrustLevel.HIGH,
-        active: true,
-        crawlFrequency: CrawlFrequency.DAILY,
-      },
-      {
-        name: "Cơ sở dữ liệu quốc gia về văn bản pháp luật",
-        baseUrl: "https://vbpl.vn",
-        domain: "vbpl.vn",
-        sourceType: CrawlSourceType.LEGAL_DATABASE,
-        trustLevel: CrawlTrustLevel.HIGH,
-        active: true,
-        crawlFrequency: CrawlFrequency.WEEKLY,
-      },
-      {
-        name: "Cổng thông tin điện tử Chính phủ",
-        baseUrl: "https://chinhphu.vn",
-        domain: "chinhphu.vn",
-        sourceType: CrawlSourceType.GOVERNMENT,
-        trustLevel: CrawlTrustLevel.HIGH,
-        active: true,
-        crawlFrequency: CrawlFrequency.WEEKLY,
-      },
-      {
-        name: "Bộ Tư pháp",
-        baseUrl: "https://moj.gov.vn",
-        domain: "moj.gov.vn",
-        sourceType: CrawlSourceType.GOVERNMENT,
-        trustLevel: CrawlTrustLevel.HIGH,
-        active: true,
-        crawlFrequency: CrawlFrequency.WEEKLY,
-      },
-      {
-        name: "Bộ Nội vụ",
-        baseUrl: "https://moha.gov.vn",
-        domain: "moha.gov.vn",
-        sourceType: CrawlSourceType.GOVERNMENT,
-        trustLevel: CrawlTrustLevel.HIGH,
-        active: true,
-        crawlFrequency: CrawlFrequency.WEEKLY,
-      },
-    ],
+    data: INSURANCE_CRAWL_SOURCES,
     skipDuplicates: true,
   });
 
@@ -152,6 +96,11 @@ async function main() {
     ["thông tư", null],
     ["quyết định", null],
     ["công văn hướng dẫn", null],
+    ["luật dân số", catThaiSan.id],
+    ["nghị định 168", catThaiSan.id],
+    ["lương cơ sở", catBhxh.id],
+    ["sàng lọc thai", catThaiSan.id],
+    ["hỗ trợ sinh con", catThaiSan.id],
   ] as const;
 
   await prisma.crawlKeyword.createMany({
@@ -290,6 +239,8 @@ async function main() {
   console.log(
     "Seed completed: categories, document+chunks, FAQs with citations.",
   );
+
+  await seedCmsData();
 }
 
 main()

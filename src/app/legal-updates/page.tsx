@@ -73,7 +73,7 @@ export default async function LegalUpdatesIndexPage({ searchParams }: Props) {
       <header className="mb-8 grid gap-5 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
         <div>
           <h1 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">
-            Kiểm tra nguồn pháp luật
+            Nguồn tham khảo pháp luật
           </h1>
           <p className="mt-2 max-w-prose text-pretty text-sm leading-relaxed text-muted-foreground">
             Các cập nhật đã được duyệt giúp bạn đối chiếu căn cứ, ngày ban hành,

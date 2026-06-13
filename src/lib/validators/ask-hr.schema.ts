@@ -18,6 +18,8 @@ export const askHrSendSchema = z.object({
     .min(1, "Vui lòng nhập email của bạn.")
     .max(254)
     .email("Email phản hồi không hợp lệ."),
+  searchQuery: z.string().trim().max(500).optional(),
+  questionLogId: z.string().trim().max(64).optional(),
 });
 
 export type AskHrSendInput = z.infer<typeof askHrSendSchema>;

@@ -23,7 +23,7 @@ export function CtaLink({
     "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-5 text-center text-base font-semibold touch-manipulation transition-all active:scale-[0.98] sm:min-h-11 sm:w-auto sm:text-sm",
     secondary
       ? "border-2 border-primary/25 bg-card text-primary shadow-sm hover:border-primary/45 hover:bg-sky-50"
-      : "bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 hover:shadow-xl",
+      : "bg-fti-orange text-fti-orange-foreground shadow-lg shadow-fti-orange/25 hover:bg-fti-orange/90 hover:shadow-xl",
     className,
   );
 

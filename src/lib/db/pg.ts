@@ -16,7 +16,11 @@ export type PgDb = {
  */
 export const getPg = cache((): PgDb => {
   const { env } = getCloudflareContext();
-  const connectionString = env.HYPERDRIVE.connectionString;
+  const direct = (env as CloudflareEnv).DATABASE_URL?.trim();
+  const connectionString =
+    direct && !direct.startsWith("prisma://") && !direct.startsWith("prisma+postgres://")
+      ? direct
+      : env.HYPERDRIVE.connectionString;
 
   const pool = new Pool({
     connectionString,

@@ -51,16 +51,35 @@ type D1Database = {
 };
 
 interface CloudflareEnv {
+  /** Postgres trực tiếp (wrangler secret) — ưu tiên hơn Hyperdrive với Prisma Postgres. */
+  DATABASE_URL?: string;
   HYPERDRIVE: HyperdriveBinding;
   MEDIA_BUCKET?: R2Bucket;
   APP_CACHE?: KVNamespace;
   APP_CONFIG_D1?: D1Database;
-  /** Bearer token bắt buộc cho POST /api/media/ingest (wrangler secret). */
+  /** Bearer token tuỳ chọn — automation/CI; UI admin dùng session CMS. */
   MEDIA_INGEST_TOKEN?: string;
+  /** HMAC cookie CMS — bắt buộc production (`wrangler secret put SESSION_SECRET`). */
+  SESSION_SECRET?: string;
   /** POST /api/admin/revalidate-cache — xóa KV cache công khai. */
   CACHE_REVALIDATE_SECRET?: string;
   /** Base URL worker — cron gọi /api/cron/daily-official-crawl (tuỳ chọn). */
   CRON_WORKER_BASE_URL?: string;
+  /** Giới hạn server action CMS trong một cửa sổ (mặc định 60). */
+  ADMIN_ACTION_RATE_LIMIT_MAX?: string;
+  /** Cửa sổ rate limit CMS tính bằng giây (mặc định 600). */
+  ADMIN_ACTION_RATE_WINDOW_SEC?: string;
+  /** Rate limit đăng nhập CMS (mặc định 10 / 900s). */
+  LOGIN_RATE_LIMIT_MAX?: string;
+  LOGIN_RATE_LIMIT_WINDOW_SEC?: string;
+  /** Rate limit API công khai search/ask (mặc định 30 / 60s). */
+  PUBLIC_API_RATE_LIMIT_MAX?: string;
+  PUBLIC_API_RATE_LIMIT_WINDOW_SEC?: string;
+  /** Rate limit form Hỏi HR (mặc định 5 / 900s). */
+  ASK_HR_RATE_LIMIT_MAX?: string;
+  ASK_HR_RATE_LIMIT_WINDOW_SEC?: string;
+  /** Cloudflare Turnstile secret — xác minh token server-side. */
+  TURNSTILE_SECRET_KEY?: string;
   /** Unsplash — tìm ảnh (wrangler secret). */
   UNSPLASH_ACCESS_KEY?: string;
   /** OpenAI — tạo ảnh DALL·E 3 (wrangler secret). */

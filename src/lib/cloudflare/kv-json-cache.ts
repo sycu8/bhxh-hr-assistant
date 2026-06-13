@@ -3,6 +3,12 @@ import { tryGetCloudflareEnv } from "@/lib/cloudflare/worker-env";
 /** TTL mặc định cho danh sách FAQ / legal (giây). */
 export const PUBLIC_CACHE_TTL_SEC = 90;
 
+/** TTL cache hàng chờ admin — ngắn để duyệt hàng loạt vẫn thấy cập nhật nhanh. */
+export const ADMIN_QUEUE_CACHE_TTL_SEC = 30;
+
+/** TTL cache chi tiết văn bản pháp luật theo slug. */
+export const LEGAL_DETAIL_CACHE_TTL_SEC = 300;
+
 export async function withKvJsonCache<T>(
   key: string,
   ttlSeconds: number,

@@ -1,8 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState, type FormEvent } from "react";
+import { useMemo, useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  TurnstileWidget,
+  isTurnstileRequiredOnClient,
+  type TurnstileWidgetHandle,
+} from "@/components/security/turnstile-widget";
 import {
   Card,
   CardContent,
@@ -62,6 +67,10 @@ export function AskHrForm({
   const [agree, setAgree] = useState(false);
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [ticketNumber, setTicketNumber] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
+  const turnstileRequired = isTurnstileRequiredOnClient();
 
   const canSubmit = useMemo(
     () =>
@@ -71,8 +80,8 @@ export function AskHrForm({
         topic,
         urgent,
         agree,
-      }),
-    [question, replyEmail, topic, urgent, agree],
+      }) && (!turnstileRequired || Boolean(turnstileToken)),
+    [question, replyEmail, topic, urgent, agree, turnstileRequired, turnstileToken],
   );
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
@@ -93,23 +102,28 @@ export function AskHrForm({
           topic,
           urgent,
           replyEmail: replyEmail.trim(),
+          turnstileToken: turnstileToken ?? undefined,
         }),
       });
 
       const body = (await response.json()) as {
         success?: boolean;
+        data?: { ticketNumber?: string; notifyEmailSent?: boolean };
         error?: { message?: string };
       };
 
       if (!response.ok || !body.success) {
         throw new Error(
-          body.error?.message ?? "Không gửi được email. Vui lòng thử lại.",
+          body.error?.message ?? "Không tạo được ticket. Vui lòng thử lại.",
         );
       }
 
+      setTicketNumber(body.data?.ticketNumber ?? null);
       setSubmitState("success");
     } catch (error) {
       setSubmitState("error");
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
       setErrorMessage(
         error instanceof Error
           ? error.message
@@ -122,10 +136,19 @@ export function AskHrForm({
     return (
       <Card className="mx-auto max-w-2xl border-emerald-200 bg-emerald-50/50 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-xl text-emerald-950">Đã gửi cho HR/C&amp;B</CardTitle>
+          <CardTitle className="text-xl text-emerald-950">Đã tạo ticket HR</CardTitle>
           <CardDescription className="text-pretty leading-relaxed text-emerald-900/80">
-            Câu hỏi của bạn đã được gửi tới {HR_CONTACT_EMAIL}. HR sẽ phản hồi qua
-            email công ty khi xử lý xong.
+            {ticketNumber ? (
+              <>
+                Mã ticket: <strong>{ticketNumber}</strong>. HR/C&amp;B ({HR_CONTACT_EMAIL})
+                sẽ xử lý và phản hồi qua email công ty bạn đã nhập.
+              </>
+            ) : (
+              <>
+                Câu hỏi của bạn đã được ghi nhận. HR/C&amp;B ({HR_CONTACT_EMAIL}) sẽ
+                phản hồi qua email công ty khi xử lý xong.
+              </>
+            )}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -135,12 +158,15 @@ export function AskHrForm({
             className="w-full rounded-xl"
             onClick={() => {
               setSubmitState("idle");
+              setTicketNumber(null);
               setReplyEmail("");
               setTopic("");
               setUrgent("");
               setQuestion("");
               setDetail("");
               setAgree(false);
+              setTurnstileToken(null);
+              turnstileRef.current?.reset();
             }}
           >
             Gửi câu hỏi khác
@@ -291,10 +317,19 @@ export function AskHrForm({
             </p>
           ) : null}
 
+          <TurnstileWidget
+            ref={turnstileRef}
+            action="ask_hr"
+            onToken={setTurnstileToken}
+            onExpire={() => setTurnstileToken(null)}
+            className="flex justify-center"
+          />
+
           {!canSubmit && submitState !== "sending" ? (
             <p className="text-center text-xs text-muted-foreground">
               Điền email, chọn chủ đề và mức khẩn, nhập câu hỏi (tối thiểu 5 ký tự),
-              rồi tick xác nhận để gửi.
+              tick xác nhận{turnstileRequired ? " và hoàn thành xác minh Turnstile" : ""}{" "}
+              để gửi.
             </p>
           ) : null}
 

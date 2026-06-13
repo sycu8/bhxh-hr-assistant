@@ -26,7 +26,7 @@ export function SearchHits({
           </p>
           <div className="mt-4 flex flex-col justify-center gap-3 sm:flex-row">
             <Button asChild variant="ctaSecondary" size="touch" className="w-full sm:flex-1">
-              <Link href="/nguon-phap-luat">Kiểm tra nguồn</Link>
+              <Link href="/nguon-phap-luat">Nguồn tham khảo</Link>
             </Button>
             <Button asChild variant="cta" size="touch" className="w-full sm:flex-1">
               <Link href="/ask-hr">Hỏi HR</Link>
@@ -42,7 +42,7 @@ export function SearchHits({
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
           <h3 className="text-base font-semibold text-foreground">
-            Kiểm tra nguồn
+            Nguồn tham khảo
           </h3>
           <p className="text-sm text-muted-foreground">
             {displayTotal} kết quả liên quan để đối chiếu trước khi áp dụng.

@@ -13,10 +13,11 @@ export const PUBLIC_ROUTE_SPECS: PublicRouteSpec[] = [
   { path: "/", mustContain: "Công cụ cho Nhân viên" },
   { path: "/search", mustContain: "Tra cứu" },
   { path: "/hoi-dap", mustContain: "Hỏi" },
-  { path: "/ask-hr", mustContain: "Gửi email cho HR" },
+  { path: "/ask-hr", mustContain: "Soạn câu hỏi" },
   { path: "/calculators", mustContain: "Công cụ cho Nhân viên" },
   { path: "/calculators/luong-co-ban", mustContain: "Lương cơ sở" },
   { path: "/calculators/chinh-sach-mien-giam", mustContain: "Giảm trừ bản thân" },
+  { path: "/calculators/che-do-thai-san", mustContain: "Chế độ thai sản" },
   {
     path: "/cong-cu-luong-thue",
     mustContain: "Tính lương",
@@ -35,14 +36,12 @@ export const PUBLIC_ROUTE_SPECS: PublicRouteSpec[] = [
   },
   {
     path: "/topics/bhtn",
-    mustContain: "Tra cứu",
-    finalUrl: /\/search/,
+    mustContain: "BHTN",
+    finalUrl: /\/topics\/bhtn/,
   },
   {
     path: "/topics/nguoi-phu-thuoc",
-    finalUrl: /\/search/,
-    mustContain: "Tra cứu",
+    mustContain: "Người phụ thuộc",
+    finalUrl: /\/topics\/nguoi-phu-thuoc/,
   },
-  { path: "/admin", mustContain: "Quản trị", requiresDb: true },
-  { path: "/admin/legal-crawler", mustContain: "crawl", requiresDb: true },
 ];

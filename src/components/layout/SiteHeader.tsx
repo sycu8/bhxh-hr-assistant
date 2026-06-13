@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { FptTelecomLogo } from "@/components/brand/FptTelecomLogo";
 import {
   DESKTOP_EXTRA_NAV,
   MORE_NAV,
@@ -17,7 +17,7 @@ function navLinkClass(item: SiteNavLink, active: boolean) {
   return cn(
     "touch-manipulation rounded-lg px-2.5 py-2 text-sm font-medium transition-all active:scale-[0.98] sm:px-3",
     item.cta
-      ? "bg-primary font-semibold text-primary-foreground shadow-md hover:bg-primary/92"
+      ? "bg-fti-orange font-semibold text-fti-orange-foreground shadow-md hover:bg-fti-orange/92"
       : active
         ? "bg-muted font-semibold text-foreground"
         : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -80,7 +80,7 @@ function MoreMenu({
       <button
         type="button"
         className={cn(
-          navLinkClass({ href: "#", label: "Thêm" }, moreActive),
+          navLinkClass({ href: "#", label: "Khác" }, moreActive),
           "inline-flex items-center gap-1",
         )}
         aria-expanded={moreOpen}
@@ -94,7 +94,7 @@ function MoreMenu({
             <Menu className="h-4 w-4" aria-hidden />
           )}
         </span>
-        Thêm
+        Khác
       </button>
       {moreOpen ? (
         <div
@@ -168,18 +168,11 @@ export function SiteHeader() {
         <Link
           href="/"
           className="flex min-w-0 shrink-0 items-center gap-2 text-sm font-semibold tracking-tight text-foreground"
-          aria-label="Trang chủ — đặt câu hỏi"
+          aria-label="Trang chủ — Cổng bảo hiểm FPT Telecom"
         >
-          <Image
-            src="/fti-logo.png"
-            alt=""
-            width={28}
-            height={28}
-            className="h-7 w-7 shrink-0 rounded-sm"
-            priority
-          />
-          <span className="hidden min-w-0 leading-none sm:inline">
-            Bảo hiểm <span className="text-accent">FTI</span>
+          <FptTelecomLogo priority />
+          <span className="hidden min-w-0 leading-none lg:inline">
+            Bảo hiểm
           </span>
         </Link>
 

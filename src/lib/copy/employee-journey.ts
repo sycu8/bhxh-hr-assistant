@@ -35,7 +35,7 @@ export const EMPLOYEE_JOURNEY_STOPS: EmployeeJourneyStop[] = [
   {
     id: "evidence",
     number: 3,
-    title: "Kiểm tra nguồn",
+    title: "Nguồn tham khảo",
     shortTitle: "Nguồn",
     description: "Đối chiếu FAQ, văn bản, điều khoản và ngày hiệu lực.",
     href: "/nguon-phap-luat",

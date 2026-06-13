@@ -3,6 +3,7 @@ import { ApiError } from "@/lib/api/errors";
 import { allPublicCacheKeys } from "@/lib/cloudflare/cache-keys";
 import { deletePublicKvCache } from "@/lib/cloudflare/kv-json-cache";
 import { tryGetCloudflareEnv } from "@/lib/cloudflare/worker-env";
+import { verifyBearerToken } from "@/lib/security/timing-safe-equal";
 
 export const runtime = "nodejs";
 
@@ -19,8 +20,8 @@ export const POST = withApiHandler(async (req: Request) => {
       "Chưa cấu hình CACHE_REVALIDATE_SECRET — không thể xóa cache từ API.",
     );
   }
-  const auth = req.headers.get("authorization")?.trim();
-  if (auth !== `Bearer ${secret}`) {
+  const auth = req.headers.get("authorization");
+  if (!verifyBearerToken(auth, secret)) {
     throw ApiError.unauthorized("Token không hợp lệ.");
   }
 

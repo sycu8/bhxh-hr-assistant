@@ -16,6 +16,9 @@
     --muted-foreground: 215 16% 40%;
     --accent: 211 78% 35%;
     --accent-foreground: 210 40% 98%;
+    /* Cam FPT (#F37021) — điểm nhấn CTA */
+    --fti-orange: 22 89% 54%;
+    --fti-orange-foreground: 0 0% 100%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
     --border: 214 24% 88%;
@@ -44,6 +47,8 @@
     --muted-foreground: 215 20% 65%;
     --accent: 211 70% 55%;
     --accent-foreground: 222 47% 11%;
+    --fti-orange: 22 85% 58%;
+    --fti-orange-foreground: 0 0% 100%;
     --destructive: 0 62% 45%;
     --destructive-foreground: 210 40% 98%;
     --border: 217 33% 17%;
@@ -78,6 +83,8 @@
   --color-muted-foreground: hsl(var(--muted-foreground));
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-fti-orange: hsl(var(--fti-orange));
+  --color-fti-orange-foreground: hsl(var(--fti-orange-foreground));
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
   --color-border: hsl(var(--border));

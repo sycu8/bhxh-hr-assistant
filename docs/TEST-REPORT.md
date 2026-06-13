@@ -51,7 +51,7 @@ pnpm test:e2e
 
 ### 2. ESLint `react-hooks/refs` (đã sửa)
 
-- **SiteHeader:** reset menu “Thêm” bằng `key={pathname}` thay vì setState trong render.
+- **SiteHeader:** reset menu “Khác” bằng `key={pathname}` thay vì setState trong render.
 - **Pagination:** reset trang bằng wrapper `key` trên `FaqListPaginated`, `HoiDapFaqSections`, `SearchHitsPaginated`.
 - **pagination-controls:** tách `PaginationNavButton` ra top-level.
 
@@ -69,7 +69,7 @@ pnpm test:e2e
 
 - Hub **Công cụ cho Nhân viên** — mọi CTA &lt; 500
 - Nút **Tính ngay** — hiển thị kết quả thực nhận
-- Menu Tra cứu / FAQ / Hỏi HR / Công cụ NV — điều hướng đúng
+- Menu Tra cứu / FAQ / Hỏi HR / Công cụ — điều hướng đúng
 - Footer **Lê Sỹ Cường** → LinkedIn
 
 ## Việc nên làm thêm (ngoài phạm vi hiện tại)

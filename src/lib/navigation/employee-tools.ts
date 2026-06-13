@@ -109,11 +109,12 @@ export const BENEFITS_EMPLOYEE_TOOLS: EmployeeToolLink[] = [
     cta: "Xem hướng dẫn",
   },
   {
-    title: "Thai sản",
-    description: "Nghỉ sinh, mức hưởng chế độ và hồ sơ thường cần với HR/C&B.",
-    href: "/topics/thai-san",
+    title: "Chế độ thai sản",
+    description:
+      "Luật Dân số 2025, Nghị định 168, chính sách hỗ trợ FPT Level 2–4 và công thức trợ cấp Công ty.",
+    href: "/calculators/che-do-thai-san",
     icon: Baby,
-    cta: "Xem chủ đề",
+    cta: "Xem chế độ",
   },
   {
     title: "Trợ cấp thất nghiệp (BHTN)",

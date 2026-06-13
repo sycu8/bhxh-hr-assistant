@@ -1,12 +1,17 @@
 import { ok, parseJsonBody, withApiHandler } from "@/lib/api/response";
 import { getServerDeps } from "@/lib/server/deps";
 import { askBodySchema } from "@/lib/validators/ask.schema";
+import {
+  assertTurnstileVerified,
+  readTurnstileTokenFromBody,
+} from "@/lib/security/turnstile";
 
 export const runtime = "nodejs";
 
 export const POST = withApiHandler(async (req: Request) => {
   const serverDeps = getServerDeps();
   const raw = (await parseJsonBody<Record<string, unknown>>(req)) ?? {};
+  await assertTurnstileVerified(req, readTurnstileTokenFromBody(raw));
   const body = askBodySchema.parse(raw);
 
   const { card, prismaConfidence } = await serverDeps.aiAnswerService.ask({

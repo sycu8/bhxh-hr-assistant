@@ -25,6 +25,8 @@
 /tmp-page1.png
 /tmp/
 *.pem
+.tmp-cookies.txt
+.tmp-login-test.json
 
 # debug
 npm-debug.log*
@@ -41,6 +43,10 @@ yarn-error.log*
 .open-next/
 .wrangler/
 wrangler.local.jsonc
+wrangler.local*.jsonc
+*MacBook Pro*
+*.tmp.png
+package-lock.json
 output/
 
 # local tooling / OCR artifacts

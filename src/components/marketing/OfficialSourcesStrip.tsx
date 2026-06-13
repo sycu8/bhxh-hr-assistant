@@ -3,8 +3,9 @@ import { ExternalLink } from "lucide-react";
 
 const SOURCES = [
   { label: "Bảo hiểm xã hội Việt Nam", href: "https://baohiemxahoi.gov.vn/" },
+  { label: "Bộ Lao động - Thương binh và Xã hội", href: "https://molisa.gov.vn/" },
   { label: "Cơ sở dữ liệu văn bản pháp luật", href: "https://vbpl.vn/" },
-  { label: "Cổng thông tin Chính phủ", href: "https://www.chinhphu.vn/" },
+  { label: "LuatVietnam.vn", href: "https://luatvietnam.vn/" },
   { label: "Tài liệu đã được HR/Admin duyệt trong hệ thống này", href: "/faq" },
 ] as const;
 

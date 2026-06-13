@@ -4,6 +4,7 @@ import { ok, parseJsonBody, withApiHandler } from "@/lib/api/response";
 import { deletePublicKvCache } from "@/lib/cloudflare/kv-json-cache";
 import { CACHE_KEYS } from "@/lib/cloudflare/cache-keys";
 import { tryGetCloudflareEnv } from "@/lib/cloudflare/worker-env";
+import { verifyBearerToken } from "@/lib/security/timing-safe-equal";
 import { getDb } from "@/lib/db/prisma";
 import {
   CrawlItemRepository,
@@ -29,7 +30,7 @@ function assertAuthorized(req: Request) {
       "Chưa cấu hình CACHE_REVALIDATE_SECRET.",
     );
   }
-  if (req.headers.get("authorization")?.trim() !== `Bearer ${secret}`) {
+  if (!verifyBearerToken(req.headers.get("authorization"), secret)) {
     throw ApiError.unauthorized("Token không hợp lệ.");
   }
 }

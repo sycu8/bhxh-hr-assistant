@@ -47,12 +47,15 @@ describe("employee tools catalog", () => {
     ]);
   });
 
-  it("benefits tools match topic slugs", () => {
+  it("benefits tools point to topic or reference pages", () => {
     const slugs = new Set(TOPICS.map((t) => t.slug));
     for (const tool of BENEFITS_EMPLOYEE_TOOLS) {
-      const match = tool.href.match(/^\/topics\/([^?]+)/);
-      expect(match).not.toBeNull();
-      expect(slugs.has(match![1])).toBe(true);
+      const topicMatch = tool.href.match(/^\/topics\/([^?]+)/);
+      const calculatorMatch = tool.href.match(/^\/calculators\/([^?]+)/);
+      expect(topicMatch ?? calculatorMatch).not.toBeNull();
+      if (topicMatch) {
+        expect(slugs.has(topicMatch[1])).toBe(true);
+      }
     }
   });
 

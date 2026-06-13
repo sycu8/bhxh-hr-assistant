@@ -53,7 +53,7 @@ describe("AiAnswerService", () => {
     };
     const svc = new AiAnswerService(faqRepo, chunkRepo, vector);
     const { card } = await svc.ask({
-      question: "Tình huống hoàn toàn ngoài phạm vi bảo hiểm lao động xyz",
+      question: "qwzxplmn abcdefghijklmnopqrst uvwxyz noop",
     });
 
     expect(card.shortAnswer).toBe(INSUFFICIENT_SOURCE_MESSAGE);
@@ -153,7 +153,7 @@ describe("AiAnswerService", () => {
     };
     const svc = new AiAnswerService(faqRepo, chunkRepo, vector);
     const { card } = await svc.ask({
-      question: "Hoàn toàn khác với chủ đề FAQ và chunk",
+      question: "qwzxplmn mocktest scenario alpha beta gamma",
     });
     expect(card.citations.length).toBeGreaterThan(0);
     expect(["MEDIUM", "LOW"]).toContain(card.confidenceLevel);

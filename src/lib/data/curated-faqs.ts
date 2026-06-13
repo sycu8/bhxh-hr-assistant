@@ -5,6 +5,12 @@ export type CuratedFaqCitation = {
   legalClause?: string | null;
 };
 
+export type CuratedSourceLabel =
+  | "OFFICIAL_LAW"
+  | "INTERNAL_POLICY"
+  | "REFERENCE_ARTICLE"
+  | "HR_APPROVED";
+
 export type CuratedFaq = {
   slug: string;
   categorySlug: string;
@@ -14,9 +20,20 @@ export type CuratedFaq = {
   citations: CuratedFaqCitation[];
   /** Từ khóa hỗ trợ khớp câu hỏi tự nhiên. */
   keywords: string[];
+  sourceLabel?: CuratedSourceLabel;
+  eligibility?: string;
+  benefits?: string;
+  requiredDocs?: string;
+  deadlineNote?: string;
+  steps?: string[];
+  hrEscalation?: string;
+  relatedSlugs?: string[];
 };
 
-export const CURATED_FAQS: CuratedFaq[] = [
+import { LUATVIETNAM_BAO_HIEM_FAQS } from "@/lib/data/luatvietnam-bao-hiem-faqs";
+
+/** FAQ do HR soạn tay — ưu tiên khi trùng câu hỏi với nguồn crawl. */
+const HAND_CURATED_FAQS: CuratedFaq[] = [
   {
     slug: "bat-buoc-tham-gia-bhxh",
     categorySlug: "bhxh",
@@ -24,6 +41,23 @@ export const CURATED_FAQS: CuratedFaq[] = [
     answer:
       "Trong quan hệ lao động thuộc phạm vi Luật Lao động, người sử dụng lao động và người lao động phải tham gia BHXH, BHYT, BHTN theo quy định. Các trường hợp miễn hoặc không thuộc đối tượng phải căn cứ luật chuyên ngành và hợp đồng cụ thể.",
     keywords: ["bắt buộc", "tham gia", "bhxh", "bhyt", "bhtn", "đóng"],
+    sourceLabel: "OFFICIAL_LAW",
+    eligibility:
+      "Người lao động làm việc theo hợp đồng lao động thuộc phạm vi Luật Lao động (trừ các trường hợp luật quy định khác).",
+    benefits:
+      "Được hưởng các chế độ ốm đau, thai sản, tai nạn/LĐNN, hưu trí, tử tuất theo quy định BHXH; khám chữa bệnh BHYT; trợ cấp thất nghiệp nếu đủ điều kiện BHTN.",
+    requiredDocs:
+      "CMND/CCCD, hợp đồng lao động, sổ BHXH/thẻ BHYT (do HR/C&B và BHXH cấp).",
+    deadlineNote:
+      "Phải tham gia khi phát sinh quan hệ lao động; HR kê khai trong tháng phát sinh.",
+    steps: [
+      "Ký hợp đồng lao động với công ty.",
+      "HR/C&B kê khai tham gia BHXH, BHYT, BHTN.",
+      "Nhận sổ BHXH/thẻ BHYT và đối chiếu mức đóng trên phiếu lương.",
+    ],
+    hrEscalation:
+      "Hỏi HR nếu bạn thuộc diện hợp đồng thử việc, cộng tác viên, lao động nước ngoài, hoặc có thỏa thuận khác trong hợp đồng.",
+    relatedSlugs: ["muc-dong-bhxh-bhyt-bhtn", "nghi-khong-luong-14-ngay"],
     citations: [
       {
         title: "Luật Bảo hiểm xã hội 2024 (41/2024/QH15) — TLPL",
@@ -115,14 +149,77 @@ export const CURATED_FAQS: CuratedFaq[] = [
     categorySlug: "thai-san",
     question: "Nghỉ thai sản được hưởng chế độ như thế nào?",
     answer:
-      "Người lao động nữ đủ điều kiện được nghỉ thai sản theo thời gian luật định và hưởng trợ cấp thai sản từ quỹ BHXH nếu đã đóng BHXH đủ thời gian trước khi sinh. Mức hưởng và thời gian nghỉ căn cứ quy định tại thời điểm giải quyết và hồ sơ thực tế.",
-    keywords: ["thai sản", "nghỉ sinh", "trợ cấp", "sinh con"],
+      "Theo Luật Dân số 2025 (hiệu lực 01/7/2026): lao động nữ nghỉ 7 tháng, nam nghỉ 10 ngày làm việc khi vợ sinh. Trợ cấp thai sản từ BHXH nếu đủ điều kiện đóng. CBNV FPT Telecom còn được hưởng thêm chính sách hỗ trợ sinh con và trợ cấp bổ sung Công ty (1069/QĐ-FTEL) — xem trang Chế độ thai sản.",
+    keywords: ["thai sản", "nghỉ sinh", "trợ cấp", "sinh con", "7 tháng"],
     citations: [
       {
-        title: "Luật Bảo hiểm xã hội 2024 — chế độ thai sản",
+        title: "Luật Dân số 2025 (113/2025/QH15)",
         sourceUrl:
-          "https://thuvienphapluat.vn/van-ban/Bao-hiem/Luat-Bao-hiem-xa-hoi-2024-557190.aspx",
-        legalArticle: "Chương IV",
+          "https://thuvienphapluat.vn/van-ban/Van-hoa-Xa-hoi/Luat-dan-so-2025-so-113-2025-QH15-443680.aspx",
+      },
+      {
+        title: "Chế độ thai sản — công cụ FPT Telecom",
+        sourceUrl: "/calculators/che-do-thai-san",
+      },
+    ],
+  },
+  {
+    slug: "ftel-ho-tro-thai-san-level-2025",
+    categorySlug: "thai-san",
+    question: "FPT hỗ trợ thai sản bao nhiêu theo Level năm 2025?",
+    answer:
+      "Chính sách hỗ trợ thai sản FPT (chi một lần khi sinh, 2025): Level 2 — 5 triệu; Level 3 — 15 triệu; Level 4 — 40 triệu đồng. Chi kỳ lương gần nhất sau khi nộp giấy chứng sinh/khai sinh; thu nhập chịu thuế TNCN. Cộng thêm BHXH và chế độ FTEL.",
+    keywords: ["fpt", "ftel", "level", "hỗ trợ thai sản", "5 triệu", "15 triệu", "40 triệu"],
+    citations: [
+      {
+        title: "Chính sách hỗ trợ thai sản FPT 2025",
+        sourceUrl: "/legal-updates/ftel-ho-tro-thai-san-level-2025",
+      },
+    ],
+  },
+  {
+    slug: "luong-co-so-2-53-2026",
+    categorySlug: "bhxh",
+    question: "Lương cơ sở từ 01/7/2026 là bao nhiêu và trần đóng BHXH?",
+    answer:
+      "Từ 01/7/2026 mức lương cơ sở tăng lên 2,53 triệu đồng/tháng. Mức lương làm căn cứ đóng BHXH bắt buộc cao nhất = 20 lần mức tham chiếu = 50,6 triệu đồng/tháng (khoản 13 Điều 141 Luật BHXH). HR cần cập nhật kê khai từ ngày hiệu lực.",
+    keywords: ["lương cơ sở", "2,53", "50,6", "trần", "bhxh", "2026"],
+    citations: [
+      {
+        title: "Tăng lương cơ sở 01/7/2026",
+        sourceUrl: "/legal-updates/tang-luong-co-so-2-53-trieu-2026",
+      },
+      {
+        title: "Cập nhật lương cơ bản — công cụ",
+        sourceUrl: "/calculators/luong-co-ban",
+      },
+    ],
+  },
+  {
+    slug: "nghi-dinh-168-thai-san-con-hai",
+    categorySlug: "thai-san",
+    question: "Sinh con thứ hai được nghỉ thai sản khi nào (Nghị định 168)?",
+    answer:
+      "Từ 01/7/2026 (Nghị định 168/2026): lao động nữ khi sinh con mà tại thời điểm sinh có một con đẻ còn sống; lao động nam khi vợ sinh và vợ có một con đẻ còn sống. Không áp dụng sảy thai/phá thai/thai chết từ đủ 22 tuần. Thủ tục hưởng theo quy định BHXH.",
+    keywords: ["con thứ hai", "nghị định 168", "luật dân số", "sinh con hai"],
+    citations: [
+      {
+        title: "Nghị định 168/2026/NĐ-CP",
+        sourceUrl: "/legal-updates/nghi-dinh-168-2026-nd-cp-luat-dan-so",
+      },
+    ],
+  },
+  {
+    slug: "sang-loc-thai-nghen-2027",
+    categorySlug: "thai-san",
+    question: "Hỗ trợ sàng lọc thai nghén từ 2027 là gì?",
+    answer:
+      "Từ 01/01/2027 phụ nữ mang thai được hỗ trợ gói sàng lọc Down, Edwards, Patau, Thalassemia — tối đa 900.000 đồng/trường hợp. Trẻ sơ sinh cũng được hưởng hỗ trợ gói dịch vụ sàng lọc theo quy định.",
+    keywords: ["sàng lọc", "down", "thalassemia", "900.000", "2027"],
+    citations: [
+      {
+        title: "Nghị định 168/2026 — hỗ trợ sàng lọc",
+        sourceUrl: "/legal-updates/nghi-dinh-168-2026-nd-cp-luat-dan-so",
       },
     ],
   },
@@ -263,12 +360,30 @@ export const CURATED_FAQS: CuratedFaq[] = [
     keywords: ["366", "quy trình thu", "2026"],
     citations: [
       {
-        title: "366/QĐ-BHXH — PDF nội bộ FTI",
+        title: "366/QĐ-BHXH — PDF nội bộ FPT Telecom",
         sourceUrl: "/docs/366-QD-BHXH-2026.pdf",
       },
     ],
   },
 ];
+
+function mergeCuratedFaqs(hand: CuratedFaq[], imported: CuratedFaq[]): CuratedFaq[] {
+  const seen = new Set<string>();
+  const merged: CuratedFaq[] = [];
+  for (const faq of [...hand, ...imported]) {
+    const key = faq.question.toLocaleLowerCase("vi-VN").trim();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    merged.push(faq);
+  }
+  return merged;
+}
+
+/** FAQ hiển thị tại /hoi-dap — gồm bản HR soạn + LuatVietnam Bảo hiểm (114 câu). */
+export const CURATED_FAQS: CuratedFaq[] = mergeCuratedFaqs(
+  HAND_CURATED_FAQS,
+  LUATVIETNAM_BAO_HIEM_FAQS,
+);
 
 const bySlug = new Map(CURATED_FAQS.map((f) => [f.slug, f]));
 

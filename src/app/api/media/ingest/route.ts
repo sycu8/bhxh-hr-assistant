@@ -16,7 +16,7 @@ export const POST = withApiHandler(async (req: Request) => {
   }
 
   const env = getMediaWorkerEnv();
-  assertMediaIngestAuthorized(req, env);
+  await assertMediaIngestAuthorized(req, env);
 
   const raw = (await parseJsonBody<Record<string, unknown>>(req)) ?? {};
   const body = mediaIngestBodySchema.parse(raw);
@@ -33,12 +33,13 @@ export const POST = withApiHandler(async (req: Request) => {
 /** Cho phép kiểm tra nhanh cấu hình (không ghi R2). */
 export const GET = withApiHandler(async (req: Request) => {
   const env = getMediaWorkerEnv();
-  assertMediaIngestAuthorized(req, env);
+  const auth = await assertMediaIngestAuthorized(req, env);
   const bucket = getOptionalMediaBucket();
   return ok({
     r2: Boolean(bucket),
     hasUnsplash: Boolean(env.UNSPLASH_ACCESS_KEY?.trim()),
     hasOpenAi: Boolean(env.OPENAI_API_KEY?.trim()),
-    hasIngestToken: Boolean(env.MEDIA_INGEST_TOKEN?.trim()),
+    sessionAuth: Boolean(auth.user),
+    bearerAuth: auth.viaBearer,
   });
 });

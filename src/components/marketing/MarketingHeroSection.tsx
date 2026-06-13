@@ -12,7 +12,7 @@ export function MarketingHeroSection() {
         <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-10">
           <div className="min-w-0">
             <h1 className="max-w-3xl text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-[3rem] lg:leading-[1.08]">
-              Hỏi về bảo hiểm theo cách dễ hiểu
+              Tìm hiểu về bảo hiểm theo cách dễ hiểu
             </h1>
             <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               Nhập tình huống của bạn. Hệ thống trả lời theo tài liệu đã duyệt,
@@ -51,7 +51,7 @@ export function MarketingHeroSection() {
                 size="touch"
                 className="w-full border-sky-200 bg-white/90 sm:w-auto"
               >
-                <Link href="/nguon-phap-luat">Kiểm tra nguồn</Link>
+                <Link href="/nguon-phap-luat">Nguồn tham khảo</Link>
               </Button>
             </div>
           </div>

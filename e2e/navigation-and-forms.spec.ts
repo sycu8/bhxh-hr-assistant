@@ -21,7 +21,7 @@ test.describe("Header navigation", () => {
   test("desktop calculators nav opens hub", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await gotoStable(page, "/");
-    await mainNav(page).getByRole("link", { name: "Công cụ NV" }).click();
+    await mainNav(page).getByRole("link", { name: "Công cụ" }).click();
     await expect(page).toHaveURL(/\/calculators/);
   });
 });
