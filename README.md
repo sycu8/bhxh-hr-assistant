@@ -3,7 +3,7 @@
 Ứng dụng web nội bộ giúp nhân viên và HR/C&B tra cứu **BHXH, BHYT, BHTN** và chế độ lao động theo **nguồn đã duyệt**, có trích dẫn, mức tin cậy và lối chuyển sang HR khi thiếu căn cứ.
 
 **Production:** https://bhxh.orangecloud.vn (Workers: https://vn-insurance-fti.sycu-lee.workers.dev)  
-**Release:** 2026-06-21 — commit `ce75a3d` (scenarios S1–S5, page-load p50 < 50 ms, SEO/GEO JSON-LD)
+**Release:** 2026-06-21 — `main` @ `7c23ba6` (scenarios S1–S5, page-load p50 < 50 ms, SEO/GEO JSON-LD; CI build OK — cần `CLOUDFLARE_API_TOKEN` để deploy Worker)
 
 Repository: [github.com/sycu8/bhxh-hr-assistant](https://github.com/sycu8/bhxh-hr-assistant)
 
