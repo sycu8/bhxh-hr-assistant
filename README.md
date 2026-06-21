@@ -231,10 +231,12 @@ Workflow `.github/workflows/deploy-cloudflare.yml` — push `main` hoặc **work
 
 **Secrets (bắt buộc):**
 
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN` — Wrangler deploy; nếu thiếu `CLOUDFLARE_ACCOUNT_ID`, workflow tự lấy account ID qua API token.
 
-**Variables (tuỳ chọn):** `HR_CONTACT_EMAIL`, `HR_EMAIL_FROM`
+**Secrets / variables (tuỳ chọn):**
+
+- `CLOUDFLARE_ACCOUNT_ID` — bỏ qua nếu token đủ quyền `Account:Read`
+- `HR_CONTACT_EMAIL`, `HR_EMAIL_FROM` (repo variables)
 
 Binding KV / D1 / Hyperdrive / R2 mặc định theo stack production `vn-insurance-fti`; override bằng env `WRANGLER_KV_NAMESPACE_ID`, `WRANGLER_D1_DATABASE_ID`, `WRANGLER_HYPERDRIVE_ID`, `WRANGLER_R2_BUCKET` nếu cần.
 

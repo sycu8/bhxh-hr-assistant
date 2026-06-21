@@ -32,8 +32,17 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Generate wrangler.local.jsonc
-        run: node scripts/generate-wrangler-local.mjs
+        run: |
+          if [ -z "${CLOUDFLARE_ACCOUNT_ID}" ]; then
+            CLOUDFLARE_ACCOUNT_ID=$(curl -fsS \
+              -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+              "https://api.cloudflare.com/client/v4/accounts" \
+              | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);if(!j.success||!j.result?.[0]?.id){console.error('Could not resolve Cloudflare account ID');process.exit(1)};process.stdout.write(j.result[0].id)})")
+            export CLOUDFLARE_ACCOUNT_ID
+          fi
+          node scripts/generate-wrangler-local.mjs
         env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CRON_WORKER_BASE_URL: https://vn-insurance-fti.sycu-lee.workers.dev
           HR_CONTACT_EMAIL: ${{ vars.HR_CONTACT_EMAIL }}
