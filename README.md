@@ -2,7 +2,7 @@
 
 Ứng dụng web nội bộ giúp nhân viên và HR/C&B tra cứu **BHXH, BHYT, BHTN** và chế độ lao động theo **nguồn đã duyệt**, có trích dẫn, mức tin cậy và lối chuyển sang HR khi thiếu căn cứ.
 
-**Production:** https://vn-insurance-fti.sycu-lee.workers.dev  
+**Production:** https://bhxh.orangecloud.vn (Workers: https://vn-insurance-fti.sycu-lee.workers.dev)  
 **Release:** 2026-06-21 — commit `ce75a3d` (scenarios S1–S5, page-load p50 < 50 ms, SEO/GEO JSON-LD)
 
 Repository: [github.com/sycu8/bhxh-hr-assistant](https://github.com/sycu8/bhxh-hr-assistant)
@@ -239,6 +239,8 @@ Workflow `.github/workflows/deploy-cloudflare.yml` — push `main` hoặc **work
 - `HR_CONTACT_EMAIL`, `HR_EMAIL_FROM` (repo variables)
 
 Binding KV / D1 / Hyperdrive / R2 mặc định theo stack production `vn-insurance-fti`; override bằng env `WRANGLER_KV_NAMESPACE_ID`, `WRANGLER_D1_DATABASE_ID`, `WRANGLER_HYPERDRIVE_ID`, `WRANGLER_R2_BUCKET` nếu cần.
+
+Nếu workflow fail vì thiếu token: thêm **`CLOUDFLARE_API_TOKEN`** tại [GitHub → Settings → Secrets → Actions](https://github.com/sycu8/bhxh-hr-assistant/settings/secrets/actions) (quyền Workers Scripts Edit + Account Read), rồi chạy lại workflow **Deploy Cloudflare Workers**.
 
 ---
 

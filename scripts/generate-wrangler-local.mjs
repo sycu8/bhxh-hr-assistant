@@ -10,12 +10,13 @@ import { fileURLToPath } from "node:url";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outPath = path.join(root, "wrangler.local.jsonc");
 
-const accountId = process.env.CLOUDFLARE_ACCOUNT_ID?.trim();
-if (!accountId) {
-  console.error(
-    "generate-wrangler-local: set CLOUDFLARE_ACCOUNT_ID (wrangler var / GitHub secret).",
+const accountId =
+  process.env.CLOUDFLARE_ACCOUNT_ID?.trim() ||
+  "4c15704ef706b9c8954cd6f9feb678d8";
+if (!process.env.CLOUDFLARE_ACCOUNT_ID?.trim()) {
+  console.warn(
+    "generate-wrangler-local: CLOUDFLARE_ACCOUNT_ID unset — using production default.",
   );
-  process.exit(1);
 }
 
 const workerName = process.env.WRANGLER_WORKER_NAME?.trim() || "vn-insurance-fti";
