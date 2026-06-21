@@ -7,13 +7,14 @@ import {
   type RateLimitConfig,
 } from "@/lib/security/kv-rate-limit";
 import { getClientIp } from "@/lib/security/request-client-ip";
+import { asRateLimitKv } from "@/lib/security/rate-limit-kv-adapter";
 
 const LOGIN_DEFAULTS: RateLimitConfig = { max: 10, windowSec: 900 };
 const PUBLIC_API_DEFAULTS: RateLimitConfig = { max: 30, windowSec: 60 };
 const ASK_HR_DEFAULTS: RateLimitConfig = { max: 5, windowSec: 900 };
 
 function kvFromEnv() {
-  return tryGetCloudflareEnv()?.APP_CACHE;
+  return asRateLimitKv(tryGetCloudflareEnv()?.APP_CACHE);
 }
 
 export async function enforceLoginRateLimit(

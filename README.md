@@ -242,9 +242,10 @@ Body JSON validate bằng **Zod**; lỗi trả `{ success: false, error: { code,
 pnpm test              # Vitest (logic, API, sitemap, FAQ, crawler…)
 pnpm build && pnpm test:e2e   # Playwright — trang, nút, form
 pnpm test:all          # Cả hai
+pnpm test:scenarios    # 5 kịch bản năng lực chính (Vitest + build + E2E) → docs/scenario-evidence.json
 ```
 
-Chi tiết và lỗi đã ghi nhận: [docs/TEST-REPORT.md](docs/TEST-REPORT.md).
+Kế hoạch tiêu chí pass/fail: [docs/SCENARIO-TEST-PLAN.md](docs/SCENARIO-TEST-PLAN.md). Chi tiết và lỗi đã ghi nhận: [docs/TEST-REPORT.md](docs/TEST-REPORT.md).
 
 ---
 

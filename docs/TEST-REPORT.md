@@ -1,79 +1,63 @@
 # Báo cáo kiểm thử
 
-Cập nhật lần chạy gần nhất: **2026-05-31** — `pnpm build` + `pnpm test` + `pnpm test:e2e`.
+Cập nhật lần chạy gần nhất: **2026-06-21** — `pnpm test:scenarios` (5 kịch bản năng lực) + `pnpm test` (131 unit).
 
 ## Lệnh chạy
 
 ```bash
-pnpm test              # 63 unit/API tests (Vitest)
-pnpm build             # bắt buộc trước E2E
-pnpm test:e2e          # Playwright (port 3199, tự build server qua scripts/start-e2e-server.mjs)
-pnpm test:all          # test + build + e2e
-# hoặc server sẵn:
-$env:PLAYWRIGHT_SKIP_WEBSERVER="1"
-$env:PLAYWRIGHT_BASE_URL="http://127.0.0.1:3199"
-pnpm test:e2e
+pnpm test:scenarios    # 5 kịch bản chính → docs/scenario-evidence.json
+pnpm test              # Vitest đầy đủ
+pnpm build && pnpm test:e2e
+pnpm test:all          # test + build + e2e smoke
 ```
 
-## Phạm vi
+Kế hoạch tiêu chí: [SCENARIO-TEST-PLAN.md](./SCENARIO-TEST-PLAN.md)
+
+## 5 kịch bản năng lực chính (pass/fail)
+
+| ID | Kịch bản | Vitest | E2E | Kết quả |
+|----|----------|--------|-----|---------|
+| S1 | Tra cứu BHXH (search + AI card) | S1-V1, S1-V2 | S1-E1 | **PASS** |
+| S2 | FAQ hub + chủ đề BHTN | S2-V1 | S2-E1, S2-E2 | **PASS** |
+| S3 | Pháp luật, nguồn, SEO | S3-V1 | S3-E1–E3 | **PASS** |
+| S4 | Công cụ lương & hub | S4-V1 | S4-E1, S4-E2 | **PASS** |
+| S5 | Hỏi HR + guardrails | S5-V1–V4 | S5-E1, S5-E2 | **PASS** |
+
+Bằng chứng JSON: [scenario-evidence.json](./scenario-evidence.json) — `suitePass: true`.
+
+**Điều kiện:** Node 22, không `DATABASE_URL`, không `TURNSTILE_SECRET_KEY`, port E2E 3199.
+
+## Kết quả tổng hợp
+
+| Bộ | Passed | Failed | Ghi chú |
+|----|--------|--------|---------|
+| Scenario suite (Vitest layer) | 9 | 0 | |
+| Scenario suite (E2E) | 11 | 0 | search API mock trong S1-E1 |
+| Vitest (toàn bộ) | 131 | 0 | |
+| `pnpm build` | OK | 0 | đã sửa lỗi TS (xem dưới) |
+
+## Lỗi đã phát hiện và xử lý (2026-06-21)
+
+### Build TypeScript (đã sửa)
+
+1. **`CrawlAdminItemRow` thiếu import** — `crawl-review-queue.tsx` import type từ `crawl-queries.ts`.
+2. **`CrawlAdminDataJson.sources`** — dùng `CrawlSourceAdminJson[]` (ISO date string) thay vì `Date`.
+3. **KVNamespace vs RateLimitKv** — adapter `asRateLimitKv()` dùng chung cho middleware và edge rate limits.
+
+### Kịch bản — không có lỗi chức năng
+
+Mọi check S1–S5 pass sau khi build thành công. Prisma log “Can't reach database” khi không có Postgres — fallback static/curated vẫn hoạt động.
+
+## Phạm vi (kịch bản cũ + smoke)
 
 | Lớp | File | Nội dung |
 |-----|------|----------|
-| Unit | `tests/*.test.ts` | Logic lương, FAQ, phân trang, form HR, crawler… |
-| API | `tests/api-calculator.route.test.ts` | POST `/api/calculators/salary-tax` |
-| Catalog | `tests/employee-tools.test.ts`, `tests/site-nav.test.ts` | Link công cụ & menu hợp lệ |
-| E2E | `e2e/*.spec.ts` | Trang public, hub công cụ, nav, tính lương, form HR, footer LinkedIn |
+| Scenarios | `tests/scenarios-major-capabilities.test.ts`, `e2e/scenarios-major-capabilities.spec.ts` | 5 kịch bản end-to-end |
+| Unit | `tests/*.test.ts` | Logic lương, FAQ, crawler, bảo mật… |
+| E2E smoke | `e2e/*.spec.ts` | Trang public, nav, form HR |
 
-## Kết quả tổng hợp (lần chạy gần nhất)
+## Việc nên làm thêm
 
-| Bộ | Passed | Failed | Skipped | Ghi chú |
-|----|--------|--------|---------|---------|
-| Vitest | 63 | 0 | 0 | |
-| ESLint | 0 errors | — | 3 warnings | unrelated scripts |
-| `pnpm build` | OK | 0 | — | |
-| Playwright E2E | 23 | 0 | 2 | admin khi không có `DATABASE_URL` |
-
-### E2E — trang đã smoke
-
-`/`, `/search`, `/hoi-dap`, `/ask-hr`, `/calculators` (+ con), `/cong-cu-luong-thue`, `/nguon-phap-luat`, `/topics`, `/legal-updates`, redirect `/cap-nhat-phap-luat`, `/topics/bhtn`, `/topics/nguoi-phu-thuoc`, footer LinkedIn.
-
-### Bỏ qua có chủ đích
-
-- `/admin`, `/admin/legal-crawler` — **skipped** khi không có `DATABASE_URL` (trang động Prisma).
-
-## Lỗi đã phát hiện và xử lý
-
-### 1. `/cong-cu-luong-thue` HTTP 500 (đã sửa)
-
-- **Nguyên nhân:** Server page import hàm từ file `"use client"` (`salary-tax-tool.tsx`) — Next.js 16 ném lỗi khi render.
-- **Cách xử lý:** Tách `parseCalculatorMode` sang `src/lib/calculators/salary-tax-modes.ts`; server page truyền `initialMode` prop; bỏ `Suspense` + `useSearchParams` trên server boundary.
-- **File:** `src/app/cong-cu-luong-thue/page.tsx`, `src/lib/calculators/salary-tax-modes.ts`, `src/components/calculators/salary-tax-tool.tsx`
-
-### 2. ESLint `react-hooks/refs` (đã sửa)
-
-- **SiteHeader:** reset menu “Khác” bằng `key={pathname}` thay vì setState trong render.
-- **Pagination:** reset trang bằng wrapper `key` trên `FaqListPaginated`, `HoiDapFaqSections`, `SearchHitsPaginated`.
-- **pagination-controls:** tách `PaginationNavButton` ra top-level.
-
-### 3. E2E — server cũ / port bận (đã sửa)
-
-- **Triệu chứng:** Playwright hit server `next start` cũ (port 3099) → trang tính lương chỉ skeleton, footer thiếu LinkedIn, nav timeout.
-- **Cách xử lý:** Port E2E **3199**; `scripts/start-e2e-server.mjs` giải phóng port trước khi start; health check `/cong-cu-luong-thue`; helper `e2e/helpers.ts`.
-
-### 4. E2E — Form / nav (đã sửa)
-
-- Scope locator vào `nav[aria-label="Điều hướng chính"]` + `aria-label` trên link nav.
-- Form HR: `#replyEmail`, `#topic`, `#urgent`; legal updates: `#Tìm văn bản` + nút “Tìm kiếm”.
-
-## Không phát hiện lỗi (trong phạm vi test)
-
-- Hub **Công cụ cho Nhân viên** — mọi CTA &lt; 500
-- Nút **Tính ngay** — hiển thị kết quả thực nhận
-- Menu Tra cứu / FAQ / Hỏi HR / Công cụ — điều hướng đúng
-- Footer **Lê Sỹ Cường** → LinkedIn
-
-## Việc nên làm thêm (ngoài phạm vi hiện tại)
-
-- E2E gửi email HR thật (mock API `/api/ask-hr/send`)
-- Admin E2E khi có DB test (Docker/CI)
-- Visual regression (tùy chọn)
+- E2E search **không mock** khi có DB test (Docker/CI)
+- Admin E2E khi có `DATABASE_URL`
+- Gửi email HR thật (mock `/api/ask-hr/send`)

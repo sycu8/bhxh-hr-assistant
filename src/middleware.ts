@@ -17,6 +17,7 @@ import {
   enforcePublicApiRateLimit,
   PUBLIC_API_RATE_LIMIT_PATHS,
 } from "@/lib/security/edge-rate-limits";
+import { asRateLimitKv } from "@/lib/security/rate-limit-kv-adapter";
 
 async function enforceAdminActionRateLimit(
   request: NextRequest,
@@ -30,7 +31,7 @@ async function enforceAdminActionRateLimit(
   const result = await checkAdminActionRateLimit({
     key: userId,
     config: readAdminActionRateLimitConfig(),
-    kv: env?.APP_CACHE,
+    kv: asRateLimitKv(env?.APP_CACHE),
   });
 
   if (result.allowed) {

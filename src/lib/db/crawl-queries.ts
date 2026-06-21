@@ -107,12 +107,8 @@ type CrawlAdminDataJson = {
   items: Array<
     Omit<CrawlAdminItemRow, "crawledAt"> & { crawledAt: string }
   >;
-  sources: CrawlSourceAdminRow[];
-  keywords: Array<
-    Omit<CrawlKeywordAdminRow, never> & {
-      // lastCrawledAt serialized below for sources
-    }
-  >;
+  sources: CrawlSourceAdminJson[];
+  keywords: CrawlKeywordAdminRow[];
 };
 
 type CrawlSourceAdminJson = Omit<CrawlSourceAdminRow, "lastCrawledAt"> & {

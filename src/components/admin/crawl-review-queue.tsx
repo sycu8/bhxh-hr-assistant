@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { BULK_CRAWL_REVIEW_MAX } from "@/lib/services/crawl-review.service";
+import type { CrawlAdminItemRow } from "@/lib/db/crawl-queries";
 
 const CRAWL_STATUS_VI: Record<string, string> = {
   NEW: "Mới",

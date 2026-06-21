@@ -1,0 +1,63 @@
+{
+  "startedAt": "2026-06-21T00:57:13.709Z",
+  "nodeVersion": "v22.14.0",
+  "turnstileSecret": "unset",
+  "databaseUrl": "unset",
+  "playwrightPort": "3199",
+  "finishedAt": "2026-06-21T00:57:52.703Z",
+  "evaluationMethod": "binary pass/fail per check; scenario pass = all checks pass",
+  "suitePass": true,
+  "layers": {
+    "vitest": {
+      "pass": true,
+      "command": "pnpm exec vitest run tests/scenarios-major-capabilities.test.ts --reporter=verbose",
+      "exitCode": 0,
+      "durationMs": 1391,
+      "stdout": "\n RUN  v3.2.4 /workspace\n\nstdout | tests/scenarios-major-capabilities.test.ts > Major capability scenarios (Vitest layer) > S4 — Salary and employee tools > [S4-V1] salary-tax API returns net between 0 and gross\nprisma:error \nInvalid `db.calculatorConfig.findFirst()` invocation in\n/workspace/src/lib/services/calculator-config.service.ts:35:41\n\n  32   effectiveTo: Date | null;\n  33 } | null> {\n  34   const db = getDb();\n→ 35   const row = await db.calculatorConfig.findFirst(\nCan't reach database server at `127.0.0.1:5432`\n\nPlease make sure your database server is running at `127.0.0.1:5432`.\n\n ✓ tests/scenarios-major-capabilities.test.ts > Major capability scenarios (Vitest layer) > S1 — Natural-language BHXH search > [S1-V1] curated FAQ search returns grounded hit 5ms\n ✓ tests/scenarios-major-capabilities.test.ts > Major capability scenarios (Vitest layer) > S1 — Natural-language BHXH search > [S1-V2] AiAnswerService answers from curated FAQ with citations 5ms\n ✓ tests/scenarios-major-capabilities.test.ts > Major capability scenarios (Vitest layer) > S2 — FAQ hub and topic browsing > [S2-V1] curated FAQ catalog is non-empty with unique slugs 3ms\n ✓ tests/scenarios-major-capabilities.test.ts > Major capability scenarios (Vitest layer) > S3 — Legal updates, sources, and SEO > [S3-V1] sitemap includes public hubs and excludes admin/api 4ms\n ✓ tests/scenarios-major-capabilities.test.ts > Major capability scenarios (Vitest layer) > S4 — Salary and employee tools > [S4-V1] salary-tax API returns net between 0 and gross 58ms\n ✓ tests/scenarios-major-capabilities.test.ts > Major capability scenarios (Vitest layer) > S5 — HR escalation and platform guardrails > [S5-V1] RBAC allows HR CMS but not employee admin 0ms\n ✓ tests/scenarios-major-capabilities.test.ts > Major capability scenarios (Vitest layer) > S5 — HR escalation and platform guardrails > [S5-V2] cron bearer auth rejects invalid token when secret configured 1ms\n ✓ tests/scenarios-major-capabilities.test.ts > Major capability scenarios (Vitest layer) > S5 — HR escalation and platform guardrails > [S5-V3] SSRF helper blocks private and metadata URLs 0ms\n ✓ tests/scenarios-major-capabilities.test.ts > Major capability scenarios (Vitest layer) > S5 — HR escalation and platform guardrails > [S5-V4] Ask HR form readiness rejects incomplete payloads 0ms\n\n Test Files  1 passed (1)\n      Tests  9 passed (9)\n   Start at  00:57:14\n   Duration  637ms (transform 178ms, setup 0ms, collect 399ms, tests 79ms, environment 0ms, prepare 46ms)\n\n",
+      "stderr": ""
+    },
+    "build": {
+      "pass": true,
+      "command": "pnpm build",
+      "exitCode": 0,
+      "durationMs": 26874,
+      "stdout": "\n> vn-insurance-fti@0.1.0 build /workspace\n> prisma generate && next build --webpack\n\nPrisma schema loaded from prisma/schema.prisma\n\n✔ Generated Prisma Client (v6.19.0) to ./node_modules/@prisma/client in 142ms\n\nStart by importing your Prisma Client (See: https://pris.ly/d/importing-client)\n\nTip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints\n\n▲ Next.js 16.2.6 (webpack)\n\n  Creating an optimized production build ...\n✓ Compiled successfully in 9.9s\n  Running TypeScript ...\n  Finished TypeScript in 6.5s ...\n  Collecting page data using 3 workers ...\n  Generating static pages using 3 workers (0/179) ...\n  Generating static pages using 3 workers (44/179) \r\n  Generating static pages using 3 workers (89/179) \r\n  Generating static pages using 3 workers (134/179) \r\n✓ Generating static pages using 3 workers (179/179) in 862ms\n  Finalizing page optimization ...\n  Collecting build traces ...\n\nRoute (app)\n┌ ƒ /\n├ ○ /_not-found\n├ ƒ /admin\n├ ƒ /admin/audit\n├ ƒ /admin/calculators\n├ ƒ /admin/faqs\n├ ƒ /admin/legal-crawler\n├ ƒ /admin/login\n├ ƒ /admin/search-analytics\n├ ƒ /admin/tickets\n├ ƒ /admin/topics\n├ ƒ /api/admin/bhxh-documents-import\n├ ƒ /api/admin/revalidate-cache\n├ ƒ /api/ask\n├ ƒ /api/ask-hr/send\n├ ƒ /api/auth/login\n├ ƒ /api/calculators/salary-tax\n├ ƒ /api/calculators/social-insurance-contribution\n├ ƒ /api/cron/daily-official-crawl\n├ ƒ /api/media/asset/[...key]\n├ ƒ /api/media/ingest\n├ ƒ /api/search\n├ ○ /apple-icon.png\n├ ƒ /ask-hr\n├ ○ /calculators\n├ ○ /calculators/che-do-thai-san\n├ ○ /calculators/chinh-sach-mien-giam\n├ ○ /calculators/luong-co-ban\n├ ○ /cap-nhat-phap-luat\n├ ƒ /cong-cu-luong-thue\n├ ƒ /faq\n├ ƒ /faq/[id]\n├ ○ /hoi-dap\n├ ● /hoi-dap/[slug]\n│ ├ /hoi-dap/bat-buoc-tham-gia-bhxh\n│ ├ /hoi-dap/nghi-khong-luong-14-ngay\n│ ├ /hoi-dap/muc-dong-bhxh-bhyt-bhtn\n│ └ [+131 more paths]\n├ ○ /icon.png\n├ ƒ /legal-updates\n├ ƒ /legal-updates/[slug]\n├ ○ /nguon-phap-luat\n├ ○ /robots.txt\n├ ○ /search\n├ ○ /sitemap.xml\n├ ○ /topics\n└ ● /topics/[slug]\n  ├ /topics/bhxh\n  ├ /topics/bhyt\n  ├ /topics/bhtn\n  └ [+7 more paths]\n\n\nƒ Proxy (Middleware)\n\n○  (Static)   prerendered as static content\n●  (SSG)      prerendered as static HTML (uses generateStaticParams)\nƒ  (Dynamic)  server-rendered on demand\n\n",
+      "stderr": "warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).\nFor more information, see: https://pris.ly/prisma-config\n\nLoaded Prisma config from prisma.config.ts.\n\nwarn The Prisma config file in prisma.config.ts overrides the deprecated `package.json#prisma` property in package.json.\n  For more information, see: https://pris.ly/prisma-config\n\nPrisma config detected, skipping environment variable loading.\nwarn Preview feature \"driverAdapters\" is deprecated. The functionality can be used without specifying it as a preview feature.\nwarn Preview feature \"queryCompiler\" is deprecated. The functionality can be used without specifying it as a preview feature.\n⚠ The \"middleware\" file convention is deprecated. Please use \"proxy\" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy\n"
+    },
+    "e2e": {
+      "pass": true,
+      "command": "pnpm exec playwright test e2e/scenarios-major-capabilities.spec.ts",
+      "exitCode": 0,
+      "durationMs": 10727,
+      "stdout": "[WebServer] ▲ Next.js 16.2.6\n[WebServer] - Local:         http://127.0.0.1:3199\n[WebServer] - Network:       http://127.0.0.1:3199\n[WebServer] ✓ Ready in 88ms\n\nRunning 11 tests using 1 worker\n\n  ✓   1 [chromium] › e2e/scenarios-major-capabilities.spec.ts:46:9 › Major capability scenarios (E2E layer) › S1 — Natural-language BHXH search › [S1-E1] search UI renders answer card after submit (960ms)\n  ✓   2 [chromium] › e2e/scenarios-major-capabilities.spec.ts:72:9 › Major capability scenarios (E2E layer) › S2 — FAQ hub and topic browsing › [S2-E1] FAQ list and detail page load (895ms)\n  ✓   3 [chromium] › e2e/scenarios-major-capabilities.spec.ts:87:9 › Major capability scenarios (E2E layer) › S2 — FAQ hub and topic browsing › [S2-E2] BHTN topic page renders (758ms)\n[WebServer] prisma:error \n[WebServer] Invalid `prisma.legalUpdate.findMany()` invocation:\n[WebServer] \n[WebServer] \n[WebServer] Can't reach database server at `127.0.0.1:5432`\n[WebServer] \n[WebServer] Please make sure your database server is running at `127.0.0.1:5432`.\n[WebServer] prisma:error \n[WebServer] Invalid `prisma.legalUpdate.findFirst()` invocation:\n[WebServer] \n[WebServer] \n[WebServer] Can't reach database server at `127.0.0.1:5432`\n[WebServer] \n[WebServer] Please make sure your database server is running at `127.0.0.1:5432`.\n[WebServer] prisma:error \n[WebServer] Invalid `prisma.legalUpdate.findFirst()` invocation:\n[WebServer] \n[WebServer] \n[WebServer] Can't reach database server at `127.0.0.1:5432`\n[WebServer] \n[WebServer] Please make sure your database server is running at `127.0.0.1:5432`.\n[WebServer] prisma:error \n[WebServer] Invalid `prisma.legalUpdate.findMany()` invocation:\n[WebServer] \n[WebServer] \n[WebServer] Can't reach database server at `127.0.0.1:5432`\n[WebServer] \n[WebServer] Please make sure your database server is running at `127.0.0.1:5432`.\n  ✓   4 [chromium] › e2e/scenarios-major-capabilities.spec.ts:95:9 › Major capability scenarios (E2E layer) › S3 — Legal updates, sources, and SEO › [S3-E1] legal updates search updates URL (922ms)\n  ✓   5 [chromium] › e2e/scenarios-major-capabilities.spec.ts:104:9 › Major capability scenarios (E2E layer) › S3 — Legal updates, sources, and SEO › [S3-E2] legal sources page renders references (698ms)\n  ✓   6 [chromium] › e2e/scenarios-major-capabilities.spec.ts:111:9 › Major capability scenarios (E2E layer) › S3 — Legal updates, sources, and SEO › [S3-E3] robots and sitemap expose public SEO rules (32ms)\n[WebServer] prisma:error \n[WebServer] Invalid `prisma.calculatorConfig.findFirst()` invocation:\n[WebServer] \n[WebServer] \n[WebServer] Can't reach database server at `127.0.0.1:5432`\n[WebServer] \n[WebServer] Please make sure your database server is running at `127.0.0.1:5432`.\n  ✓   7 [chromium] › e2e/scenarios-major-capabilities.spec.ts:127:9 › Major capability scenarios (E2E layer) › S4 — Salary and employee tools › [S4-E1] gross-to-net calculator shows net pay (776ms)\n[WebServer] prisma:error \n[WebServer] Invalid `prisma.legalUpdate.findFirst()` invocation:\n[WebServer] \n[WebServer] \n[WebServer] Can't reach database server at `127.0.0.1:5432`\n[WebServer] \n[WebServer] Please make sure your database server is running at `127.0.0.1:5432`.\n[WebServer] prisma:error \n[WebServer] Invalid `prisma.legalUpdate.findMany()` invocation:\n[WebServer] \n[WebServer] \n[WebServer] Can't reach database server at `127.0.0.1:5432`\n[WebServer] \n[WebServer] Please make sure your database server is running at `127.0.0.1:5432`.\n  ✓   8 [chromium] › e2e/scenarios-major-capabilities.spec.ts:143:9 › Major capability scenarios (E2E layer) › S4 — Salary and employee tools › [S4-E2] calculators hub CTAs load without 5xx (1.3s)\n  ✓   9 [chromium] › e2e/scenarios-major-capabilities.spec.ts:157:9 › Major capability scenarios (E2E layer) › S5 — HR escalation and platform guardrails › [S5-E1] Ask HR form enables submit when valid (815ms)\n[WebServer] prisma:error \n[WebServer] Invalid `prisma.legalUpdate.findMany()` invocation:\n[WebServer] \n[WebServer] \n[WebServer] Can't reach database server at `127.0.0.1:5432`\n[WebServer] \n[WebServer] Please make sure your database server is running at `127.0.0.1:5432`.\n  ✓  10 [chromium] › e2e/scenarios-major-capabilities.spec.ts:176:9 › Major capability scenarios (E2E layer) › S5 — HR escalation and platform guardrails › [S5-E2] primary nav covers search, FAQ, HR, tools (768ms)\n  ✓  11 [chromium] › e2e/scenarios-major-capabilities.spec.ts:188:5 › scenario catalog defines five major capability scenarios (1ms)\n\n  11 passed (9.7s)\n",
+      "stderr": "(node:10052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:10052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "S1",
+      "title": "Natural-language BHXH search",
+      "pass": true
+    },
+    {
+      "id": "S2",
+      "title": "FAQ hub and topic browsing",
+      "pass": true
+    },
+    {
+      "id": "S3",
+      "title": "Legal updates, sources, and SEO",
+      "pass": true
+    },
+    {
+      "id": "S4",
+      "title": "Salary and employee tools",
+      "pass": true
+    },
+    {
+      "id": "S5",
+      "title": "HR escalation and platform guardrails",
+      "pass": true
+    }
+  ]
+}
