@@ -8,6 +8,10 @@ vi.mock("@/lib/db/prisma", () => ({
   }),
 }));
 
+vi.mock("@/lib/db/database-configured", () => ({
+  isDatabaseConfigured: () => true,
+}));
+
 describe("calculator config service", () => {
   beforeEach(() => {
     findFirstMock.mockReset();

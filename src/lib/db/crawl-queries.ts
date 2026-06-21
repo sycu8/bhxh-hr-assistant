@@ -14,6 +14,7 @@ import {
 import { CURATED_LEGAL_UPDATES } from "@/lib/data/curated-legal-updates";
 import staticBhxhLegalUpdates from "@/lib/data/bhxh-published-legal-updates.json";
 import { compareByIssuanceDesc } from "@/lib/legal-updates/list-utils";
+import { isDatabaseConfigured } from "@/lib/db/database-configured";
 import {
   cleanBhxhLegalBody,
   summarizeLegalDocumentText,
@@ -116,6 +117,9 @@ type CrawlSourceAdminJson = Omit<CrawlSourceAdminRow, "lastCrawledAt"> & {
 };
 
 async function loadLegalCrawlerAdminDataFromDb() {
+  if (!isDatabaseConfigured()) {
+    throw new Error("DATABASE_NOT_CONFIGURED");
+  }
   const db = getDb();
   const [items, sources, keywords, statusGroups, publishedLegalUpdates] =
     await Promise.all([
@@ -301,6 +305,7 @@ function publishedFromJson(rows: PublishedLegalJsonRow[]): PublishedLegalUpdateR
 }
 
 async function loadPublishedLegalUpdatesFromDb(): Promise<PublishedLegalUpdateRow[]> {
+  if (!isDatabaseConfigured()) return [];
   const db = getDb();
   try {
     const rows = await db.legalUpdate.findMany({
@@ -339,6 +344,17 @@ function loadStaticPublishedLegalUpdates(): PublishedLegalUpdateRow[] {
   });
 }
 
+let cachedStaticPublishedList: PublishedLegalUpdateRow[] | null = null;
+
+function getCachedStaticPublishedLegalUpdates(): PublishedLegalUpdateRow[] {
+  if (!cachedStaticPublishedList) {
+    cachedStaticPublishedList = loadStaticPublishedLegalUpdates().sort(
+      compareByIssuanceDesc,
+    );
+  }
+  return cachedStaticPublishedList;
+}
+
 function loadStaticPublishedLegalUpdateDetailBySlug(
   slug: string,
 ): PublishedLegalUpdateDetailRow | null {
@@ -354,6 +370,9 @@ function loadStaticPublishedLegalUpdateDetailBySlug(
 export async function getPublishedLegalUpdates(): Promise<
   PublishedLegalUpdateRow[]
 > {
+  if (!isDatabaseConfigured()) {
+    return getCachedStaticPublishedLegalUpdates();
+  }
   const boxed = await withKvJsonCache(
     CACHE_KEYS.legalPublished50,
     PUBLIC_CACHE_TTL_SEC,
@@ -370,6 +389,12 @@ export async function getPublishedLegalUpdates(): Promise<
 export async function getPublishedLegalUpdateBySlug(
   slug: string,
 ): Promise<PublishedLegalUpdateRow | null> {
+  if (!isDatabaseConfigured()) {
+    const staticRow = loadStaticPublishedLegalUpdateDetailBySlug(slug);
+    if (!staticRow) return null;
+    const { body: _body, ...meta } = staticRow;
+    return meta;
+  }
   const db = getDb();
   try {
     const row = await db.legalUpdate.findFirst({
@@ -401,6 +426,9 @@ export async function getPublishedLegalUpdateBySlug(
 export async function getPublishedLegalUpdateDetailBySlug(
   slug: string,
 ): Promise<PublishedLegalUpdateDetailRow | null> {
+  if (!isDatabaseConfigured()) {
+    return loadStaticPublishedLegalUpdateDetailBySlug(slug);
+  }
   const boxed = await withKvJsonCache<
     (PublishedLegalJsonRow & { body: string }) | null
   >(

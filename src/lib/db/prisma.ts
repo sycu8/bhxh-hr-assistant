@@ -2,6 +2,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient as PrismaClientNode } from "@prisma/client";
 import { cache } from "react";
+import { isDatabaseConfigured } from "@/lib/db/database-configured";
 
 function isAccelerateUrl(url: string) {
   return url.startsWith("prisma://") || url.startsWith("prisma+postgres://");
@@ -33,15 +34,8 @@ function createWorkerPrismaClient(connectionString: string) {
   });
 }
 
-function createLocalPrismaClient(connectionString?: string) {
-  const url = connectionString ?? process.env.DATABASE_URL;
-  if (!url || isAccelerateUrl(url)) {
-    return new PrismaClientNode({
-      log:
-        process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-    });
-  }
-  return createPrismaClient(url);
+function createLocalPrismaClient(connectionString: string) {
+  return createPrismaClient(connectionString);
 }
 
 /**
@@ -50,25 +44,27 @@ function createLocalPrismaClient(connectionString?: string) {
  * - Ưu tiên DATABASE_URL (wrangler secret); Hyperdrive fallback
  */
 export const getDb = cache(() => {
+  if (!isDatabaseConfigured()) {
+    throw new Error("DATABASE_NOT_CONFIGURED");
+  }
   try {
     const { env } = getCloudflareContext();
     return createWorkerPrismaClient(workerConnectionString(env as CloudflareEnv));
   } catch {
-    const connectionString =
-      process.env.DATABASE_URL ??
-      "postgresql://postgres:postgres@127.0.0.1:5432/postgres";
+    const connectionString = process.env.DATABASE_URL!.trim();
     return createLocalPrismaClient(connectionString);
   }
 });
 
 export async function getDbAsync() {
+  if (!isDatabaseConfigured()) {
+    throw new Error("DATABASE_NOT_CONFIGURED");
+  }
   try {
     const { env } = await getCloudflareContext({ async: true });
     return createWorkerPrismaClient(workerConnectionString(env as CloudflareEnv));
   } catch {
-    const connectionString =
-      process.env.DATABASE_URL ??
-      "postgresql://postgres:postgres@127.0.0.1:5432/postgres";
+    const connectionString = process.env.DATABASE_URL!.trim();
     return createLocalPrismaClient(connectionString);
   }
 }

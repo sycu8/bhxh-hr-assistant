@@ -2,6 +2,8 @@ import { getPg } from "@/lib/db/pg";
 import type { PgDb } from "@/lib/db/pg";
 import { CACHE_KEYS } from "@/lib/cloudflare/cache-keys";
 import { PUBLIC_CACHE_TTL_SEC, withKvJsonCache } from "@/lib/cloudflare/kv-json-cache";
+import { getCuratedFaqListPublicRows } from "@/lib/db/curated-faq-list-fallback";
+import { isDatabaseConfigured } from "@/lib/db/database-configured";
 
 export type FaqListPublicRow = {
   id: string;
@@ -40,6 +42,9 @@ async function loadApprovedFaqList50(): Promise<FaqListPublicRow[]> {
 }
 
 export async function getApprovedFaqListForPublic(): Promise<FaqListPublicRow[]> {
+  if (!isDatabaseConfigured()) {
+    return getCuratedFaqListPublicRows();
+  }
   return withKvJsonCache(
     CACHE_KEYS.faqList50,
     PUBLIC_CACHE_TTL_SEC,

@@ -10,7 +10,7 @@ import type { LegalUpdateListItemDto } from "@/lib/legal-updates/types";
 import { LEGAL_UPDATES_PAGE_SIZE } from "@/lib/pagination/constants";
 import { paginateItems, parsePageParam } from "@/lib/pagination/paginate";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 90;
 
 export const metadata: Metadata = {
   title: "Cập nhật pháp luật bảo hiểm",

@@ -1,5 +1,7 @@
 import { CACHE_KEYS } from "@/lib/cloudflare/cache-keys";
 import { PUBLIC_CACHE_TTL_SEC, withKvJsonCache } from "@/lib/cloudflare/kv-json-cache";
+import { getCuratedPopularFaqsCached } from "@/lib/db/curated-faq-fallback";
+import { isDatabaseConfigured } from "@/lib/db/database-configured";
 import type { PgDb } from "@/lib/db/pg";
 import { getPg } from "@/lib/db/pg";
 
@@ -50,6 +52,9 @@ async function loadPopularFaqs(limit: number): Promise<PopularFaqRow[]> {
 }
 
 export async function getPopularFaqs(limit = 6): Promise<PopularFaqRow[]> {
+  if (!isDatabaseConfigured()) {
+    return getCuratedPopularFaqsCached(limit);
+  }
   if (limit !== 6) {
     return loadPopularFaqs(limit);
   }

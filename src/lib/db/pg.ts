@@ -1,6 +1,7 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { Pool, type QueryResultRow } from "pg";
 import { cache } from "react";
+import { isDatabaseConfigured } from "@/lib/db/database-configured";
 
 export type PgDb = {
   query<T extends QueryResultRow = QueryResultRow>(
@@ -15,12 +16,23 @@ export type PgDb = {
  * - connectionString lấy từ env.HYPERDRIVE.connectionString.
  */
 export const getPg = cache((): PgDb => {
-  const { env } = getCloudflareContext();
-  const direct = (env as CloudflareEnv).DATABASE_URL?.trim();
-  const connectionString =
-    direct && !direct.startsWith("prisma://") && !direct.startsWith("prisma+postgres://")
-      ? direct
-      : env.HYPERDRIVE.connectionString;
+  if (!isDatabaseConfigured()) {
+    throw new Error("DATABASE_NOT_CONFIGURED");
+  }
+
+  let connectionString: string;
+  try {
+    const { env } = getCloudflareContext();
+    const direct = (env as CloudflareEnv).DATABASE_URL?.trim();
+    connectionString =
+      direct &&
+      !direct.startsWith("prisma://") &&
+      !direct.startsWith("prisma+postgres://")
+        ? direct
+        : env.HYPERDRIVE.connectionString;
+  } catch {
+    connectionString = process.env.DATABASE_URL!.trim();
+  }
 
   const pool = new Pool({
     connectionString,

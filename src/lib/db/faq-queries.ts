@@ -1,5 +1,8 @@
 import type { PgDb } from "@/lib/db/pg";
 import { getPg } from "@/lib/db/pg";
+import { getCuratedFaqBySlug } from "@/lib/data/curated-faqs";
+import { TOPICS } from "@/lib/data/topics";
+import { isDatabaseConfigured } from "@/lib/db/database-configured";
 
 export type FaqCitationRow = {
   title: string;
@@ -20,6 +23,27 @@ export type FaqDetailRow = {
 export async function getApprovedFaqById(
   id: string,
 ): Promise<FaqDetailRow | null> {
+  if (!isDatabaseConfigured()) {
+    const curated = getCuratedFaqBySlug(id);
+    if (!curated) return null;
+    const topic = TOPICS.find((t) => t.slug === curated.categorySlug);
+    return {
+      id: curated.slug,
+      question: curated.question,
+      shortAnswer: curated.answer,
+      detailedAnswer: null,
+      category: topic
+        ? { slug: topic.slug, name: topic.title }
+        : { slug: curated.categorySlug, name: curated.categorySlug },
+      citations: curated.citations.map((c) => ({
+        title: c.title,
+        sourceUrl: c.sourceUrl,
+        legalArticle: c.legalArticle ?? null,
+        legalClause: c.legalClause ?? null,
+      })),
+    };
+  }
+
   try {
     const db: PgDb = getPg();
     const faqRes = await db.query<{

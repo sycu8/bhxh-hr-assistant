@@ -1,5 +1,6 @@
 import type { CalculatorConfigStatus } from "@prisma/client";
 import { getDb } from "@/lib/db/prisma";
+import { isDatabaseConfigured } from "@/lib/db/database-configured";
 import {
   DEFAULT_SOCIAL_INSURANCE_RATES,
   readRatesFromEnv,
@@ -31,6 +32,7 @@ export async function getActiveCalculatorConfig(
   effectiveFrom: Date;
   effectiveTo: Date | null;
 } | null> {
+  if (!isDatabaseConfigured()) return null;
   const db = getDb();
   const row = await db.calculatorConfig.findFirst({
     where: {

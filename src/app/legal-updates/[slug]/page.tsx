@@ -7,12 +7,22 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmployeeJourney } from "@/components/portal/employee-journey";
 import { getPublishedLegalUpdateDetailBySlug } from "@/lib/db/crawl-queries";
+import { CURATED_LEGAL_UPDATES } from "@/lib/data/curated-legal-updates";
+import staticBhxhLegalUpdates from "@/lib/data/bhxh-published-legal-updates.json";
 import { affectedGroupVi, impactLevelVi } from "@/lib/copy/legal-labels";
 import { getLegalUpdateIssuanceDate } from "@/lib/legal-updates/list-utils";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 90;
 
 type Props = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  const slugs = new Set([
+    ...CURATED_LEGAL_UPDATES.map((u) => u.slug),
+    ...staticBhxhLegalUpdates.map((u: { slug: string }) => u.slug),
+  ]);
+  return [...slugs].map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

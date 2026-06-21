@@ -1,0 +1,2175 @@
+{
+  "measuredAt": "2026-06-21T01:20:57.922Z",
+  "conditions": {
+    "base": "http://127.0.0.1:3198",
+    "targetMs": 50,
+    "samples": 3,
+    "warmup": 1,
+    "node": "v22.14.0",
+    "databaseUrl": "unset"
+  },
+  "summary": {
+    "total": 308,
+    "passed": 308,
+    "failed": 0,
+    "allPass": true
+  },
+  "results": [
+    {
+      "route": "/",
+      "p50": 8.39,
+      "p95": 8.84,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/search",
+      "p50": 4.34,
+      "p95": 4.37,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap",
+      "p50": 8.6,
+      "p95": 8.63,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/ask-hr",
+      "p50": 20.59,
+      "p95": 27.19,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/calculators",
+      "p50": 3.56,
+      "p95": 5.03,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/calculators/luong-co-ban",
+      "p50": 3.46,
+      "p95": 3.51,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/calculators/chinh-sach-mien-giam",
+      "p50": 3.29,
+      "p95": 3.76,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/calculators/che-do-thai-san",
+      "p50": 3.47,
+      "p95": 3.72,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/cong-cu-luong-thue",
+      "p50": 9.71,
+      "p95": 10.28,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/cong-cu-luong-thue?mode=gross-to-net",
+      "p50": 9.9,
+      "p95": 12.5,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/nguon-phap-luat",
+      "p50": 4.63,
+      "p95": 15.34,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics",
+      "p50": 3.19,
+      "p95": 3.22,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/legal-updates",
+      "p50": 14.64,
+      "p95": 20.56,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/cap-nhat-phap-luat",
+      "p50": 13.73,
+      "p95": 16.05,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq",
+      "p50": 4.47,
+      "p95": 4.83,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/robots.txt",
+      "p50": 2.52,
+      "p95": 3.98,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/sitemap.xml",
+      "p50": 2.83,
+      "p95": 8.8,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/bat-buoc-tham-gia-bhxh",
+      "p50": 4.55,
+      "p95": 5.48,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/nghi-khong-luong-14-ngay",
+      "p50": 3.32,
+      "p95": 3.57,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/muc-dong-bhxh-bhyt-bhtn",
+      "p50": 3.6,
+      "p95": 4.06,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/the-bhyt-dung-de-lam-gi",
+      "p50": 3.78,
+      "p95": 3.95,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/dieu-kien-tro-cap-that-nghiep",
+      "p50": 4.48,
+      "p95": 8.15,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/quy-trinh-thu-bhxh-595",
+      "p50": 4.36,
+      "p95": 4.93,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/che-do-thai-san-tom-tat",
+      "p50": 3.33,
+      "p95": 5.62,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/ftel-ho-tro-thai-san-level-2025",
+      "p50": 2.89,
+      "p95": 3.9,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/luong-co-so-2-53-2026",
+      "p50": 3.87,
+      "p95": 4.15,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/nghi-dinh-168-thai-san-con-hai",
+      "p50": 2.61,
+      "p95": 2.85,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/sang-loc-thai-nghen-2027",
+      "p50": 3.93,
+      "p95": 4.05,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/nghi-om-benh",
+      "p50": 2.63,
+      "p95": 3.79,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/nghi-viec-chot-bhxh",
+      "p50": 2.41,
+      "p95": 2.6,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/luat-bhxh-2024-2026",
+      "p50": 3.09,
+      "p95": 3.2,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/phu-cap-khong-dong-bhxh",
+      "p50": 2.76,
+      "p95": 3.27,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/huu-tri-dieu-kien",
+      "p50": 2.99,
+      "p95": 3.39,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/tai-nan-lao-dong-bhxh",
+      "p50": 2.5,
+      "p95": 2.56,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/tu-tang-tro-cap",
+      "p50": 2.46,
+      "p95": 2.62,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/nguoi-phu-thuoc-giam-tru",
+      "p50": 2.78,
+      "p95": 5.09,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/qd-366-quy-trinh-thu-2026",
+      "p50": 2.6,
+      "p95": 2.73,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-lam-viec-bao-nhieu-ngay-cong-trong-thang-phai-dong-bhxh-151143",
+      "p50": 2.75,
+      "p95": 2.79,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-giam-doc-co-duoc-tu-ky-hdld-voi-chinh-minh-khong-150830",
+      "p50": 2.68,
+      "p95": 2.81,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-hdld-het-thoi-han-trong-thoi-gian-nghi-thai-san-thi-cong-ty-co-phai-bao-giam-bhx",
+      "p50": 2.98,
+      "p95": 3.22,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-hieu-quy-dinh-rut-bhxh-mot-lan-sau-ngay-0172025-nhu-the-nao-moi-dung-150731",
+      "p50": 2.61,
+      "p95": 5.81,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-chinh-thuc-dung-cap-the-bao-hiem-y-te-giay-tu-ngay-162025-dung-khong--150679",
+      "p50": 2.65,
+      "p95": 2.94,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-tu-ngay-0172025-duoc-dong-bhxh-tu-nguyen-khi-tam-hoan-hdld-150675",
+      "p50": 2.67,
+      "p95": 2.85,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-chua-nhan-luong-huu-do-bi-sai-so-tai-khoan-phai-lam-sao-150633",
+      "p50": 2.98,
+      "p95": 3.19,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-muc-tro-cap-1-lan-khi-nghi-huu-theo-luat-bhxh-moi-the-nao-150627",
+      "p50": 2.76,
+      "p95": 3.36,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-luong-huu-tang-cao-co-phai-dong-thue-thu-nhap-ca-nhan-khong-150624",
+      "p50": 2.67,
+      "p95": 5.11,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-lao-dong-nu-mang-thai-ngoai-tu-cung-co-duoc-huong-che-do-thai-san-150622",
+      "p50": 3.12,
+      "p95": 3.36,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-bhxh-tu-nguyen-dong-bao-nhieu-nam-de-duoc-huong-luong-huu-150564",
+      "p50": 4.21,
+      "p95": 7.13,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thay-doi-ve-che-do-thai-san-tu-0172025-150559",
+      "p50": 2.83,
+      "p95": 3.9,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-cong-ty-khong-bao-tang-lao-dong-co-duoc-dong-bu-bhxh-khong-150396",
+      "p50": 4.49,
+      "p95": 4.55,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-het-thoi-gian-nghi-thai-san-ma-khong-di-lam-luon-thi-co-duoc-huong-che-do-duong-",
+      "p50": 3.76,
+      "p95": 3.88,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-dang-nhan-luong-huu-ma-chet-thi-co-nhan-luong-huu-thang-do-khong-150338",
+      "p50": 3.86,
+      "p95": 4.62,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-mat-can-cuoc-cong-dan-thi-co-rut-bhxh-1-lan-duoc-khong--150327",
+      "p50": 2.9,
+      "p95": 2.91,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nguoi-benh-tai-kham-co-can-xin-giay-chuyen-tuyen-khong-150283",
+      "p50": 2.96,
+      "p95": 5.82,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thanh-lap-cong-ty-co-tiep-tuc-duoc-huong-tro-cap-that-nghiep-khong-150295",
+      "p50": 3.16,
+      "p95": 4.49,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-muc-huong-luong-huu-khi-dong-1-lan-cho-5-nam-150225",
+      "p50": 2.79,
+      "p95": 3.05,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nghi-huu-truoc-tuoi-co-thang-le-co-bi-giam-tru-phan-tram-khong-150224",
+      "p50": 2.49,
+      "p95": 2.79,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-visa-ket-hon-co-duoc-nhan-bhxh-1-lan-luon-sau-khi-nghi-viec-khong-150256",
+      "p50": 2.8,
+      "p95": 2.85,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-vo-la-nguoi-nuoc-ngoai-co-duoc-mua-bhyt-theo-ho-gia-dinh-150247",
+      "p50": 3.63,
+      "p95": 3.83,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nghi-khong-luong-co-duoc-dong-bhyt-khong-150186",
+      "p50": 3.13,
+      "p95": 3.61,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-hieu-luc-cua-hop-dong-bao-hiem-khi-doanh-nghiep-kinh-doanh-bao-hiem-gay-ra-loi-1",
+      "p50": 2.83,
+      "p95": 3.19,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-lao-dong-thu-viec-co-duoc-tra-bhxh-vao-luong-khong-150055",
+      "p50": 2.66,
+      "p95": 2.91,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-tro-cap-that-nghiep-khi-cong-ty-no-bhxh-149942",
+      "p50": 3.15,
+      "p95": 3.91,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nho-rang-khon-co-duoc-bhyt-chi-tra-khong-149940",
+      "p50": 2.71,
+      "p95": 2.81,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nguoi-lao-dong-nghi-thai-san-co-duoc-huong-luong-khong-149939",
+      "p50": 2.73,
+      "p95": 3.62,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-kham-chua-benh-trai-tuyen-o-benh-vien-tuyen-huyen-co-duoc-su-dung-bhyt-khong-149",
+      "p50": 2.98,
+      "p95": 3.16,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-dong-bhxh-cho-nguoi-viet-nam-di-lam-o-nuoc-ngoai-149485",
+      "p50": 2.55,
+      "p95": 2.86,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nguoi-lao-dong-duoc-nhan-tien-bhxh-mot-lan-khi-chua-doi-du-mot-nam-ai-phai-chiu-",
+      "p50": 2.8,
+      "p95": 3.18,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nguoi-lao-dong-cao-tuoi-chua-huong-luong-huu-co-bat-buoc-dong-bhxh-khong-149394",
+      "p50": 2.73,
+      "p95": 3.31,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-giay-tai-kham-co-can-xin-giay-chuyen-vien-khong-149390",
+      "p50": 2.86,
+      "p95": 3.13,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nguoi-nuoc-ngoai-nghi-viec-nhung-chua-ve-nuoc-co-duoc-rut-bhxh-khong-149392",
+      "p50": 2.74,
+      "p95": 2.81,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-tinh-tien-bhxh-1-lan-cho-nguoi-nuoc-ngoai-the-nao-149322",
+      "p50": 2.79,
+      "p95": 3.25,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-chuyen-cong-ty-moi-sau-khi-nghi-het-thai-san-co-duoc-huong-duong-suc-149132",
+      "p50": 2.71,
+      "p95": 2.82,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thu-tuc-nguoi-nuoc-ngoai-uy-quyen-huong-bhxh-mot-lan-sau-khi-het-thi-thuc-nhu-th",
+      "p50": 3.41,
+      "p95": 4.69,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-duoc-huong-dong-thoi-che-do-om-dau-va-thai-san-khong--149054",
+      "p50": 3.59,
+      "p95": 3.71,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-cho-xu-ly-ky-luat-lao-dong-thi-nguoi-lao-dong-co-duoc-dong-bhxh-khong-149025",
+      "p50": 3.49,
+      "p95": 3.53,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-the-truy-linh-tro-cap-tuat-hang-thang-doi-voi-than-nhan-liet-si-khong-148273",
+      "p50": 3.24,
+      "p95": 3.28,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-duoc-tra-tien-bao-hiem-vao-luong-trong-thoi-gian-thu-viec-148270",
+      "p50": 2.77,
+      "p95": 2.87,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-cong-tac-qua-nhieu-don-vi-tinh-tro-cap-thoi-viec-the-nao-148271",
+      "p50": 3.02,
+      "p95": 3.04,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-cong-chuc-dang-bi-khoi-to-hinh-su-den-tuoi-nghi-huu-co-duoc-giai-quyet-nghi-huu-",
+      "p50": 3.05,
+      "p95": 3.3,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-vo-quan-nhan-co-phai-tham-gia-bhyt-theo-doanh-nghiep-nua-khong-148228",
+      "p50": 2.74,
+      "p95": 3,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-benh-vien-tu-cap-giay-chung-nhan-nghi-huong-bhxh-co-hop-le-khong-148247",
+      "p50": 2.51,
+      "p95": 2.58,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-duoc-huong-che-do-thai-san-khi-di-lam-som-sau-say-thai-148058",
+      "p50": 3.05,
+      "p95": 3.46,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thu-tuc-cap-the-bhyt-cho-than-nhan-quan-nhan-nhu-the-nao-146548",
+      "p50": 3.22,
+      "p95": 3.89,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-xin-nghi-lam-di-tai-kham-co-duoc-huong-che-do-om-dau-khong-142490",
+      "p50": 2.61,
+      "p95": 2.77,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-duoc-huong-che-do-om-dau-trong-thoi-gian-ngung-viec-khong-144142",
+      "p50": 2.68,
+      "p95": 2.97,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-tien-luong-cua-giam-doc-co-duoc-tinh-vao-chi-phi-hop-ly-khong-143969",
+      "p50": 2.86,
+      "p95": 3.7,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-xa-tri-co-thuoc-danh-muc-chi-phi-duoc-bao-hiem-y-te-chi-tra-khong-142926",
+      "p50": 2.35,
+      "p95": 2.37,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-viec-lam-van-nhan-tro-cap-that-nghiep-co-bi-phat-khong-140867",
+      "p50": 2.63,
+      "p95": 2.71,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-huong-dan-cach-nhan-tro-cap-that-nghiep-mua-covid-140655",
+      "p50": 2.48,
+      "p95": 2.6,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-doi-tuong-duoc-huong-tro-cap-tuat-nuoi-duong-hang-thang-140658",
+      "p50": 11.12,
+      "p95": 13.19,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-mua-thuoc-ben-ngoai-co-duoc-bhyt-thanh-toan-khong-140548",
+      "p50": 2.69,
+      "p95": 3.04,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-che-do-tai-nan-lao-dong-cua-tai-xe-xe-cong-nghe-139898",
+      "p50": 3.66,
+      "p95": 3.99,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thu-tuc-chuyen-noi-huong-tro-cap-that-nghiep-132914",
+      "p50": 2.63,
+      "p95": 3.18,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-the-chuyen-nhuong-hop-dong-bao-hiem-duoc-khong-132328",
+      "p50": 2.81,
+      "p95": 8.03,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-muc-luong-toi-da-dong-bhxh-nam-2020-la-bao-nhieu-131610",
+      "p50": 3.16,
+      "p95": 3.21,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-che-do-thai-san-trong-truong-hop-con-chet-sau-sinh-131321",
+      "p50": 2.69,
+      "p95": 3.47,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-cach-doi-ma-quyen-loi-bhyt-chi-tiet-nhat-131012",
+      "p50": 3.38,
+      "p95": 3.44,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-chi-mat-em-trai-co-duoc-huong-tien-bao-hiem-xa-hoi-khong-130576",
+      "p50": 3.09,
+      "p95": 3.86,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thoi-gian-nghi-thai-san-co-duoc-tinh-phep-nam-khong-130416",
+      "p50": 3.29,
+      "p95": 3.96,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-mua-nhieu-bhyt-cung-luc-co-duoc-khong-130304",
+      "p50": 3.64,
+      "p95": 4.28,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-quyen-loi-khi-nghi-viec-do-cong-ty-thay-doi-co-cau-130115",
+      "p50": 3.26,
+      "p95": 4.09,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-duoc-phep-cham-dut-hop-dong-voi-nhan-vien-vi-dich-covid-19--129633",
+      "p50": 2.69,
+      "p95": 3.36,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thong-tin-tren-the-bhyt-khong-khop-voi-giay-to-tuy-than-129620",
+      "p50": 3.03,
+      "p95": 3.43,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-cach-xac-dinh-thoi-gian-12-thang-truoc-khi-sinh-con-129779",
+      "p50": 3.62,
+      "p95": 4.16,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-huong-dan-thuc-hien-giao-dich-bao-hiem-xa-hoi-dien-tu-129689",
+      "p50": 2.63,
+      "p95": 2.68,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-che-do-bao-hiem-trong-mua-covid-19-nhu-the-nao-129607",
+      "p50": 3,
+      "p95": 4.03,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-phu-cap-doc-hai-cho-cong-nhan-go-han-129656",
+      "p50": 2.97,
+      "p95": 3.39,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-dieu-kien-cong-noi-thoi-gian-tham-gia-bao-hiem-xa-hoi-129483",
+      "p50": 2.69,
+      "p95": 3.26,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-khi-nao-duoc-nhan-bao-hiem-xa-hoi-1-lan-129558",
+      "p50": 3.64,
+      "p95": 3.94,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-rut-bao-hiem-1-lan-cho-cuu-chien-binh-129283",
+      "p50": 3.94,
+      "p95": 7.65,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-khi-nao-duoc-ky-hop-dong-lao-dong-khong-xac-dinh-thoi-han-129565",
+      "p50": 3.01,
+      "p95": 3.86,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-dieu-kien-huong-che-do-thai-san-khi-lam-viec-tai-benh-vien-nha-nuoc-129487",
+      "p50": 2.62,
+      "p95": 2.91,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-tra-tro-cap-thoi-viec-khi-da-tham-gia-bao-hiem-that-nghiep-129563",
+      "p50": 2.96,
+      "p95": 3.24,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-sinh-vien-co-bat-buoc-mua-bao-hiem-y-te-tai-truong-129466",
+      "p50": 2.49,
+      "p95": 2.57,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-phai-tra-luong-va-dong-bhxh-trong-thoi-ky-thai-san-129369",
+      "p50": 3.38,
+      "p95": 3.49,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-cong-ty-lam-mat-to-roi-bhxh-toi-phai-lam-sao-129063",
+      "p50": 3.97,
+      "p95": 4.57,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nghi-viec-khong-luong-co-duoc-nhan-bhxh-1-lan-khong-129055",
+      "p50": 3.19,
+      "p95": 3.59,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-duoc-cong-don-thoi-gian-dong-bhxh-de-huong-che-do-thai-san-129014",
+      "p50": 3.34,
+      "p95": 3.58,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-quyen-loi-cua-nguoi-dan-toc-thieu-so-kham-benh-trai-tuyen-129020",
+      "p50": 2.89,
+      "p95": 3.21,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-huong-tro-cap-that-nghiep-xong-se-bi-tru-tien-khi-di-lam-lai-128990",
+      "p50": 3.08,
+      "p95": 3.29,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-bao-hiem-chay-no-nha-chung-cu-cu-dan-bat-buoc-phai-mua-128952",
+      "p50": 2.9,
+      "p95": 3.38,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nghi-khong-luong-truoc-khi-nghi-viec-co-duoc-huong-bh-that-nghiep-128730",
+      "p50": 3.42,
+      "p95": 8.2,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-chi-tiet-cach-tinh-ty-le-huong-luong-huu-2020-doi-voi-lao-dong-nam-128841",
+      "p50": 3.18,
+      "p95": 3.46,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-2-so-bhxh-dung-1-so-de-rut-bhxh-1-lan-duoc-khong-128854",
+      "p50": 2.92,
+      "p95": 4.58,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nguoi-dan-toc-thieu-so-da-chuyen-khau-co-duoc-huong-100-bhyt-128678",
+      "p50": 2.43,
+      "p95": 2.86,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-song-ben-my-ve-viet-nam-dai-han-co-duoc-mua-bao-hiem-y-te-128738",
+      "p50": 2.97,
+      "p95": 3.86,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-co-tin-nhan-cua-bhxh-xu-ly-xong-ho-so-duoc-nhan-tien-luon-chua-128825",
+      "p50": 2.62,
+      "p95": 4.6,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thoa-thuan-khong-dong-bao-hiem-xa-hoi-duoc-khong-128755",
+      "p50": 2.87,
+      "p95": 4.07,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-cong-ty-pha-san-lam-the-nao-de-chot-va-chuyen-so-bao-hiem-128727",
+      "p50": 3.5,
+      "p95": 4.89,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-dieu-kien-va-muc-huong-bhxh-1-lan-128525",
+      "p50": 3.12,
+      "p95": 3.56,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-dang-dong-bao-hiem-o-cong-ty-muon-chuyen-sang-dong-theo-chong-128696",
+      "p50": 3.98,
+      "p95": 4.31,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-tat-ca-cac-khoan-tro-cap-duoc-nhan-khi-nghi-viec-la-gi-128740",
+      "p50": 3.75,
+      "p95": 3.84,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-doanh-nghiep-pha-san-lam-the-nao-de-lay-tien-thai-san-128616",
+      "p50": 3.05,
+      "p95": 3.41,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-muc-huong-bhyt-khi-sinh-con-khong-dung-noi-kham-chua-benh-ban-dau-128594",
+      "p50": 2.84,
+      "p95": 3.02,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-du-tuoi-nghi-huu-nhung-chua-du-nam-dong-bhxh-128566",
+      "p50": 2.46,
+      "p95": 3.15,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-dieu-kien-huong-bao-hiem-that-nghiep-cua-lao-dong-thoi-vu-128651",
+      "p50": 2.56,
+      "p95": 2.59,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thoi-gian-giai-quyet-giai-quyet-bhxh-1-lan-la-bao-lau-128580",
+      "p50": 2.55,
+      "p95": 2.9,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-dieu-kien-va-muc-huong-che-do-thai-san-128591",
+      "p50": 2.84,
+      "p95": 3.51,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-dong-bao-hiem-tu-nguyen-co-duoc-huong-che-do-thai-san-khong-128578",
+      "p50": 2.47,
+      "p95": 2.49,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nghi-ngang-co-duoc-huong-bao-hiem-that-nghiep-khong-128502",
+      "p50": 2.93,
+      "p95": 3.17,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-cac-khoan-tro-cap-thai-san-khi-ca-vo-va-chong-deu-tham-gia-bao-hiem-128523",
+      "p50": 3.29,
+      "p95": 3.73,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-chi-tiet-cach-rut-tien-bhxh-1-lan-moi-nhat-128491",
+      "p50": 3.9,
+      "p95": 4.11,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-het-han-hop-dong-lao-dong-khi-dang-mang-thai-co-duoc-ky-tiep-128503",
+      "p50": 2.81,
+      "p95": 3.19,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-vo-khong-tham-gia-bao-hiem-chong-huong-che-do-thai-san-the-nao-128500",
+      "p50": 2.39,
+      "p95": 2.65,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thoi-gian-di-bo-doi-co-duoc-tinh-bhxh-khong-128481",
+      "p50": 2.37,
+      "p95": 2.45,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-nghi-huu-khi-du-nam-dong-bhxh-nhung-chua-du-tuoi-huu-128477",
+      "p50": 2.6,
+      "p95": 2.68,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-che-do-thai-san-voi-nguoi-hiem-muon-phai-nghi-duong-thai--128443",
+      "p50": 3.33,
+      "p95": 4.24,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-thoi-gian-di-cong-tac-nuoc-ngoai-co-duoc-tinh-huong-bhxh-128473",
+      "p50": 3.24,
+      "p95": 3.34,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-bao-hiem-hay-cong-ty-phai-chi-tra-tien-dieu-tri-do-tai-nan-lao-dong-128396",
+      "p50": 2.42,
+      "p95": 2.88,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/hoi-dap/lvn-sau-khi-sinh-con-muon-nghi-viec-luon-co-can-bao-truoc-128402",
+      "p50": 2.22,
+      "p95": 2.3,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics/bhxh",
+      "p50": 2.34,
+      "p95": 2.66,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics/bhyt",
+      "p50": 3.01,
+      "p95": 3.02,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics/bhtn",
+      "p50": 2.43,
+      "p95": 2.52,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics/thai-san",
+      "p50": 2.31,
+      "p95": 2.32,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics/om-dau",
+      "p50": 2.45,
+      "p95": 2.52,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics/nghi-viec",
+      "p50": 2.2,
+      "p95": 2.55,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics/huu-tri",
+      "p50": 2.34,
+      "p95": 3.42,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics/tai-nan",
+      "p50": 2.32,
+      "p95": 2.36,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics/tu-tang",
+      "p50": 2.62,
+      "p95": 2.93,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/topics/nguoi-phu-thuoc",
+      "p50": 2.33,
+      "p95": 7.04,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/legal-updates/nghi-dinh-168-2026-nd-cp-luat-dan-so",
+      "p50": 2.11,
+      "p95": 2.6,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/legal-updates/tang-luong-co-so-2-53-trieu-2026",
+      "p50": 2.2,
+      "p95": 2.62,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/legal-updates/1069-qd-ftel-phu-luc-2-tro-cap-thai-san",
+      "p50": 2.69,
+      "p95": 3.63,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/legal-updates/ftel-ho-tro-thai-san-level-2025",
+      "p50": 2.14,
+      "p95": 2.42,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/bat-buoc-tham-gia-bhxh",
+      "p50": 2.23,
+      "p95": 2.25,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/nghi-khong-luong-14-ngay",
+      "p50": 2.74,
+      "p95": 2.82,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/muc-dong-bhxh-bhyt-bhtn",
+      "p50": 2.16,
+      "p95": 2.17,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/the-bhyt-dung-de-lam-gi",
+      "p50": 2.27,
+      "p95": 2.45,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/dieu-kien-tro-cap-that-nghiep",
+      "p50": 2.17,
+      "p95": 2.88,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/quy-trinh-thu-bhxh-595",
+      "p50": 2.64,
+      "p95": 5.62,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/che-do-thai-san-tom-tat",
+      "p50": 1.94,
+      "p95": 2.28,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/ftel-ho-tro-thai-san-level-2025",
+      "p50": 2.67,
+      "p95": 6.77,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/luong-co-so-2-53-2026",
+      "p50": 2.55,
+      "p95": 3.06,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/nghi-dinh-168-thai-san-con-hai",
+      "p50": 2.01,
+      "p95": 2.73,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/sang-loc-thai-nghen-2027",
+      "p50": 2.01,
+      "p95": 2.2,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/nghi-om-benh",
+      "p50": 2.13,
+      "p95": 2.13,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/nghi-viec-chot-bhxh",
+      "p50": 2.27,
+      "p95": 9.5,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/luat-bhxh-2024-2026",
+      "p50": 2.16,
+      "p95": 3.28,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/phu-cap-khong-dong-bhxh",
+      "p50": 1.83,
+      "p95": 2.27,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/huu-tri-dieu-kien",
+      "p50": 1.82,
+      "p95": 2.1,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/tai-nan-lao-dong-bhxh",
+      "p50": 2.51,
+      "p95": 2.77,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/tu-tang-tro-cap",
+      "p50": 2.69,
+      "p95": 2.76,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/nguoi-phu-thuoc-giam-tru",
+      "p50": 2.04,
+      "p95": 2.37,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/qd-366-quy-trinh-thu-2026",
+      "p50": 2.59,
+      "p95": 4.01,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-lam-viec-bao-nhieu-ngay-cong-trong-thang-phai-dong-bhxh-151143",
+      "p50": 2.55,
+      "p95": 2.81,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-giam-doc-co-duoc-tu-ky-hdld-voi-chinh-minh-khong-150830",
+      "p50": 2.45,
+      "p95": 8.25,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-hdld-het-thoi-han-trong-thoi-gian-nghi-thai-san-thi-cong-ty-co-phai-bao-giam-bhx",
+      "p50": 2.48,
+      "p95": 5.17,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-hieu-quy-dinh-rut-bhxh-mot-lan-sau-ngay-0172025-nhu-the-nao-moi-dung-150731",
+      "p50": 2.17,
+      "p95": 2.2,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-chinh-thuc-dung-cap-the-bao-hiem-y-te-giay-tu-ngay-162025-dung-khong--150679",
+      "p50": 2.06,
+      "p95": 2.17,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-tu-ngay-0172025-duoc-dong-bhxh-tu-nguyen-khi-tam-hoan-hdld-150675",
+      "p50": 3.92,
+      "p95": 6.19,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-chua-nhan-luong-huu-do-bi-sai-so-tai-khoan-phai-lam-sao-150633",
+      "p50": 3.19,
+      "p95": 3.62,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-muc-tro-cap-1-lan-khi-nghi-huu-theo-luat-bhxh-moi-the-nao-150627",
+      "p50": 2.79,
+      "p95": 2.8,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-luong-huu-tang-cao-co-phai-dong-thue-thu-nhap-ca-nhan-khong-150624",
+      "p50": 2.22,
+      "p95": 2.93,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-lao-dong-nu-mang-thai-ngoai-tu-cung-co-duoc-huong-che-do-thai-san-150622",
+      "p50": 2.08,
+      "p95": 2.18,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-bhxh-tu-nguyen-dong-bao-nhieu-nam-de-duoc-huong-luong-huu-150564",
+      "p50": 2.22,
+      "p95": 2.62,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thay-doi-ve-che-do-thai-san-tu-0172025-150559",
+      "p50": 2.32,
+      "p95": 2.43,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-cong-ty-khong-bao-tang-lao-dong-co-duoc-dong-bu-bhxh-khong-150396",
+      "p50": 2.03,
+      "p95": 2.08,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-het-thoi-gian-nghi-thai-san-ma-khong-di-lam-luon-thi-co-duoc-huong-che-do-duong-",
+      "p50": 2.69,
+      "p95": 2.96,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-dang-nhan-luong-huu-ma-chet-thi-co-nhan-luong-huu-thang-do-khong-150338",
+      "p50": 2.21,
+      "p95": 3.23,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-mat-can-cuoc-cong-dan-thi-co-rut-bhxh-1-lan-duoc-khong--150327",
+      "p50": 1.91,
+      "p95": 2.07,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nguoi-benh-tai-kham-co-can-xin-giay-chuyen-tuyen-khong-150283",
+      "p50": 2.14,
+      "p95": 2.27,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thanh-lap-cong-ty-co-tiep-tuc-duoc-huong-tro-cap-that-nghiep-khong-150295",
+      "p50": 2.48,
+      "p95": 3.23,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-muc-huong-luong-huu-khi-dong-1-lan-cho-5-nam-150225",
+      "p50": 2.41,
+      "p95": 2.76,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nghi-huu-truoc-tuoi-co-thang-le-co-bi-giam-tru-phan-tram-khong-150224",
+      "p50": 2.36,
+      "p95": 2.82,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-visa-ket-hon-co-duoc-nhan-bhxh-1-lan-luon-sau-khi-nghi-viec-khong-150256",
+      "p50": 2.33,
+      "p95": 3.07,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-vo-la-nguoi-nuoc-ngoai-co-duoc-mua-bhyt-theo-ho-gia-dinh-150247",
+      "p50": 2.15,
+      "p95": 2.49,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nghi-khong-luong-co-duoc-dong-bhyt-khong-150186",
+      "p50": 1.96,
+      "p95": 1.96,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-hieu-luc-cua-hop-dong-bao-hiem-khi-doanh-nghiep-kinh-doanh-bao-hiem-gay-ra-loi-1",
+      "p50": 1.98,
+      "p95": 2.19,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-lao-dong-thu-viec-co-duoc-tra-bhxh-vao-luong-khong-150055",
+      "p50": 1.87,
+      "p95": 2.62,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-tro-cap-that-nghiep-khi-cong-ty-no-bhxh-149942",
+      "p50": 2.31,
+      "p95": 3.83,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nho-rang-khon-co-duoc-bhyt-chi-tra-khong-149940",
+      "p50": 2.49,
+      "p95": 2.86,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nguoi-lao-dong-nghi-thai-san-co-duoc-huong-luong-khong-149939",
+      "p50": 2.14,
+      "p95": 2.44,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-kham-chua-benh-trai-tuyen-o-benh-vien-tuyen-huyen-co-duoc-su-dung-bhyt-khong-149",
+      "p50": 2.75,
+      "p95": 3.36,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-dong-bhxh-cho-nguoi-viet-nam-di-lam-o-nuoc-ngoai-149485",
+      "p50": 1.86,
+      "p95": 1.87,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nguoi-lao-dong-duoc-nhan-tien-bhxh-mot-lan-khi-chua-doi-du-mot-nam-ai-phai-chiu-",
+      "p50": 2,
+      "p95": 2.07,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nguoi-lao-dong-cao-tuoi-chua-huong-luong-huu-co-bat-buoc-dong-bhxh-khong-149394",
+      "p50": 2.37,
+      "p95": 2.67,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-giay-tai-kham-co-can-xin-giay-chuyen-vien-khong-149390",
+      "p50": 2.2,
+      "p95": 2.38,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nguoi-nuoc-ngoai-nghi-viec-nhung-chua-ve-nuoc-co-duoc-rut-bhxh-khong-149392",
+      "p50": 2.13,
+      "p95": 2.25,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-tinh-tien-bhxh-1-lan-cho-nguoi-nuoc-ngoai-the-nao-149322",
+      "p50": 2.04,
+      "p95": 2.07,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-chuyen-cong-ty-moi-sau-khi-nghi-het-thai-san-co-duoc-huong-duong-suc-149132",
+      "p50": 3.69,
+      "p95": 4.49,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thu-tuc-nguoi-nuoc-ngoai-uy-quyen-huong-bhxh-mot-lan-sau-khi-het-thi-thuc-nhu-th",
+      "p50": 2.09,
+      "p95": 2.19,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-duoc-huong-dong-thoi-che-do-om-dau-va-thai-san-khong--149054",
+      "p50": 2.55,
+      "p95": 2.7,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-cho-xu-ly-ky-luat-lao-dong-thi-nguoi-lao-dong-co-duoc-dong-bhxh-khong-149025",
+      "p50": 3.06,
+      "p95": 3.45,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-the-truy-linh-tro-cap-tuat-hang-thang-doi-voi-than-nhan-liet-si-khong-148273",
+      "p50": 2.71,
+      "p95": 2.9,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-duoc-tra-tien-bao-hiem-vao-luong-trong-thoi-gian-thu-viec-148270",
+      "p50": 2.24,
+      "p95": 2.75,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-cong-tac-qua-nhieu-don-vi-tinh-tro-cap-thoi-viec-the-nao-148271",
+      "p50": 2.68,
+      "p95": 4.14,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-cong-chuc-dang-bi-khoi-to-hinh-su-den-tuoi-nghi-huu-co-duoc-giai-quyet-nghi-huu-",
+      "p50": 2.68,
+      "p95": 3.75,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-vo-quan-nhan-co-phai-tham-gia-bhyt-theo-doanh-nghiep-nua-khong-148228",
+      "p50": 2.08,
+      "p95": 2.37,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-benh-vien-tu-cap-giay-chung-nhan-nghi-huong-bhxh-co-hop-le-khong-148247",
+      "p50": 2.48,
+      "p95": 2.65,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-duoc-huong-che-do-thai-san-khi-di-lam-som-sau-say-thai-148058",
+      "p50": 2.27,
+      "p95": 2.31,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thu-tuc-cap-the-bhyt-cho-than-nhan-quan-nhan-nhu-the-nao-146548",
+      "p50": 2.24,
+      "p95": 2.31,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-xin-nghi-lam-di-tai-kham-co-duoc-huong-che-do-om-dau-khong-142490",
+      "p50": 2.11,
+      "p95": 2.18,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-duoc-huong-che-do-om-dau-trong-thoi-gian-ngung-viec-khong-144142",
+      "p50": 2.94,
+      "p95": 5.49,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-tien-luong-cua-giam-doc-co-duoc-tinh-vao-chi-phi-hop-ly-khong-143969",
+      "p50": 2.57,
+      "p95": 2.91,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-xa-tri-co-thuoc-danh-muc-chi-phi-duoc-bao-hiem-y-te-chi-tra-khong-142926",
+      "p50": 2.56,
+      "p95": 3.11,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-viec-lam-van-nhan-tro-cap-that-nghiep-co-bi-phat-khong-140867",
+      "p50": 2.51,
+      "p95": 5.42,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-huong-dan-cach-nhan-tro-cap-that-nghiep-mua-covid-140655",
+      "p50": 2.18,
+      "p95": 9.24,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-doi-tuong-duoc-huong-tro-cap-tuat-nuoi-duong-hang-thang-140658",
+      "p50": 2.1,
+      "p95": 2.13,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-mua-thuoc-ben-ngoai-co-duoc-bhyt-thanh-toan-khong-140548",
+      "p50": 2.08,
+      "p95": 2.48,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-che-do-tai-nan-lao-dong-cua-tai-xe-xe-cong-nghe-139898",
+      "p50": 2.01,
+      "p95": 2.26,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thu-tuc-chuyen-noi-huong-tro-cap-that-nghiep-132914",
+      "p50": 2.88,
+      "p95": 3.86,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-the-chuyen-nhuong-hop-dong-bao-hiem-duoc-khong-132328",
+      "p50": 2.07,
+      "p95": 2.24,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-muc-luong-toi-da-dong-bhxh-nam-2020-la-bao-nhieu-131610",
+      "p50": 2.48,
+      "p95": 2.49,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-che-do-thai-san-trong-truong-hop-con-chet-sau-sinh-131321",
+      "p50": 2.18,
+      "p95": 2.39,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-cach-doi-ma-quyen-loi-bhyt-chi-tiet-nhat-131012",
+      "p50": 2.14,
+      "p95": 2.26,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-chi-mat-em-trai-co-duoc-huong-tien-bao-hiem-xa-hoi-khong-130576",
+      "p50": 2.29,
+      "p95": 2.39,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thoi-gian-nghi-thai-san-co-duoc-tinh-phep-nam-khong-130416",
+      "p50": 2.34,
+      "p95": 2.48,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-mua-nhieu-bhyt-cung-luc-co-duoc-khong-130304",
+      "p50": 2.16,
+      "p95": 2.78,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-quyen-loi-khi-nghi-viec-do-cong-ty-thay-doi-co-cau-130115",
+      "p50": 3.14,
+      "p95": 6.1,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-duoc-phep-cham-dut-hop-dong-voi-nhan-vien-vi-dich-covid-19--129633",
+      "p50": 2.51,
+      "p95": 3.84,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thong-tin-tren-the-bhyt-khong-khop-voi-giay-to-tuy-than-129620",
+      "p50": 2.48,
+      "p95": 4.34,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-cach-xac-dinh-thoi-gian-12-thang-truoc-khi-sinh-con-129779",
+      "p50": 5.65,
+      "p95": 5.92,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-huong-dan-thuc-hien-giao-dich-bao-hiem-xa-hoi-dien-tu-129689",
+      "p50": 2.28,
+      "p95": 2.44,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-che-do-bao-hiem-trong-mua-covid-19-nhu-the-nao-129607",
+      "p50": 2.46,
+      "p95": 2.82,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-phu-cap-doc-hai-cho-cong-nhan-go-han-129656",
+      "p50": 2.65,
+      "p95": 3.06,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-dieu-kien-cong-noi-thoi-gian-tham-gia-bao-hiem-xa-hoi-129483",
+      "p50": 3.22,
+      "p95": 3.56,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-khi-nao-duoc-nhan-bao-hiem-xa-hoi-1-lan-129558",
+      "p50": 2.49,
+      "p95": 2.74,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-rut-bao-hiem-1-lan-cho-cuu-chien-binh-129283",
+      "p50": 2.63,
+      "p95": 3.66,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-khi-nao-duoc-ky-hop-dong-lao-dong-khong-xac-dinh-thoi-han-129565",
+      "p50": 2.66,
+      "p95": 3.05,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-dieu-kien-huong-che-do-thai-san-khi-lam-viec-tai-benh-vien-nha-nuoc-129487",
+      "p50": 2.58,
+      "p95": 2.69,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-tra-tro-cap-thoi-viec-khi-da-tham-gia-bao-hiem-that-nghiep-129563",
+      "p50": 2.69,
+      "p95": 4.24,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-sinh-vien-co-bat-buoc-mua-bao-hiem-y-te-tai-truong-129466",
+      "p50": 2.62,
+      "p95": 3.38,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-phai-tra-luong-va-dong-bhxh-trong-thoi-ky-thai-san-129369",
+      "p50": 2.22,
+      "p95": 2.26,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-cong-ty-lam-mat-to-roi-bhxh-toi-phai-lam-sao-129063",
+      "p50": 2.31,
+      "p95": 2.63,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nghi-viec-khong-luong-co-duoc-nhan-bhxh-1-lan-khong-129055",
+      "p50": 2.13,
+      "p95": 2.33,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-duoc-cong-don-thoi-gian-dong-bhxh-de-huong-che-do-thai-san-129014",
+      "p50": 2.04,
+      "p95": 2.66,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-quyen-loi-cua-nguoi-dan-toc-thieu-so-kham-benh-trai-tuyen-129020",
+      "p50": 2.1,
+      "p95": 2.35,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-huong-tro-cap-that-nghiep-xong-se-bi-tru-tien-khi-di-lam-lai-128990",
+      "p50": 2.01,
+      "p95": 2.22,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-bao-hiem-chay-no-nha-chung-cu-cu-dan-bat-buoc-phai-mua-128952",
+      "p50": 2.15,
+      "p95": 2.48,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nghi-khong-luong-truoc-khi-nghi-viec-co-duoc-huong-bh-that-nghiep-128730",
+      "p50": 2.28,
+      "p95": 2.31,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-chi-tiet-cach-tinh-ty-le-huong-luong-huu-2020-doi-voi-lao-dong-nam-128841",
+      "p50": 1.83,
+      "p95": 2.03,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-2-so-bhxh-dung-1-so-de-rut-bhxh-1-lan-duoc-khong-128854",
+      "p50": 2.34,
+      "p95": 2.61,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nguoi-dan-toc-thieu-so-da-chuyen-khau-co-duoc-huong-100-bhyt-128678",
+      "p50": 2.33,
+      "p95": 2.91,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-song-ben-my-ve-viet-nam-dai-han-co-duoc-mua-bao-hiem-y-te-128738",
+      "p50": 2.04,
+      "p95": 2.51,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-co-tin-nhan-cua-bhxh-xu-ly-xong-ho-so-duoc-nhan-tien-luon-chua-128825",
+      "p50": 3,
+      "p95": 3.3,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thoa-thuan-khong-dong-bao-hiem-xa-hoi-duoc-khong-128755",
+      "p50": 2.16,
+      "p95": 2.37,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-cong-ty-pha-san-lam-the-nao-de-chot-va-chuyen-so-bao-hiem-128727",
+      "p50": 2.16,
+      "p95": 2.34,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-dieu-kien-va-muc-huong-bhxh-1-lan-128525",
+      "p50": 2.08,
+      "p95": 2.63,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-dang-dong-bao-hiem-o-cong-ty-muon-chuyen-sang-dong-theo-chong-128696",
+      "p50": 2.58,
+      "p95": 5,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-tat-ca-cac-khoan-tro-cap-duoc-nhan-khi-nghi-viec-la-gi-128740",
+      "p50": 2.02,
+      "p95": 2.2,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-doanh-nghiep-pha-san-lam-the-nao-de-lay-tien-thai-san-128616",
+      "p50": 1.96,
+      "p95": 2.19,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-muc-huong-bhyt-khi-sinh-con-khong-dung-noi-kham-chua-benh-ban-dau-128594",
+      "p50": 2.01,
+      "p95": 2.01,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-du-tuoi-nghi-huu-nhung-chua-du-nam-dong-bhxh-128566",
+      "p50": 2.04,
+      "p95": 3.74,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-dieu-kien-huong-bao-hiem-that-nghiep-cua-lao-dong-thoi-vu-128651",
+      "p50": 1.95,
+      "p95": 2.34,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thoi-gian-giai-quyet-giai-quyet-bhxh-1-lan-la-bao-lau-128580",
+      "p50": 2.17,
+      "p95": 2.55,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-dieu-kien-va-muc-huong-che-do-thai-san-128591",
+      "p50": 2.54,
+      "p95": 2.7,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-dong-bao-hiem-tu-nguyen-co-duoc-huong-che-do-thai-san-khong-128578",
+      "p50": 2.37,
+      "p95": 3.75,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nghi-ngang-co-duoc-huong-bao-hiem-that-nghiep-khong-128502",
+      "p50": 2.06,
+      "p95": 2.15,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-cac-khoan-tro-cap-thai-san-khi-ca-vo-va-chong-deu-tham-gia-bao-hiem-128523",
+      "p50": 2.14,
+      "p95": 2.34,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-chi-tiet-cach-rut-tien-bhxh-1-lan-moi-nhat-128491",
+      "p50": 2.35,
+      "p95": 2.49,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-het-han-hop-dong-lao-dong-khi-dang-mang-thai-co-duoc-ky-tiep-128503",
+      "p50": 2.13,
+      "p95": 2.54,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-vo-khong-tham-gia-bao-hiem-chong-huong-che-do-thai-san-the-nao-128500",
+      "p50": 2.06,
+      "p95": 2.08,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thoi-gian-di-bo-doi-co-duoc-tinh-bhxh-khong-128481",
+      "p50": 1.8,
+      "p95": 2.11,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-nghi-huu-khi-du-nam-dong-bhxh-nhung-chua-du-tuoi-huu-128477",
+      "p50": 2.42,
+      "p95": 3.11,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-che-do-thai-san-voi-nguoi-hiem-muon-phai-nghi-duong-thai--128443",
+      "p50": 2.2,
+      "p95": 2.24,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-thoi-gian-di-cong-tac-nuoc-ngoai-co-duoc-tinh-huong-bhxh-128473",
+      "p50": 2.07,
+      "p95": 2.2,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-bao-hiem-hay-cong-ty-phai-chi-tra-tien-dieu-tri-do-tai-nan-lao-dong-128396",
+      "p50": 2.74,
+      "p95": 3.21,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/faq/lvn-sau-khi-sinh-con-muon-nghi-viec-luon-co-can-bao-truoc-128402",
+      "p50": 2.44,
+      "p95": 2.71,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/admin/login",
+      "p50": 7.97,
+      "p95": 8.47,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/admin",
+      "p50": 10,
+      "p95": 11.19,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/admin/faqs",
+      "p50": 7.45,
+      "p95": 7.8,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/admin/topics",
+      "p50": 9.19,
+      "p95": 9.57,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/admin/tickets",
+      "p50": 7.12,
+      "p95": 9.31,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/admin/calculators",
+      "p50": 9.93,
+      "p95": 10.74,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/admin/audit",
+      "p50": 9.07,
+      "p95": 9.73,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/admin/search-analytics",
+      "p50": 9.13,
+      "p95": 13.36,
+      "samples": 3,
+      "pass": true
+    },
+    {
+      "route": "/admin/legal-crawler",
+      "p50": 7.64,
+      "p95": 8.94,
+      "samples": 3,
+      "pass": true
+    }
+  ]
+}

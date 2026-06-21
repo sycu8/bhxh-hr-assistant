@@ -11,7 +11,8 @@ import { HomeTopics } from "@/components/home/home-topics";
 import { getPopularFaqs } from "@/lib/db/home-queries";
 import { getPublishedLegalUpdates } from "@/lib/db/crawl-queries";
 
-export const dynamic = "force-dynamic";
+/** ISR — popular FAQ & legal preview refresh every 90s without forcing dynamic SSR. */
+export const revalidate = 90;
 
 export default async function Home() {
   const [popularFaqs, publishedLegal] = await Promise.all([

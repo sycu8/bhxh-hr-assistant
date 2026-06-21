@@ -27,6 +27,14 @@ Bằng chứng JSON: [scenario-evidence.json](./scenario-evidence.json) — `sui
 
 **Điều kiện:** Node 22, không `DATABASE_URL`, không `TURNSTILE_SECRET_KEY`, port E2E 3199.
 
+## Page load (2026-06-21)
+
+```bash
+pnpm bench:pages   # 308 routes, target p50 < 50 ms
+```
+
+**308/308 pass** — evidence: [page-load-benchmark.json](./page-load-benchmark.json), [PAGE-LOAD-BENCHMARK.md](./PAGE-LOAD-BENCHMARK.md).
+
 ## Kết quả tổng hợp
 
 | Bộ | Passed | Failed | Ghi chú |

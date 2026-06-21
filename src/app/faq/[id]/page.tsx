@@ -6,10 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmployeeJourney } from "@/components/portal/employee-journey";
 import { getApprovedFaqById } from "@/lib/db/faq-queries";
+import { listCuratedFaqs } from "@/lib/data/curated-faqs";
 
 type Props = { params: Promise<{ id: string }> };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 90;
+
+export function generateStaticParams() {
+  return listCuratedFaqs().map((faq) => ({ id: faq.slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
