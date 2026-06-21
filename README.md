@@ -319,11 +319,18 @@ pnpm exec wrangler secret put CLOUDFLARE_EMAIL_API_TOKEN
 
 `pnpm/action-setup` lấy version từ `package.json#packageManager` (không pin `version` trong workflow — tránh `ERR_PNPM_BAD_PM_VERSION`).
 
-**Secrets (bắt buộc deploy):** `CLOUDFLARE_API_TOKEN` (Wrangler deploy; nếu thiếu `CLOUDFLARE_ACCOUNT_ID`, workflow tự lấy account ID qua API token).
+**Secrets (bắt buộc — chỉ trong GitHub / Cursor, không commit):**
 
-**Secrets / variables (tuỳ chọn):** `CLOUDFLARE_ACCOUNT_ID`, `HR_CONTACT_EMAIL`, `HR_EMAIL_FROM`.
+| Secret | Nơi đặt |
+|--------|---------|
+| `CLOUDFLARE_API_TOKEN` | [GitHub Actions secrets](https://github.com/sycu8/bhxh-hr-assistant/settings/secrets/actions) **và** [Cursor Cloud Agents → Runtime secrets](https://cursor.com/dashboard/cloud-agents) |
+| `CLOUDFLARE_ACCOUNT_ID` | Tuỳ chọn — script deploy có default production; nếu thiếu, workflow tự lấy account ID qua API token |
+
+**Variables (tuỳ chọn):** `HR_CONTACT_EMAIL`, `HR_EMAIL_FROM`
 
 Binding KV / D1 / Hyperdrive / R2 mặc định theo stack production `vn-insurance-fti`; override bằng env `WRANGLER_KV_NAMESPACE_ID`, `WRANGLER_D1_DATABASE_ID`, `WRANGLER_HYPERDRIVE_ID`, `WRANGLER_R2_BUCKET` nếu cần.
+
+Cloud Agent: `.cursor/environment.json` chạy `pnpm install` trước mỗi phiên; token **không** nằm trong repo — chỉ Runtime Secret tên `CLOUDFLARE_API_TOKEN` trên cursor.com.
 
 Nếu workflow fail vì thiếu token: thêm **`CLOUDFLARE_API_TOKEN`** tại [GitHub → Settings → Secrets → Actions](https://github.com/sycu8/bhxh-hr-assistant/settings/secrets/actions), rồi chạy lại workflow **Deploy Cloudflare Workers**.
 
