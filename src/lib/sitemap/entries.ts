@@ -39,10 +39,17 @@ const STATIC_PUBLIC_PATHS: SitemapEntryInput[] = [
   { path: "/faq", changeFrequency: "weekly", priority: 0.7 },
 ];
 
+function parseLastModified(value?: Date | string): Date | undefined {
+  if (value == null || value === "") return undefined;
+  const d = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(d.getTime()) ? undefined : d;
+}
+
 function toEntry(input: SitemapEntryInput): MetadataRoute.Sitemap[number] {
+  const lastModified = parseLastModified(input.lastModified);
   return {
     url: absoluteUrl(input.path),
-    lastModified: input.lastModified ?? new Date(),
+    ...(lastModified ? { lastModified } : {}),
     changeFrequency: input.changeFrequency ?? "monthly",
     priority: input.priority ?? 0.5,
   };

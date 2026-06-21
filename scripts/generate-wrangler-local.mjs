@@ -33,7 +33,8 @@ const r2Bucket =
   process.env.WRANGLER_R2_BUCKET?.trim() || "vn-insurance-fti-media";
 const cronBase =
   process.env.CRON_WORKER_BASE_URL?.trim() ||
-  "https://vn-insurance-fti.sycu-lee.workers.dev";
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+  "https://bhxh.orangecloud.vn";
 const hrFrom =
   process.env.HR_EMAIL_FROM?.trim() || "noreply@your-verified-domain.com";
 const hrContact =

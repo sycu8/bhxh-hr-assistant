@@ -1,4 +1,4 @@
-const DEFAULT_SITE_URL = "https://vn-insurance-fti.sycu-lee.workers.dev";
+const DEFAULT_SITE_URL = "https://bhxh.orangecloud.vn";
 
 /** URL gốc của site (không slash cuối). */
 export function getSiteUrl(): string {
