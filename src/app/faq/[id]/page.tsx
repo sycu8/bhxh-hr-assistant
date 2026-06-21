@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmployeeJourney } from "@/components/portal/employee-journey";
 import { getApprovedFaqById } from "@/lib/db/faq-queries";
-import { listCuratedFaqs } from "@/lib/data/curated-faqs";
+import { getCuratedFaqBySlug, listCuratedFaqs } from "@/lib/data/curated-faqs";
+import { absoluteUrl } from "@/lib/site-url";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -20,14 +21,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const faq = await getApprovedFaqById(id);
   if (!faq) return { title: "Không tìm thấy" };
+  const canonicalSlug = getCuratedFaqBySlug(id) ? id : null;
   return {
     title: faq.question.slice(0, 72),
     description: faq.shortAnswer.slice(0, 160),
+    ...(canonicalSlug
+      ? { alternates: { canonical: absoluteUrl(`/hoi-dap/${canonicalSlug}`) } }
+      : {}),
+    robots: canonicalSlug ? { index: false, follow: true } : undefined,
   };
 }
 
 export default async function FaqDetailPage({ params }: Props) {
   const { id } = await params;
+  if (getCuratedFaqBySlug(id)) {
+    redirect(`/hoi-dap/${id}`);
+  }
   const faq = await getApprovedFaqById(id);
   if (!faq) notFound();
 

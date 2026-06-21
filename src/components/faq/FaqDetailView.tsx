@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { CuratedFaq } from "@/lib/data/curated-faqs";
+import { getCuratedFaqBySlug } from "@/lib/data/curated-faqs";
 import { SOURCE_LABEL_COPY } from "@/lib/copy/source-labels";
 
 type Props = {
@@ -128,13 +129,17 @@ export function FaqDetailView({ faq, topicTitle }: Props) {
             Câu hỏi liên quan
           </h2>
           <ul className="mt-3 flex flex-wrap gap-2">
-            {related.map((slug) => (
+            {related.map((slug) => {
+              const relatedFaq = getCuratedFaqBySlug(slug);
+              const label = relatedFaq?.question ?? slug;
+              return (
               <li key={slug}>
                 <Button asChild variant="outline" size="sm">
-                  <Link href={`/hoi-dap/${slug}`}>{slug}</Link>
+                  <Link href={`/hoi-dap/${slug}`}>{label}</Link>
                 </Button>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </section>
       ) : null}

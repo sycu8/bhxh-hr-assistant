@@ -5,6 +5,8 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { MaintenanceBanner } from "@/components/layout/MaintenanceBanner";
 import { getEdgeFeatureFlags } from "@/lib/cloudflare/edge-feature-flags";
 import { getSiteUrl } from "@/lib/site-url";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildSiteJsonLd } from "@/lib/seo/structured-data";
 import "./globals.css";
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -34,6 +36,7 @@ export default async function RootLayout({
   return (
     <html lang="vi" className={`${beVietnamPro.variable} h-full`}>
       <body className="flex min-h-full flex-col font-sans antialiased">
+        <JsonLd data={buildSiteJsonLd()} />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2 focus:text-sm focus:shadow-md"

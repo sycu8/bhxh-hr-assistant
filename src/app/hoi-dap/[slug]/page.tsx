@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FaqDetailView } from "@/components/faq/FaqDetailView";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { EmployeeJourney } from "@/components/portal/employee-journey";
 import { getCuratedFaqBySlug, listCuratedFaqs } from "@/lib/data/curated-faqs";
 import { TOPICS } from "@/lib/data/topics";
+import { buildFaqPageJsonLd } from "@/lib/seo/structured-data";
+import { absoluteUrl } from "@/lib/site-url";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -19,6 +22,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: faq.question.slice(0, 72),
     description: faq.answer.slice(0, 160),
+    alternates: { canonical: absoluteUrl(`/hoi-dap/${slug}`) },
+    openGraph: {
+      title: faq.question.slice(0, 72),
+      description: faq.answer.slice(0, 160),
+      url: absoluteUrl(`/hoi-dap/${slug}`),
+      locale: "vi_VN",
+      type: "article",
+    },
   };
 }
 
@@ -31,6 +42,7 @@ export default async function HoiDapDetailPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
+      <JsonLd data={buildFaqPageJsonLd({ faq, topicTitle: topic?.title })} />
       <div className="mb-6 text-sm text-muted-foreground">
         <Link href="/hoi-dap" className="font-medium text-accent hover:underline">
           ← Câu hỏi thường gặp

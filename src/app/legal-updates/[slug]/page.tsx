@@ -6,11 +6,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmployeeJourney } from "@/components/portal/employee-journey";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getPublishedLegalUpdateDetailBySlug } from "@/lib/db/crawl-queries";
 import { CURATED_LEGAL_UPDATES } from "@/lib/data/curated-legal-updates";
 import staticBhxhLegalUpdates from "@/lib/data/bhxh-published-legal-updates.json";
 import { affectedGroupVi, impactLevelVi } from "@/lib/copy/legal-labels";
 import { getLegalUpdateIssuanceDate } from "@/lib/legal-updates/list-utils";
+import { buildLegalUpdateJsonLd } from "@/lib/seo/structured-data";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const revalidate = 90;
 
@@ -31,6 +34,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: row.title,
     description: row.summary ?? "Cập nhật pháp luật bảo hiểm đã duyệt.",
+    alternates: { canonical: absoluteUrl(`/legal-updates/${slug}`) },
+    openGraph: {
+      title: row.title,
+      description: row.summary ?? undefined,
+      url: absoluteUrl(`/legal-updates/${slug}`),
+      locale: "vi_VN",
+      type: "article",
+    },
   };
 }
 
@@ -50,6 +61,16 @@ export default async function LegalUpdateDetailPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
+      <JsonLd
+        data={buildLegalUpdateJsonLd({
+          title: update.title,
+          slug: update.slug,
+          summary: update.summary,
+          sourceUrl: update.sourceUrl,
+          sourceName: update.sourceName,
+          issuedDate,
+        })}
+      />
       <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
         <Link href="/legal-updates" className="font-medium text-accent hover:underline">
           ← Cập nhật pháp luật

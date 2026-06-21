@@ -144,9 +144,9 @@ export function SearchClient() {
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:py-12">
       <header className="mb-6 grid gap-5 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
         <div>
-          <h1 className="text-balance text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          <h2 className="text-balance text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             Đọc câu trả lời
-          </h1>
+          </h2>
           <p className="mt-2 max-w-prose text-pretty text-sm leading-relaxed text-muted-foreground">
             Bắt đầu bằng câu trả lời ngắn, sau đó kiểm tra mức tin cậy, nguồn
             căn cứ và bước tiếp theo nếu cần HR/C&amp;B xác minh.

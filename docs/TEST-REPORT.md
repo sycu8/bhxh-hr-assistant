@@ -27,6 +27,14 @@ Bằng chứng JSON: [scenario-evidence.json](./scenario-evidence.json) — `sui
 
 **Điều kiện:** Node 22, không `DATABASE_URL`, không `TURNSTILE_SECRET_KEY`, port E2E 3199.
 
+## SEO / GEO (2026-06-21)
+
+```bash
+pnpm audit:seo-geo
+```
+
+**0 critical / 0 high findings** — 8 priority queries map to answer-ready FAQ pages with FAQPage JSON-LD. Chi tiết: [SEO-GEO-AUDIT.md](./SEO-GEO-AUDIT.md), evidence: [seo-geo-audit.json](./seo-geo-audit.json).
+
 ## Page load (2026-06-21)
 
 ```bash

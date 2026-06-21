@@ -244,9 +244,10 @@ pnpm build && pnpm test:e2e   # Playwright — trang, nút, form
 pnpm test:all          # Cả hai
 pnpm test:scenarios    # 5 kịch bản năng lực chính (Vitest + build + E2E) → docs/scenario-evidence.json
 pnpm bench:pages       # đo tải trang (308 route, mục tiêu p50 < 50 ms) → docs/page-load-benchmark.json
+pnpm audit:seo-geo     # SEO/GEO audit + 8 priority queries → docs/seo-geo-audit.json
 ```
 
-Kế hoạch tiêu chí pass/fail: [docs/SCENARIO-TEST-PLAN.md](docs/SCENARIO-TEST-PLAN.md). Hiệu năng tải trang: [docs/PAGE-LOAD-BENCHMARK.md](docs/PAGE-LOAD-BENCHMARK.md). Chi tiết và lỗi đã ghi nhận: [docs/TEST-REPORT.md](docs/TEST-REPORT.md).
+Kế hoạch tiêu chí pass/fail: [docs/SCENARIO-TEST-PLAN.md](docs/SCENARIO-TEST-PLAN.md). Hiệu năng tải trang: [docs/PAGE-LOAD-BENCHMARK.md](docs/PAGE-LOAD-BENCHMARK.md). SEO/GEO: [docs/SEO-GEO-AUDIT.md](docs/SEO-GEO-AUDIT.md). Chi tiết và lỗi đã ghi nhận: [docs/TEST-REPORT.md](docs/TEST-REPORT.md).
 
 ---
 

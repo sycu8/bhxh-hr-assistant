@@ -1,8 +1,20 @@
 import type { MetadataRoute } from "next";
 import { absoluteUrl } from "@/lib/site-url";
 import { CURATED_LEGAL_UPDATES } from "@/lib/data/curated-legal-updates";
+import staticBhxhLegalUpdates from "@/lib/data/bhxh-published-legal-updates.json";
 import { listCuratedFaqs } from "@/lib/data/curated-faqs";
 import { TOPICS } from "@/lib/data/topics";
+
+type StaticLegalRow = { slug: string; publishedAt?: string };
+
+function allPublishedLegalSlugs(): string[] {
+  const slugs = new Set<string>();
+  for (const row of CURATED_LEGAL_UPDATES) slugs.add(row.slug);
+  for (const row of staticBhxhLegalUpdates as StaticLegalRow[]) {
+    if (row.slug) slugs.add(row.slug);
+  }
+  return [...slugs];
+}
 
 type SitemapEntryInput = {
   path: string;
@@ -56,9 +68,11 @@ export function buildSitemapEntries(): MetadataRoute.Sitemap {
     });
   }
 
-  const legalSlugs = new Set(CURATED_LEGAL_UPDATES.map((u) => u.slug));
+  const legalSlugs = allPublishedLegalSlugs();
   for (const slug of legalSlugs) {
-    const row = CURATED_LEGAL_UPDATES.find((u) => u.slug === slug);
+    const row =
+      CURATED_LEGAL_UPDATES.find((u) => u.slug === slug) ??
+      (staticBhxhLegalUpdates as StaticLegalRow[]).find((u) => u.slug === slug);
     entries.push({
       path: `/legal-updates/${slug}`,
       changeFrequency: "weekly",

@@ -1,0 +1,17 @@
+{
+  "measuredAt": "2026-06-21T01:26:22.272Z",
+  "base": "http://127.0.0.1:3197",
+  "engines": [
+    "google-crawl-sim",
+    "bing-crawl-sim",
+    "ai-answer-sim"
+  ],
+  "summary": {
+    "totalFindings": 0,
+    "critical": 0,
+    "high": 0,
+    "pass": true
+  },
+  "priorityQueries": 8,
+  "findings": []
+}

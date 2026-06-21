@@ -16,7 +16,7 @@ describe("sitemap entries", () => {
       listCuratedFaqs().length,
     );
     expect(urls.filter((u) => u.includes("/topics/")).length).toBe(TOPICS.length);
-    expect(urls.filter((u) => u.includes("/legal-updates/")).length).toBe(
+    expect(urls.filter((u) => u.includes("/legal-updates/")).length).toBeGreaterThan(
       CURATED_LEGAL_UPDATES.length,
     );
   });
