@@ -1,6 +1,6 @@
 # Báo cáo kiểm thử
 
-Cập nhật lần chạy gần nhất: **2026-06-21** — `pnpm test:scenarios` (5 kịch bản năng lực) + `pnpm test` (131 unit).
+Cập nhật lần chạy gần nhất: **2026-06-21** — `pnpm test:scenarios` (5 kịch bản) + `pnpm test` (147 unit) + `pnpm audit:seo-geo` + `pnpm bench:pages`.
 
 ## Lệnh chạy
 
@@ -49,7 +49,7 @@ pnpm bench:pages   # 308 routes, target p50 < 50 ms
 |----|--------|--------|---------|
 | Scenario suite (Vitest layer) | 9 | 0 | |
 | Scenario suite (E2E) | 11 | 0 | search API mock trong S1-E1 |
-| Vitest (toàn bộ) | 131 | 0 | |
+| Vitest (toàn bộ) | 147 | 0 | gồm SEO/GEO audit checks |
 | `pnpm build` | OK | 0 | đã sửa lỗi TS (xem dưới) |
 
 ## Lỗi đã phát hiện và xử lý (2026-06-21)

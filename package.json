@@ -17,7 +17,7 @@
     "bench:pages": "node scripts/measure-page-load.mjs",
     "audit:seo-geo": "tsx scripts/run-seo-geo-audit.ts",
     "preview": "prisma generate && opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "prisma generate && opennextjs-cloudflare build && opennextjs-cloudflare deploy -- --config wrangler.local.jsonc",
+    "deploy": "node scripts/generate-wrangler-local.mjs && prisma generate && opennextjs-cloudflare build && opennextjs-cloudflare deploy -- --config wrangler.local.jsonc",
     "deploy:example": "prisma generate && opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",

@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "bhxh-hr-assistant",
+  "name": "vn-insurance-fti",
   "main": "cloudflare/worker-entry.ts",
   "compatibility_date": "2026-05-11",
   "compatibility_flags": ["nodejs_compat"],
@@ -14,7 +14,8 @@
     "CLOUDFLARE_ACCOUNT_ID": "YOUR_CLOUDFLARE_ACCOUNT_ID",
     "HR_EMAIL_FROM": "noreply@your-verified-domain.com",
     "HR_CONTACT_EMAIL": "hr-cnb@your-company.com",
-    "CRON_WORKER_BASE_URL": "https://YOUR-WORKER.your-subdomain.workers.dev"
+    "CRON_WORKER_BASE_URL": "https://vn-insurance-fti.sycu-lee.workers.dev",
+    "NEXT_PUBLIC_SITE_URL": "https://vn-insurance-fti.sycu-lee.workers.dev"
   },
   "send_email": [
     {
@@ -24,7 +25,7 @@
   "r2_buckets": [
     {
       "binding": "MEDIA_BUCKET",
-      "bucket_name": "bhxh-hr-assistant-media"
+      "bucket_name": "vn-insurance-fti-media"
     }
   ],
   "observability": {
@@ -42,7 +43,7 @@
   "d1_databases": [
     {
       "binding": "APP_CONFIG_D1",
-      "database_name": "bhxh-hr-assistant-config",
+      "database_name": "vn-insurance-fti-config",
       "database_id": "YOUR_D1_DATABASE_ID",
       "migrations_dir": "migrations/d1"
     }

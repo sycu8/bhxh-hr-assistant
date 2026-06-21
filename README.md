@@ -2,7 +2,8 @@
 
 Ứng dụng web nội bộ giúp nhân viên và HR/C&B tra cứu **BHXH, BHYT, BHTN** và chế độ lao động theo **nguồn đã duyệt**, có trích dẫn, mức tin cậy và lối chuyển sang HR khi thiếu căn cứ.
 
-**Production:** https://vn-insurance-fti.sycu-lee.workers.dev
+**Production:** https://vn-insurance-fti.sycu-lee.workers.dev  
+**Release:** 2026-06-21 — commit `ce75a3d` (scenarios S1–S5, page-load p50 < 50 ms, SEO/GEO JSON-LD)
 
 Repository: [github.com/sycu8/bhxh-hr-assistant](https://github.com/sycu8/bhxh-hr-assistant)
 
@@ -20,7 +21,7 @@ Repository: [github.com/sycu8/bhxh-hr-assistant](https://github.com/sycu8/bhxh-h
 | **Công cụ** (`/calculators`) | Lương/thuế, lương cơ bản, miễn giảm, chế độ thai sản, tra cứu nhanh. |
 | **Admin** (`/admin`) | Duyệt crawl (hàng loạt tối đa 50/lần), import tài liệu, revalidate cache. |
 | **Cron** | Quét nguồn chính thống **06:00 ICT** mỗi ngày (`0 23 * * *` UTC). |
-| **SEO** | `/sitemap.xml`, `/robots.txt` — URL công khai, loại trừ `/admin` và `/api`. |
+| **SEO / GEO** | `/sitemap.xml`, `/robots.txt`, JSON-LD (`WebSite`, `FAQPage`, `Article`), audit 8 priority queries — `pnpm audit:seo-geo`. |
 
 ### Nguyên tắc trả lời
 
@@ -168,6 +169,7 @@ Logo chính thức: `public/fpt-telecom-logo-horizontal.png`, `public/fpt-teleco
 Khi **không** cấu hình secret, server bỏ qua verify (local dev). Production nên bật cả hai key.
 
 **Turnstile khi duyệt văn bản:** Dùng duyệt hàng loạt (1 server action) và debounce refresh. Tránh rule WAF *Skip* rộng cho `/admin/*` — ưu tiên rate limit app + Turnstile trên login.
+
 | `MEDIA_INGEST_TOKEN` | Bearer tuỳ chọn cho automation/CI — **UI admin dùng session CMS** (`media:write`) |
 
 Đặt secret trên Worker:
@@ -191,7 +193,14 @@ pnpm exec wrangler secret put CLOUDFLARE_EMAIL_API_TOKEN
 
 2. Tạo trên Cloudflare: Worker, **Hyperdrive** (Postgres), **KV**, **D1**, **R2**, bật **Email Sending** cho domain From.
 
-3. Sao chép `wrangler.jsonc.example` → `wrangler.local.jsonc` (gitignore) và điền ID/bindings thật.
+3. Tạo `wrangler.local.jsonc` (gitignore) — tự sinh từ env:
+
+   ```bash
+   export CLOUDFLARE_ACCOUNT_ID="your-account-id"
+   node scripts/generate-wrangler-local.mjs
+   ```
+
+   Hoặc sao chép `wrangler.jsonc.example` → `wrangler.local.jsonc` và điền `YOUR_*` bằng ID/bindings Cloudflare.
 
 4. D1 migration:
 
@@ -203,8 +212,11 @@ pnpm exec wrangler secret put CLOUDFLARE_EMAIL_API_TOKEN
 
    ```bash
    pnpm exec wrangler login
+   export CLOUDFLARE_ACCOUNT_ID="your-account-id"
    pnpm run deploy
    ```
+
+   `pnpm run deploy` gọi `scripts/generate-wrangler-local.mjs` rồi OpenNext + Wrangler (config `wrangler.local.jsonc`).
 
 6. Cập nhật `CRON_WORKER_BASE_URL` và (tuỳ chọn) `NEXT_PUBLIC_SITE_URL` trong `vars` cho khớp URL production.
 
@@ -215,10 +227,16 @@ pnpm exec wrangler secret put CLOUDFLARE_EMAIL_API_TOKEN
 
 ### CI (GitHub Actions)
 
-Workflow `.github/workflows/deploy-cloudflare.yml` — cần secrets repo:
+Workflow `.github/workflows/deploy-cloudflare.yml` — push `main` hoặc **workflow_dispatch**.
+
+**Secrets (bắt buộc):**
 
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
+
+**Variables (tuỳ chọn):** `HR_CONTACT_EMAIL`, `HR_EMAIL_FROM`
+
+Binding KV / D1 / Hyperdrive / R2 mặc định theo stack production `vn-insurance-fti`; override bằng env `WRANGLER_KV_NAMESPACE_ID`, `WRANGLER_D1_DATABASE_ID`, `WRANGLER_HYPERDRIVE_ID`, `WRANGLER_R2_BUCKET` nếu cần.
 
 ---
 
@@ -239,7 +257,7 @@ Body JSON validate bằng **Zod**; lỗi trả `{ success: false, error: { code,
 ## Kiểm thử
 
 ```bash
-pnpm test              # Vitest (logic, API, sitemap, FAQ, crawler…)
+pnpm test              # Vitest — 147 tests (logic, API, sitemap, FAQ, SEO audit…)
 pnpm build && pnpm test:e2e   # Playwright — trang, nút, form
 pnpm test:all          # Cả hai
 pnpm test:scenarios    # 5 kịch bản năng lực chính (Vitest + build + E2E) → docs/scenario-evidence.json
