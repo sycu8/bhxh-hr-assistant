@@ -33,7 +33,7 @@ jobs:
 
       - name: Generate wrangler.local.jsonc
         run: |
-          if [ -z "${CLOUDFLARE_ACCOUNT_ID}" ]; then
+          if [ -z "${CLOUDFLARE_ACCOUNT_ID}" ] && [ -n "${CLOUDFLARE_API_TOKEN}" ]; then
             CLOUDFLARE_ACCOUNT_ID=$(curl -fsS \
               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
               "https://api.cloudflare.com/client/v4/accounts" \
