@@ -15,7 +15,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { MediaIngestTool } from "@/components/admin/media-ingest-tool";
-import { requireAdminUser } from "@/lib/auth/require-admin";
 import { getAdminDashboardData } from "@/lib/db/admin-queries";
 import { FileWarning, HelpCircle, Library, MessageSquareText } from "lucide-react";
 import type { Metadata } from "next";
@@ -35,7 +34,6 @@ function formatDate(d: Date) {
 }
 
 export default async function AdminDashboardPage() {
-  await requireAdminUser();
   const { metrics, pendingDocuments, hrReviewQuestions } =
     await getAdminDashboardData();
 

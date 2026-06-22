@@ -4,7 +4,6 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { MaintenanceBanner } from "@/components/layout/MaintenanceBanner";
 import { getEdgeFeatureFlags } from "@/lib/cloudflare/edge-feature-flags";
-import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -15,10 +14,9 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(getSiteUrl()),
   title: {
     default: "Cổng kiến thức bảo hiểm",
-    template: "%s · Bảo hiểm FPT Telecom",
+    template: "%s · Bảo hiểm FTI",
   },
   description:
     "Tra cứu BHXH, BHYT, BHTN và chế độ lao động theo tài liệu đã duyệt.",

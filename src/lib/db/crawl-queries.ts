@@ -1,17 +1,6 @@
 import { getDb } from "@/lib/db/prisma";
-import { isDisallowedCrawlDomain } from "@/lib/crawl/allowed-sources";
-import {
-  applyPublishedLegalHygiene,
-  buildCuratedReplacementCorpus,
-} from "@/lib/crawl/bhxh-published-legal-hygiene";
-import { CACHE_KEYS, legalDetailCacheKey } from "@/lib/cloudflare/cache-keys";
-import {
-  ADMIN_QUEUE_CACHE_TTL_SEC,
-  LEGAL_DETAIL_CACHE_TTL_SEC,
-  PUBLIC_CACHE_TTL_SEC,
-  withKvJsonCache,
-} from "@/lib/cloudflare/kv-json-cache";
-import { CURATED_LEGAL_UPDATES } from "@/lib/data/curated-legal-updates";
+import { CACHE_KEYS } from "@/lib/cloudflare/cache-keys";
+import { PUBLIC_CACHE_TTL_SEC, withKvJsonCache } from "@/lib/cloudflare/kv-json-cache";
 import staticBhxhLegalUpdates from "@/lib/data/bhxh-published-legal-updates.json";
 import { compareByIssuanceDesc } from "@/lib/legal-updates/list-utils";
 import {
@@ -32,9 +21,6 @@ export type CrawlAdminItemRow = {
   crawledAt: Date;
   sourceName: string;
 };
-
-/** Số mục tối đa hiển thị trong hàng chờ admin (hỗ trợ duyệt hàng loạt). */
-export const ADMIN_CRAWL_QUEUE_LIMIT = 50;
 
 export type CrawlSourceAdminRow = {
   id: string;
@@ -97,49 +83,15 @@ function cleanPublishedBody(body: string | null): string {
   return cleanBhxhLegalBody(body);
 }
 
-type CrawlAdminDataJson = {
-  metrics: {
-    pendingReview: number;
-    approved: number;
-    rejected: number;
-    publishedLegalUpdates: number;
-  };
-  items: Array<
-    Omit<CrawlAdminItemRow, "crawledAt"> & { crawledAt: string }
-  >;
-  sources: CrawlSourceAdminRow[];
-  keywords: Array<
-    Omit<CrawlKeywordAdminRow, never> & {
-      // lastCrawledAt serialized below for sources
-    }
-  >;
-};
-
-type CrawlSourceAdminJson = Omit<CrawlSourceAdminRow, "lastCrawledAt"> & {
-  lastCrawledAt: string | null;
-};
-
-async function loadLegalCrawlerAdminDataFromDb() {
+export async function getLegalCrawlerAdminData() {
   const db = getDb();
-  const [items, sources, keywords, statusGroups, publishedLegalUpdates] =
-    await Promise.all([
+  try {
+    const [items, sources, keywords, metrics] = await Promise.all([
       db.crawlItem.findMany({
         where: { status: { in: ["NEW", "PENDING_REVIEW"] } },
         orderBy: { crawledAt: "desc" },
-        take: ADMIN_CRAWL_QUEUE_LIMIT,
-        select: {
-          id: true,
-          title: true,
-          url: true,
-          summary: true,
-          status: true,
-          legalDocumentType: true,
-          documentNumber: true,
-          detectedKeywords: true,
-          detectedTopics: true,
-          crawledAt: true,
-          source: { select: { name: true } },
-        },
+        take: 25,
+        include: { source: { select: { name: true } } },
       }),
       db.crawlSource.findMany({
         orderBy: [{ active: "desc" }, { name: "asc" }],
@@ -148,42 +100,35 @@ async function loadLegalCrawlerAdminDataFromDb() {
         orderBy: [{ active: "desc" }, { keyword: "asc" }],
         include: { category: { select: { name: true } } },
       }),
-      db.crawlItem.groupBy({
-        by: ["status"],
-        _count: { _all: true },
-      }),
-      db.legalUpdate.count({ where: { status: "PUBLISHED" } }),
+      Promise.all([
+        db.crawlItem.count({ where: { status: { in: ["NEW", "PENDING_REVIEW"] } } }),
+        db.crawlItem.count({ where: { status: "APPROVED" } }),
+        db.crawlItem.count({ where: { status: "REJECTED" } }),
+        db.legalUpdate.count({ where: { status: "PUBLISHED" } }),
+      ]),
     ]);
 
-  const statusCount = new Map(
-    statusGroups.map((row) => [row.status, row._count._all]),
-  );
-  const pendingReview =
-    (statusCount.get("NEW") ?? 0) + (statusCount.get("PENDING_REVIEW") ?? 0);
-
-  return {
-    metrics: {
-      pendingReview,
-      approved: statusCount.get("APPROVED") ?? 0,
-      rejected: statusCount.get("REJECTED") ?? 0,
-      publishedLegalUpdates,
-    },
-    items: items.map((item) => ({
-      id: item.id,
-      title: item.title,
-      url: item.url,
-      summary: item.summary,
-      status: item.status,
-      legalDocumentType: item.legalDocumentType,
-      documentNumber: item.documentNumber,
-      detectedKeywords: jsonArray(item.detectedKeywords),
-      detectedTopics: jsonArray(item.detectedTopics),
-      crawledAt: item.crawledAt,
-      sourceName: item.source.name,
-    })) satisfies CrawlAdminItemRow[],
-    sources: sources
-      .filter((source) => !isDisallowedCrawlDomain(source.domain))
-      .map((source) => ({
+    return {
+      metrics: {
+        pendingReview: metrics[0],
+        approved: metrics[1],
+        rejected: metrics[2],
+        publishedLegalUpdates: metrics[3],
+      },
+      items: items.map((item) => ({
+        id: item.id,
+        title: item.title,
+        url: item.url,
+        summary: item.summary,
+        status: item.status,
+        legalDocumentType: item.legalDocumentType,
+        documentNumber: item.documentNumber,
+        detectedKeywords: jsonArray(item.detectedKeywords),
+        detectedTopics: jsonArray(item.detectedTopics),
+        crawledAt: item.crawledAt,
+        sourceName: item.source.name,
+      })) satisfies CrawlAdminItemRow[],
+      sources: sources.map((source) => ({
         id: source.id,
         name: source.name,
         baseUrl: source.baseUrl,
@@ -194,49 +139,12 @@ async function loadLegalCrawlerAdminDataFromDb() {
         crawlFrequency: source.crawlFrequency,
         lastCrawledAt: source.lastCrawledAt,
       })) satisfies CrawlSourceAdminRow[],
-    keywords: keywords.map((keyword) => ({
-      id: keyword.id,
-      keyword: keyword.keyword,
-      active: keyword.active,
-      categoryName: keyword.category?.name ?? null,
-    })) satisfies CrawlKeywordAdminRow[],
-  };
-}
-
-export async function getLegalCrawlerAdminData() {
-  try {
-    const boxed = await withKvJsonCache<CrawlAdminDataJson>(
-      CACHE_KEYS.adminCrawlerQueue,
-      ADMIN_QUEUE_CACHE_TTL_SEC,
-      async () => {
-        const data = await loadLegalCrawlerAdminDataFromDb();
-        return {
-          metrics: data.metrics,
-          items: data.items.map((item) => ({
-            ...item,
-            crawledAt: item.crawledAt.toISOString(),
-          })),
-          sources: data.sources.map((source) => ({
-            ...source,
-            lastCrawledAt: source.lastCrawledAt?.toISOString() ?? null,
-          })) satisfies CrawlSourceAdminJson[],
-          keywords: data.keywords,
-        };
-      },
-    );
-    return {
-      metrics: boxed.metrics,
-      items: boxed.items.map((item) => ({
-        ...item,
-        crawledAt: new Date(item.crawledAt),
-      })) satisfies CrawlAdminItemRow[],
-      sources: boxed.sources.map((source) => ({
-        ...source,
-        lastCrawledAt: source.lastCrawledAt
-          ? new Date(source.lastCrawledAt)
-          : null,
-      })) satisfies CrawlSourceAdminRow[],
-      keywords: boxed.keywords satisfies CrawlKeywordAdminRow[],
+      keywords: keywords.map((keyword) => ({
+        id: keyword.id,
+        keyword: keyword.keyword,
+        active: keyword.active,
+        categoryName: keyword.category?.name ?? null,
+      })) satisfies CrawlKeywordAdminRow[],
     };
   } catch {
     return {
@@ -266,19 +174,7 @@ type StaticPublishedLegalUpdateRow = PublishedLegalJsonRow & {
   body: string;
 };
 
-const curatedPublishedRows = CURATED_LEGAL_UPDATES as StaticPublishedLegalUpdateRow[];
-
-const hygieneResult = applyPublishedLegalHygiene(
-  staticBhxhLegalUpdates as StaticPublishedLegalUpdateRow[],
-  { replacementCorpus: buildCuratedReplacementCorpus(CURATED_LEGAL_UPDATES) },
-);
-
-const staticPublishedRows = [
-  ...curatedPublishedRows,
-  ...hygieneResult.kept.filter(
-    (row) => !curatedPublishedRows.some((c) => c.slug === row.slug),
-  ),
-];
+const staticPublishedRows = staticBhxhLegalUpdates as StaticPublishedLegalUpdateRow[];
 
 function publishedToJson(rows: PublishedLegalUpdateRow[]): PublishedLegalJsonRow[] {
   return rows.map((r) => ({
@@ -405,57 +301,31 @@ export async function getPublishedLegalUpdateBySlug(
 export async function getPublishedLegalUpdateDetailBySlug(
   slug: string,
 ): Promise<PublishedLegalUpdateDetailRow | null> {
-  const boxed = await withKvJsonCache<
-    (PublishedLegalJsonRow & { body: string }) | null
-  >(
-    legalDetailCacheKey(slug),
-    LEGAL_DETAIL_CACHE_TTL_SEC,
-    async () => {
-      const db = getDb();
-      try {
-        const row = await db.legalUpdate.findFirst({
-          where: { status: "PUBLISHED", slug },
-        });
-        if (!row) {
-          const staticRow = loadStaticPublishedLegalUpdateDetailBySlug(slug);
-          if (!staticRow) return null;
-          return {
-            ...publishedToJson([staticRow])[0],
-            body: staticRow.body,
-          };
-        }
-        return {
-          id: row.id,
-          title: row.title,
-          slug: row.slug,
-          summary: cleanPublishedSummary(row.summary, row.title, row.body),
-          sourceUrl: row.sourceUrl,
-          sourceName: row.sourceName,
-          legalDocumentType: row.legalDocumentType,
-          documentNumber: row.documentNumber,
-          issuedDate: row.issuedDate?.toISOString() ?? null,
-          effectiveDate: row.effectiveDate?.toISOString() ?? null,
-          impactLevel: row.impactLevel,
-          affectedGroups: jsonArray(row.affectedGroups),
-          hrActionRequired: row.hrActionRequired,
-          hrActionSummary: row.hrActionSummary,
-          publishedAt: row.publishedAt?.toISOString() ?? null,
-          body: cleanPublishedBody(row.body),
-        };
-      } catch {
-        const staticRow = loadStaticPublishedLegalUpdateDetailBySlug(slug);
-        if (!staticRow) return null;
-        return {
-          ...publishedToJson([staticRow])[0],
-          body: staticRow.body,
-        };
-      }
-    },
-  );
-  if (!boxed) return null;
-  const [row] = publishedFromJson([boxed]);
-  return {
-    ...row,
-    body: boxed.body,
-  };
+  const db = getDb();
+  try {
+    const row = await db.legalUpdate.findFirst({
+      where: { status: "PUBLISHED", slug },
+    });
+    if (!row) return loadStaticPublishedLegalUpdateDetailBySlug(slug);
+    return {
+      id: row.id,
+      title: row.title,
+      slug: row.slug,
+      summary: cleanPublishedSummary(row.summary, row.title, row.body),
+      sourceUrl: row.sourceUrl,
+      sourceName: row.sourceName,
+      legalDocumentType: row.legalDocumentType,
+      documentNumber: row.documentNumber,
+      issuedDate: row.issuedDate,
+      effectiveDate: row.effectiveDate,
+      impactLevel: row.impactLevel,
+      affectedGroups: jsonArray(row.affectedGroups),
+      hrActionRequired: row.hrActionRequired,
+      hrActionSummary: row.hrActionSummary,
+      publishedAt: row.publishedAt,
+      body: cleanPublishedBody(row.body),
+    };
+  } catch {
+    return loadStaticPublishedLegalUpdateDetailBySlug(slug);
+  }
 }

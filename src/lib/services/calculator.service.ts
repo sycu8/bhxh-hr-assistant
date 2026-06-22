@@ -252,9 +252,8 @@ function buildForwardSalaryResult(
   insuranceSalaryBase: number,
   region: SalaryRegion,
   dependentCount: number,
-  rates: SocialInsuranceRates = DEFAULT_SOCIAL_INSURANCE_RATES,
 ): SalaryTaxResult {
-  const insurance = buildInsuranceBreakdown(insuranceSalaryBase, region, rates);
+  const insurance = buildInsuranceBreakdown(insuranceSalaryBase, region);
   const family = buildFamilyDeduction(dependentCount);
   const taxableIncome = Math.max(
     0,
@@ -295,9 +294,8 @@ function buildForwardSalaryResult(
 function buildSocialInsuranceModeResult(
   insuranceSalaryBase: number,
   region: SalaryRegion,
-  rates: SocialInsuranceRates = DEFAULT_SOCIAL_INSURANCE_RATES,
 ): SalaryTaxResult {
-  const insurance = buildInsuranceBreakdown(insuranceSalaryBase, region, rates);
+  const insurance = buildInsuranceBreakdown(insuranceSalaryBase, region);
 
   return {
     mode: "social-insurance",
@@ -331,7 +329,6 @@ function solveGrossFromNet(
   insuranceSalaryBase: number,
   region: SalaryRegion,
   dependentCount: number,
-  rates: SocialInsuranceRates = DEFAULT_SOCIAL_INSURANCE_RATES,
 ): SalaryTaxResult {
   let low = 0;
   let high = Math.max(targetNetSalary, insuranceSalaryBase, 1) + 10_000_000;
@@ -341,7 +338,6 @@ function solveGrossFromNet(
     insuranceSalaryBase,
     region,
     dependentCount,
-    rates,
   );
 
   while (highResult.summary.netSalary < targetNetSalary && high < 5_000_000_000) {
@@ -352,7 +348,6 @@ function solveGrossFromNet(
       insuranceSalaryBase,
       region,
       dependentCount,
-      rates,
     );
   }
 
@@ -367,7 +362,6 @@ function solveGrossFromNet(
       insuranceSalaryBase,
       region,
       dependentCount,
-      rates,
     );
     const diff = result.summary.netSalary - targetNetSalary;
     const absDiff = Math.abs(diff);
@@ -392,14 +386,8 @@ function solveGrossFromNet(
 }
 
 export class CalculatorService {
-  private readonly rates: SocialInsuranceRates;
-
-  constructor(rates?: SocialInsuranceRates) {
-    this.rates = rates ?? readRatesFromEnv();
-  }
-
   computeSocialInsuranceContribution(salaryBase: number) {
-    return computeSocialInsuranceContribution(salaryBase, this.rates);
+    return computeSocialInsuranceContribution(salaryBase, readRatesFromEnv());
   }
 
   computeSalaryTax(input: SalaryTaxInput): SalaryTaxResult {
@@ -408,7 +396,6 @@ export class CalculatorService {
         return buildSocialInsuranceModeResult(
           input.insuranceSalaryBase,
           input.region,
-          this.rates,
         );
       case "net-to-gross":
         return solveGrossFromNet(
@@ -416,7 +403,6 @@ export class CalculatorService {
           input.insuranceSalaryBase,
           input.region,
           input.dependentCount,
-          this.rates,
         );
       case "gross-to-net":
       case "take-home":
@@ -426,7 +412,6 @@ export class CalculatorService {
           input.insuranceSalaryBase,
           input.region,
           input.dependentCount,
-          this.rates,
         );
       default: {
         const exhaustive: never = input.mode;

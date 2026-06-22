@@ -41,8 +41,7 @@ export const TOPICS: TopicItem[] = [
   {
     slug: "thai-san",
     title: "Thai sản",
-    description:
-      "Nghỉ 7 tháng (nữ), chính sách FPT, trợ cấp BHXH và hồ sơ với HR.",
+    description: "Nghỉ sinh, mức hưởng và hồ sơ cần chuẩn bị.",
     icon: Baby,
   },
   {

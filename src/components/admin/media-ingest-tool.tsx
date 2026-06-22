@@ -16,6 +16,7 @@ type IngestResult = {
 };
 
 export function MediaIngestTool() {
+  const [token, setToken] = useState("");
   const [mode, setMode] = useState<"search" | "generate" | "url">("search");
   const [query, setQuery] = useState("office teamwork vietnam");
   const [prompt, setPrompt] = useState(
@@ -44,8 +45,10 @@ export function MediaIngestTool() {
 
       const res = await fetch("/api/media/ingest", {
         method: "POST",
-        credentials: "include",
-        headers: { "content-type": "application/json" },
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${token.trim()}`,
+        },
         body: JSON.stringify(body),
       });
       const json = (await res.json()) as {
@@ -69,13 +72,28 @@ export function MediaIngestTool() {
       <CardHeader>
         <CardTitle className="text-base">Ảnh trên R2 — tìm hoặc tạo</CardTitle>
         <CardDescription className="text-pretty leading-relaxed">
-          Dùng phiên CMS đã đăng nhập (quyền media:write). Cần bucket{" "}
-          <code className="rounded bg-muted px-1 text-xs">MEDIA_BUCKET</code> và{" "}
+          Cần biến môi trường{" "}
+          <code className="rounded bg-muted px-1 text-xs">MEDIA_INGEST_TOKEN</code>, bucket{" "}
+          <code className="rounded bg-muted px-1 text-xs">MEDIA_BUCKET</code>, và{" "}
           <code className="rounded bg-muted px-1 text-xs">UNSPLASH_ACCESS_KEY</code> hoặc{" "}
           <code className="rounded bg-muted px-1 text-xs">OPENAI_API_KEY</code>.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        <div className="space-y-2">
+          <label htmlFor="ingest-token" className="text-sm font-medium">
+            Mã Bearer (token)
+          </label>
+          <Input
+            id="ingest-token"
+            type="password"
+            autoComplete="off"
+            placeholder="Dán MEDIA_INGEST_TOKEN"
+            value={token}
+            onChange={(e) => setToken(e.target.value)}
+            className="min-h-11 text-base sm:text-sm"
+          />
+        </div>
         <div className="space-y-2">
           <span className="text-sm font-medium">Chế độ</span>
           <select
@@ -127,7 +145,7 @@ export function MediaIngestTool() {
         {mode === "url" ? (
           <div className="space-y-2">
             <label htmlFor="ingest-url" className="text-sm font-medium">
-              URL ảnh (HTTPS, không phải IP nội bộ)
+              URL ảnh
             </label>
             <Input
               id="ingest-url"

@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "FAQ đã duyệt",
   description:
-    "Danh sách câu hỏi thường gặp đã duyệt, kèm trích nguồn để đối chiếu khi tra cứu nội bộ FPT Telecom.",
+    "Danh sách câu hỏi thường gặp đã duyệt, kèm trích nguồn để đối chiếu khi tra cứu nội bộ FTI.",
 };
 
 export default async function FaqListPage() {

@@ -1,6 +1,14 @@
+import Link from "next/link";
 import type { Metadata } from "next";
-import { Plus } from "lucide-react";
-import { SaveActivateForm } from "@/components/admin/save-activate-form";
+import {
+  Archive,
+  CheckCircle2,
+  ExternalLink,
+  Play,
+  Plus,
+  XCircle,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,17 +19,18 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { AdminActionForm } from "@/components/admin/admin-action-form";
-import { CrawlSubmitButton } from "@/components/admin/crawl-submit-button";
-import { CrawlReviewQueue } from "@/components/admin/crawl-review-queue";
-import { requirePermission } from "@/lib/auth/require-admin";
-import { getLegalCrawlerAdminData } from "@/lib/db/crawl-queries";
+import {
+  getLegalCrawlerAdminData,
+  type CrawlAdminItemRow,
+} from "@/lib/db/crawl-queries";
 import {
   addCrawlKeywordAction,
+  approveCrawlItemAction,
+  archiveCrawlItemAction,
   crawlManualUrlAction,
+  rejectCrawlItemAction,
   runCrawlAllSourcesAction,
   runCrawlForSourceAction,
-  purgeExpiredCrawlQueueAction,
   toggleCrawlKeywordAction,
   toggleCrawlSourceAction,
 } from "./actions";
@@ -33,6 +42,32 @@ export const metadata: Metadata = {
   description: "Thu thập và duyệt nguồn pháp luật chính thống.",
 };
 
+const IMPACT_LABEL_VI: Record<string, string> = {
+  LOW: "Thấp",
+  MEDIUM: "Trung bình",
+  HIGH: "Cao",
+};
+
+const CRAWL_STATUS_VI: Record<string, string> = {
+  NEW: "Mới",
+  PENDING_REVIEW: "Chờ duyệt",
+  APPROVED: "Đã duyệt",
+  REJECTED: "Đã từ chối",
+  ARCHIVED: "Đã lưu trữ",
+};
+
+const GROUP_LABEL_VI: Record<string, string> = {
+  EMPLOYEE: "Người lao động",
+  HR: "Bộ phận HR",
+  EMPLOYER: "Người sử dụng lao động",
+  PROBATION: "Thử việc",
+  OFFICIAL: "Văn bản chính thống",
+  MANAGER: "Quản lý",
+};
+
+const impactOptions = ["LOW", "MEDIUM", "HIGH"] as const;
+const affectedGroups = ["EMPLOYEE", "HR", "EMPLOYER", "PROBATION", "OFFICIAL", "MANAGER"];
+
 function formatDate(d: Date | null) {
   if (!d) return "Chưa chạy";
   return new Intl.DateTimeFormat("vi-VN", {
@@ -41,8 +76,115 @@ function formatDate(d: Date | null) {
   }).format(d);
 }
 
+function ReviewCard({ item }: { item: CrawlAdminItemRow }) {
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+          <div className="space-y-2">
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline">{item.sourceName}</Badge>
+              <Badge>{CRAWL_STATUS_VI[item.status] ?? item.status}</Badge>
+              {item.legalDocumentType ? (
+                <Badge variant="secondary">{item.legalDocumentType}</Badge>
+              ) : null}
+            </div>
+            <CardTitle className="text-base leading-snug">{item.title}</CardTitle>
+            <CardDescription>
+              Thu thập lúc {formatDate(item.crawledAt)}
+              {item.documentNumber ? ` · ${item.documentNumber}` : ""}
+            </CardDescription>
+          </div>
+          <Button variant="outline" size="sm" asChild>
+            <Link href={item.url} target="_blank" rel="noopener noreferrer">
+              <ExternalLink className="mr-2 h-4 w-4" />
+              Mở nguồn
+            </Link>
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-5">
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          {item.summary ?? "Chưa có tóm tắt."}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {item.detectedKeywords.slice(0, 10).map((keyword) => (
+            <Badge key={keyword} variant="outline">
+              {keyword}
+            </Badge>
+          ))}
+          {item.detectedTopics.map((topic) => (
+            <Badge key={topic} variant="secondary">
+              {topic}
+            </Badge>
+          ))}
+        </div>
+
+        <form action={approveCrawlItemAction} className="space-y-4 rounded-md border p-4">
+          <input type="hidden" name="itemId" value={item.id} />
+          <div className="grid gap-3 md:grid-cols-[160px_1fr]">
+            <label className="text-sm font-medium" htmlFor={`impact-${item.id}`}>
+              Mức ảnh hưởng
+            </label>
+            <select
+              id={`impact-${item.id}`}
+              name="impactLevel"
+              defaultValue="MEDIUM"
+              className="h-9 rounded-md border bg-background px-3 text-sm"
+            >
+              {impactOptions.map((impact) => (
+                <option key={impact} value={impact}>
+                  {IMPACT_LABEL_VI[impact] ?? impact}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="grid gap-3 md:grid-cols-[160px_1fr]">
+            <span className="text-sm font-medium">Nhóm ảnh hưởng</span>
+            <div className="flex flex-wrap gap-3 text-sm">
+              {affectedGroups.map((group) => (
+                <label key={group} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    name="affectedGroups"
+                    value={group}
+                    defaultChecked={group === "HR"}
+                  />
+                  {GROUP_LABEL_VI[group] ?? group}
+                </label>
+              ))}
+            </div>
+          </div>
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" name="hrActionRequired" />
+            Cần HR/C&amp;B xử lý
+          </label>
+          <Input
+            name="hrActionSummary"
+            placeholder="Tóm tắt việc HR cần làm, nếu có"
+          />
+          <Input name="note" placeholder="Ghi chú duyệt" />
+          <div className="flex flex-wrap gap-2">
+            <Button type="submit" size="sm">
+              <CheckCircle2 className="mr-2 h-4 w-4" />
+              Duyệt và xuất bản
+            </Button>
+            <Button formAction={rejectCrawlItemAction} variant="outline" size="sm">
+              <XCircle className="mr-2 h-4 w-4" />
+              Từ chối
+            </Button>
+            <Button formAction={archiveCrawlItemAction} variant="ghost" size="sm">
+              <Archive className="mr-2 h-4 w-4" />
+              Lưu trữ
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default async function LegalCrawlerAdminPage() {
-  await requirePermission("legal:read");
   const data = await getLegalCrawlerAdminData();
 
   return (
@@ -58,13 +200,12 @@ export default async function LegalCrawlerAdminPage() {
             ngày lúc 06:00 (giờ Việt Nam).
           </p>
         </div>
-        <AdminActionForm action={runCrawlAllSourcesAction}>
-          <CrawlSubmitButton
-            idleLabel="Thu thập từ mọi nguồn đang bật"
-            variant="default"
-            size="default"
-          />
-        </AdminActionForm>
+        <form action={runCrawlAllSourcesAction}>
+          <Button type="submit">
+            <Play className="mr-2 h-4 w-4" />
+            Thu thập từ mọi nguồn đang bật
+          </Button>
+        </form>
       </div>
 
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -89,15 +230,7 @@ export default async function LegalCrawlerAdminPage() {
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)]">
         <section className="min-w-0 space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold">Hàng chờ duyệt</h2>
-            <AdminActionForm action={purgeExpiredCrawlQueueAction}>
-              <input type="hidden" name="mode" value="superseded" />
-              <Button type="submit" variant="outline" size="sm">
-                Dọn văn bản đã thay thế
-              </Button>
-            </AdminActionForm>
-          </div>
+          <h2 className="text-lg font-semibold">Hàng chờ duyệt</h2>
           {data.items.length === 0 ? (
             <Card>
               <CardContent className="py-8 text-sm text-muted-foreground">
@@ -105,7 +238,7 @@ export default async function LegalCrawlerAdminPage() {
               </CardContent>
             </Card>
           ) : (
-            <CrawlReviewQueue items={data.items} />
+            data.items.map((item) => <ReviewCard key={item.id} item={item} />)
           )}
         </section>
 
@@ -118,7 +251,7 @@ export default async function LegalCrawlerAdminPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <AdminActionForm action={crawlManualUrlAction} className="space-y-3">
+              <form action={crawlManualUrlAction} className="space-y-3">
                 <select
                   name="sourceId"
                   className="h-9 w-full rounded-md border bg-background px-3 text-sm"
@@ -131,24 +264,17 @@ export default async function LegalCrawlerAdminPage() {
                   ))}
                 </select>
                 <Input name="url" type="url" placeholder="https://…" required />
-                <CrawlSubmitButton
-                  idleLabel="Tải về và đưa vào hàng chờ"
-                  pendingLabel="Đang tải…"
-                  fullWidth
-                  variant="default"
-                  size="default"
-                />
-              </AdminActionForm>
+                <Button type="submit" className="w-full">
+                  Tải về và đưa vào hàng chờ
+                </Button>
+              </form>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Nguồn thu thập</CardTitle>
-              <CardDescription>
-                Chỉ nguồn BHXH/BHYT/BHTN, lao động và quyền lợi người lao động. Bật/tắt hoặc
-                chạy từng nguồn.
-              </CardDescription>
+              <CardDescription>Bật/tắt nguồn chính thống hoặc chạy từng nguồn.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {data.sources.map((source) => (
@@ -163,7 +289,7 @@ export default async function LegalCrawlerAdminPage() {
                         Lần thu thập gần nhất: {formatDate(source.lastCrawledAt)}
                       </p>
                     </div>
-                    <SaveActivateForm action={toggleCrawlSourceAction}>
+                    <form action={toggleCrawlSourceAction}>
                       <input type="hidden" name="sourceId" value={source.id} />
                       <label className="flex items-center gap-2 text-xs">
                         <input
@@ -176,12 +302,15 @@ export default async function LegalCrawlerAdminPage() {
                       <Button type="submit" variant="ghost" size="sm">
                         Lưu
                       </Button>
-                    </SaveActivateForm>
+                    </form>
                   </div>
-                  <AdminActionForm action={runCrawlForSourceAction}>
+                  <form action={runCrawlForSourceAction}>
                     <input type="hidden" name="sourceId" value={source.id} />
-                    <CrawlSubmitButton idleLabel="Thu thập từ nguồn này" />
-                  </AdminActionForm>
+                    <Button type="submit" variant="outline" size="sm">
+                      <Play className="mr-2 h-4 w-4" />
+                      Thu thập từ nguồn này
+                    </Button>
+                  </form>
                   <Separator />
                 </div>
               ))}
@@ -204,7 +333,7 @@ export default async function LegalCrawlerAdminPage() {
               </form>
               <div className="max-h-96 space-y-2 overflow-auto pr-1">
                 {data.keywords.map((keyword) => (
-                  <SaveActivateForm
+                  <form
                     action={toggleCrawlKeywordAction}
                     key={keyword.id}
                     className="flex items-center justify-between gap-3 rounded-md border px-3 py-2"
@@ -229,7 +358,7 @@ export default async function LegalCrawlerAdminPage() {
                     <Button type="submit" variant="ghost" size="sm">
                       Lưu
                     </Button>
-                  </SaveActivateForm>
+                  </form>
                 ))}
               </div>
             </CardContent>

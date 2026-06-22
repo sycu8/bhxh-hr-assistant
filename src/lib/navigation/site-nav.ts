@@ -12,10 +12,10 @@ export const PRIMARY_NAV: SiteNavLink[] = [
   { href: "/ask-hr", label: "Hỏi HR", shortLabel: "HR", cta: true },
 ];
 
-/** Màn rộng: thêm trực tiếp, không cần menu Khác. */
+/** Màn rộng: thêm trực tiếp, không cần menu Thêm. */
 export const DESKTOP_EXTRA_NAV: SiteNavLink[] = [
   { href: "/legal-updates", label: "Pháp luật", shortLabel: "PL" },
-  { href: "/calculators", label: "Công cụ", shortLabel: "Công cụ" },
+  { href: "/calculators", label: "Công cụ NV", shortLabel: "Công cụ" },
 ];
 
 /** Gom các mục ít dùng / quản trị. */
@@ -26,10 +26,11 @@ export const MORE_NAV: SiteNavLink[] = [
   { href: "/cong-cu-luong-thue", label: "Tính lương" },
   { href: "/calculators/luong-co-ban", label: "Lương cơ bản" },
   { href: "/calculators/chinh-sach-mien-giam", label: "Miễn giảm" },
+  { href: "/admin", label: "Quản trị" },
 ];
 
 export const FOOTER_NAV: SiteNavLink[] = [
   { href: "/nguon-phap-luat", label: "Mục lục nguồn" },
   { href: "/legal-updates", label: "Cập nhật pháp luật" },
-  { href: "/topics", label: "Chủ đề quyền lợi" },
+  { href: "/admin", label: "Quản trị" },
 ];

@@ -2,9 +2,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { HR_CONTACT_EMAIL } from "@/lib/copy/hr-contact";
 import type { AskHrSendInput } from "@/lib/validators/ask-hr.schema";
 
-export type HrInquiryEmailPayload = AskHrSendInput & {
-  ticketNumber?: string;
-};
+export type HrInquiryEmailPayload = AskHrSendInput;
 
 type EmailSendBinding = {
   send(message: {
@@ -69,8 +67,7 @@ function buildMessage(payload: HrInquiryEmailPayload) {
   const replyEmail = payload.replyEmail.trim();
 
   const text = [
-    "[Hỏi HR/C&B — Cổng tra cứu bảo hiểm FPT Telecom]",
-    payload.ticketNumber ? `Mã ticket: ${payload.ticketNumber}` : null,
+    "[Hỏi HR/C&B — Cổng tra cứu bảo hiểm FTI]",
     `Chủ đề: ${topicLabel}`,
     `Mức khẩn: ${urgentLabel}`,
     `Email phản hồi: ${replyEmail}`,
@@ -83,9 +80,8 @@ function buildMessage(payload: HrInquiryEmailPayload) {
     .join("\n");
 
   const html = `
-    <p><strong>[Hỏi HR/C&amp;B — Cổng tra cứu bảo hiểm FPT Telecom]</strong></p>
+    <p><strong>[Hỏi HR/C&amp;B — Cổng tra cứu bảo hiểm FTI]</strong></p>
     <ul>
-      ${payload.ticketNumber ? `<li><strong>Mã ticket:</strong> ${escapeHtml(payload.ticketNumber)}</li>` : ""}
       <li><strong>Chủ đề:</strong> ${topicLabel}</li>
       <li><strong>Mức khẩn:</strong> ${urgentLabel}</li>
       <li><strong>Email phản hồi:</strong> <a href="mailto:${replyEmail}">${replyEmail}</a></li>
@@ -123,7 +119,7 @@ async function sendViaBinding(
 
   return env.EMAIL.send({
     to: HR_CONTACT_EMAIL,
-    from: { email: from, name: "Cổng bảo hiểm FPT Telecom" },
+    from: { email: from, name: "Cổng bảo hiểm FTI" },
     subject: message.subject,
     text: message.text,
     html: message.html,
@@ -154,7 +150,7 @@ async function sendViaRestApi(
       },
       body: JSON.stringify({
         to: HR_CONTACT_EMAIL,
-        from: { address: from, name: "Cổng bảo hiểm FPT Telecom" },
+        from: { address: from, name: "Cổng bảo hiểm FTI" },
         subject: message.subject,
         text: message.text,
         html: message.html,
