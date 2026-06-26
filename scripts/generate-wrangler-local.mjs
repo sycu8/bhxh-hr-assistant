@@ -7,12 +7,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { config } from "dotenv";
+import { config as loadDotenv } from "dotenv";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outPath = path.join(root, "wrangler.local.jsonc");
 
-config({ path: path.join(root, ".env") });
+loadDotenv({ path: path.join(root, ".env") });
 
 /** Đọc giá trị string từ wrangler.local.jsonc hiện có (jsonc đơn giản). */
 function readExistingLocalVar(name) {
