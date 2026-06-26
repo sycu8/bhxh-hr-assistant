@@ -23,7 +23,6 @@ import {
   enforcePublicApiRateLimit,
   PUBLIC_API_RATE_LIMIT_PATHS,
 } from "@/lib/security/edge-rate-limits";
-import { asRateLimitKv } from "@/lib/security/rate-limit-kv-adapter";
 
 const EMPLOYEE_PROTECTED_PREFIXES = [
   "/my-hr",
