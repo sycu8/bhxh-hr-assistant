@@ -2,13 +2,25 @@
 /**
  * Generate wrangler.local.jsonc for deploy (local or CI).
  * Binding IDs are resource identifiers — override via env if needed.
+ * Giữ HR_EMAIL_FROM từ file hiện có / .env — tránh ghi đè bằng placeholder khi deploy.
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { config } from "dotenv";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outPath = path.join(root, "wrangler.local.jsonc");
+
+config({ path: path.join(root, ".env") });
+
+/** Đọc giá trị string từ wrangler.local.jsonc hiện có (jsonc đơn giản). */
+function readExistingLocalVar(name) {
+  if (!fs.existsSync(outPath)) return undefined;
+  const text = fs.readFileSync(outPath, "utf8");
+  const match = text.match(new RegExp(`"${name}"\\s*:\\s*"([^"]+)"`));
+  return match?.[1]?.trim() || undefined;
+}
 
 const accountId =
   process.env.CLOUDFLARE_ACCOUNT_ID?.trim() ||
@@ -33,11 +45,23 @@ const r2Bucket =
   process.env.WRANGLER_R2_BUCKET?.trim() || "vn-insurance-fti-media";
 const cronBase =
   process.env.CRON_WORKER_BASE_URL?.trim() ||
-  "https://vn-insurance-fti.sycu-lee.workers.dev";
+  readExistingLocalVar("CRON_WORKER_BASE_URL") ||
+  "https://bhxh.orangecloud.vn";
 const hrFrom =
-  process.env.HR_EMAIL_FROM?.trim() || "noreply@your-verified-domain.com";
+  process.env.HR_EMAIL_FROM?.trim() ||
+  readExistingLocalVar("HR_EMAIL_FROM") ||
+  "noreply@orangecloud.vn";
 const hrContact =
-  process.env.HR_CONTACT_EMAIL?.trim() || "hr-cnb@your-company.com";
+  process.env.HR_CONTACT_EMAIL?.trim() ||
+  readExistingLocalVar("HR_CONTACT_EMAIL") ||
+  "hr-cnb@your-company.com";
+
+if (hrFrom.includes("your-verified-domain")) {
+  console.error(
+    "generate-wrangler-local: HR_EMAIL_FROM vẫn là placeholder — đặt noreply@<domain-đã-onboard-Email-Sending> trong .env hoặc wrangler.local.jsonc",
+  );
+  process.exit(1);
+}
 const turnstileSite =
   process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ||
   "1x00000000000000000000AA";

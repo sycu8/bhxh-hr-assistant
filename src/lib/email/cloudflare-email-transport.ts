@@ -31,6 +31,18 @@ export function resolveCloudflareEmailEnv(): CloudflareEmailEnv {
   }
 }
 
+const PLACEHOLDER_FROM_MARKERS = [
+  "your-verified-domain",
+  "yourdomain.com",
+  "example.com",
+] as const;
+
+export function isPlaceholderHrEmailFrom(from: string): boolean {
+  const lower = from.trim().toLowerCase();
+  if (!lower || !lower.includes("@")) return true;
+  return PLACEHOLDER_FROM_MARKERS.some((marker) => lower.includes(marker));
+}
+
 export function resolveHrEmailFrom(env: CloudflareEmailEnv = resolveCloudflareEmailEnv()): string {
   const from =
     env.HR_EMAIL_FROM?.trim() || process.env.HR_EMAIL_FROM?.trim() || "";
@@ -39,7 +51,34 @@ export function resolveHrEmailFrom(env: CloudflareEmailEnv = resolveCloudflareEm
       "Chưa cấu hình HR_EMAIL_FROM (địa chỉ gửi đã xác minh trên Cloudflare Email).",
     );
   }
+  if (isPlaceholderHrEmailFrom(from)) {
+    throw new Error(
+      `HR_EMAIL_FROM không hợp lệ (${from}). Cần địa chỉ @domain đã onboard Email Sending trên Cloudflare (ví dụ noreply@orangecloud.vn).`,
+    );
+  }
   return from;
+}
+
+/** Chuyển mã lỗi Cloudflare Email sang thông báo tiếng Việt cho người dùng / log. */
+export function formatCloudflareEmailError(detail: string): string {
+  const d = detail.toLowerCase();
+  if (
+    d.includes("email.sending.error.email.invalid") ||
+    d.includes("e_sender_not_verified") ||
+    d.includes("e_sender_domain_not_available")
+  ) {
+    return (
+      "Địa chỉ gửi (HR_EMAIL_FROM) chưa được xác minh trên Cloudflare Email Sending. " +
+      "Kiểm tra domain đã onboard và Worker var HR_EMAIL_FROM (ví dụ noreply@orangecloud.vn)."
+    );
+  }
+  if (d.includes("e_recipient_not_allowed")) {
+    return "Địa chỉ nhận không nằm trong danh sách cho phép của binding Email.";
+  }
+  if (d.includes("e_recipient_suppressed")) {
+    return "Địa chỉ nhận đang bị chặn (bounce/spam suppression).";
+  }
+  return detail;
 }
 
 export type SendCloudflareEmailInput = {
@@ -109,10 +148,10 @@ async function sendViaRestApi(
   };
 
   if (!response.ok || !body.success) {
-    const detail =
+    const raw =
       body.errors?.map((e) => e.message).filter(Boolean).join("; ") ||
       `HTTP ${response.status}`;
-    throw new Error(detail);
+    throw new Error(formatCloudflareEmailError(raw));
   }
 
   return {
@@ -132,7 +171,26 @@ export async function sendCloudflareEmail(input: SendCloudflareEmailInput) {
     }
     return await sendViaRestApi(env, from, input);
   } catch (bindingError) {
-    if (!env.CLOUDFLARE_EMAIL_API_TOKEN) throw bindingError;
-    return sendViaRestApi(env, from, input);
+    const bindingMessage =
+      bindingError instanceof Error ? bindingError.message : String(bindingError);
+    const bindingCode =
+      bindingError &&
+      typeof bindingError === "object" &&
+      "code" in bindingError
+        ? String((bindingError as { code?: string }).code ?? "")
+        : "";
+    const formattedBinding = formatCloudflareEmailError(
+      [bindingCode, bindingMessage].filter(Boolean).join(" "),
+    );
+    if (!env.CLOUDFLARE_EMAIL_API_TOKEN) {
+      throw new Error(formattedBinding);
+    }
+    try {
+      return await sendViaRestApi(env, from, input);
+    } catch (restError) {
+      const restMessage =
+        restError instanceof Error ? restError.message : String(restError);
+      throw new Error(formatCloudflareEmailError(restMessage));
+    }
   }
 }

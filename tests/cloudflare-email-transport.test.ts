@@ -1,5 +1,28 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { sendCloudflareEmail } from "@/lib/email/cloudflare-email-transport";
+import {
+  formatCloudflareEmailError,
+  isPlaceholderHrEmailFrom,
+  resolveHrEmailFrom,
+  sendCloudflareEmail,
+} from "@/lib/email/cloudflare-email-transport";
+
+describe("HR email from validation", () => {
+  afterEach(() => {
+    delete process.env.HR_EMAIL_FROM;
+  });
+
+  it("rejects placeholder HR_EMAIL_FROM", () => {
+    process.env.HR_EMAIL_FROM = "noreply@your-verified-domain.com";
+    expect(isPlaceholderHrEmailFrom(process.env.HR_EMAIL_FROM)).toBe(true);
+    expect(() => resolveHrEmailFrom()).toThrow(/HR_EMAIL_FROM không hợp lệ/);
+  });
+
+  it("maps Cloudflare invalid sender errors", () => {
+    expect(
+      formatCloudflareEmailError("email.sending.error.email.invalid"),
+    ).toMatch(/HR_EMAIL_FROM/);
+  });
+});
 
 describe("sendCloudflareEmail", () => {
   afterEach(() => {
