@@ -4,9 +4,7 @@
 
 **Production / UAT:** https://bhxh.orangecloud.vn/ (Workers: `vn-insurance-fti.sycu-lee.workers.dev`)
 
-**Release (2026-06-26):** Cổng HR self-service — OTP `/login`, shell nhân viên (`/my-hr`, `/time`, `/pay`, `/approvals`), HR Console (`/hr`), hub `/bao-hiem`, `/developers` + OpenAPI, fix OTP email & middleware Edge 1101. Kế hoạch: [docs/ROADMAP.md](docs/ROADMAP.md).
-
-**Trước đó (2026-06-21):** scenarios S1–S5, page-load p50 &lt; 50 ms, SEO/GEO JSON-LD — `pnpm test:scenarios`, `pnpm bench:pages`, `pnpm audit:seo-geo`.
+**Release (2026-06-26):** `main` @ `4b12a67` — HR portal + QA roadmap + CI test workflows. Worker version `3b287ff3-25cc-491e-8123-26e76d41ba91`. Cổng HR (OTP `/login`, `/my-hr`, `/hr`), `/developers` + OpenAPI, `docker-compose` QA, UAT streak 15.
 
 Repository: [github.com/sycu8/bhxh-hr-assistant](https://github.com/sycu8/bhxh-hr-assistant)
 
