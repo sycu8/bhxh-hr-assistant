@@ -1,0 +1,15 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "vn-insurance-fti-db-introspect",
+  "account_id": "4c15704ef706b9c8954cd6f9feb678d8",
+  "main": "hyperdrive-introspect-worker.ts",
+  "compatibility_date": "2026-05-11",
+  "compatibility_flags": ["nodejs_compat"],
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "7729796d48d04475943be240b24f38cf",
+      "localConnectionString": "postgresql://postgres:postgres@127.0.0.1:5432/postgres"
+    }
+  ]
+}

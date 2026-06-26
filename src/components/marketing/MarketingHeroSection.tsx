@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpenCheck, MessageSquareText } from "lucide-react";
+import { ArrowRight, BookOpenCheck, MessageSquareText, Sparkles } from "lucide-react";
 import { HomeHeroSearch } from "@/components/home/home-hero-search";
 import { EmployeeJourney } from "@/components/portal/employee-journey";
 import { Button } from "@/components/ui/button";
@@ -11,12 +11,17 @@ export function MarketingHeroSection() {
       <div className="relative mx-auto max-w-6xl px-4 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-14 lg:pb-20">
         <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-10">
           <div className="min-w-0">
-            <h1 className="max-w-3xl text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-[3rem] lg:leading-[1.08]">
-              Tìm hiểu về bảo hiểm theo cách dễ hiểu
+            <p className="inline-flex items-center gap-2 rounded-full border border-sky-200/80 bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-900">
+              <Sparkles className="h-3.5 w-3.5" aria-hidden />
+              Cổng HR · Bảo hiểm · Self-service
+            </p>
+            <h1 className="mt-4 max-w-3xl text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-[3rem] lg:leading-[1.08]">
+              Một cổng cho nhân viên FPT Telecom
             </h1>
             <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Nhập tình huống của bạn. Hệ thống trả lời theo tài liệu đã duyệt,
-              chỉ rõ mức tin cậy, nguồn căn cứ và khi nào cần hỏi HR/C&amp;B.
+              Tra cứu BHXH/BHYT/BHTN có nguồn căn cứ, đồng thời đăng nhập để xem
+              hồ sơ, nghỉ phép, phiếu lương và gửi yêu cầu HR — trên mobile hoặc
+              desktop.
             </p>
 
             <div className="mt-7 max-w-3xl">
@@ -37,13 +42,13 @@ export function MarketingHeroSection() {
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-stretch">
               <Button asChild variant="cta" size="touch" className="w-full sm:flex-1">
-                <Link href="/search">
-                  Đến trang câu trả lời
+                <Link href="/login">
+                  Vào Cổng HR
                   <ArrowRight className="h-5 w-5" aria-hidden />
                 </Link>
               </Button>
               <Button asChild variant="ctaSecondary" size="touch" className="w-full sm:flex-1">
-                <Link href="/hoi-dap">Xem câu hỏi thường gặp</Link>
+                <Link href="/search">Tra cứu bảo hiểm</Link>
               </Button>
               <Button
                 asChild
@@ -51,7 +56,7 @@ export function MarketingHeroSection() {
                 size="touch"
                 className="w-full border-sky-200 bg-white/90 sm:w-auto"
               >
-                <Link href="/nguon-phap-luat">Nguồn tham khảo</Link>
+                <Link href="/bao-hiem">Khu vực BHXH</Link>
               </Button>
             </div>
           </div>

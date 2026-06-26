@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FormattedAnswerText } from "@/components/portal/formatted-answer-text";
 import type { CuratedFaq } from "@/lib/data/curated-faqs";
 import { getCuratedFaqBySlug } from "@/lib/data/curated-faqs";
 import { SOURCE_LABEL_COPY } from "@/lib/copy/source-labels";
@@ -50,8 +51,8 @@ export function FaqDetailView({ faq, topicTitle }: Props) {
         <CardHeader className="pb-2">
           <CardTitle className="text-base text-sky-950">Trả lời ngắn</CardTitle>
         </CardHeader>
-        <CardContent className="text-base leading-relaxed text-sky-950">
-          {faq.answer}
+        <CardContent>
+          <FormattedAnswerText text={faq.answer} className="text-sky-950" />
         </CardContent>
       </Card>
 

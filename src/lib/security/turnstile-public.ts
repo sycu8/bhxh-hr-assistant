@@ -4,5 +4,11 @@ export function getTurnstileSiteKey(): string | undefined {
 }
 
 export function isTurnstileRequiredOnClient(): boolean {
+  if (
+    process.env.E2E_TEST_MODE === "1" ||
+    process.env.NEXT_PUBLIC_E2E_TEST_MODE === "1"
+  ) {
+    return false;
+  }
   return Boolean(getTurnstileSiteKey());
 }

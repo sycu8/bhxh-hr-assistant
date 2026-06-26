@@ -18,6 +18,7 @@ import {
   Scale,
   ShieldCheck,
 } from "lucide-react";
+import { FormattedAnswerText } from "@/components/portal/formatted-answer-text";
 
 const confidenceBadge: Record<
   ConfidenceLevelDto,
@@ -69,9 +70,7 @@ export function AnswerCard({ answer }: { answer: AnswerCardDto }) {
         <section>
           {readyPageHref ? (
             <div className="space-y-3">
-              <p className="text-base leading-relaxed text-foreground">
-                {answer.shortAnswer}
-              </p>
+              <FormattedAnswerText text={answer.shortAnswer} />
               <Button asChild variant="cta" size="touch" className="w-full sm:w-auto">
                 <Link href={readyPageHref}>
                   Đọc trang FAQ đầy đủ
@@ -80,9 +79,7 @@ export function AnswerCard({ answer }: { answer: AnswerCardDto }) {
               </Button>
             </div>
           ) : (
-            <p className="text-base leading-relaxed text-foreground">
-              {answer.shortAnswer}
-            </p>
+            <FormattedAnswerText text={answer.shortAnswer} />
           )}
         </section>
 

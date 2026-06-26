@@ -15,7 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { HR_CONTACT_EMAIL } from "@/lib/copy/hr-contact";
 import {
   ASK_HR_TOPIC_VALUES,
   ASK_HR_URGENT_VALUES,
@@ -41,6 +40,7 @@ const URGENT_LABELS: Record<AskHrUrgentValue, string> = {
 };
 
 type AskHrFormProps = {
+  hrContactEmail: string;
   initialQuestion?: string;
   initialDetail?: string;
   initialTopic?: string;
@@ -53,6 +53,7 @@ function RequiredMark() {
 }
 
 export function AskHrForm({
+  hrContactEmail,
   initialQuestion,
   initialDetail,
   initialTopic,
@@ -140,12 +141,12 @@ export function AskHrForm({
           <CardDescription className="text-pretty leading-relaxed text-emerald-900/80">
             {ticketNumber ? (
               <>
-                Mã ticket: <strong>{ticketNumber}</strong>. HR/C&amp;B ({HR_CONTACT_EMAIL})
+                Mã ticket: <strong>{ticketNumber}</strong>. HR/C&amp;B ({hrContactEmail})
                 sẽ xử lý và phản hồi qua email công ty bạn đã nhập.
               </>
             ) : (
               <>
-                Câu hỏi của bạn đã được ghi nhận. HR/C&amp;B ({HR_CONTACT_EMAIL}) sẽ
+                Câu hỏi của bạn đã được ghi nhận. HR/C&amp;B ({hrContactEmail}) sẽ
                 phản hồi qua email công ty khi xử lý xong.
               </>
             )}
@@ -183,7 +184,7 @@ export function AskHrForm({
         <CardDescription className="text-pretty leading-relaxed">
           Điền đủ các trường bắt buộc (<RequiredMark />) để nút gửi được bật. Giữ câu
           hỏi ngắn gọn; không nhập mã BHXH, CCCD, chi tiết lương hoặc bệnh án nếu
-          không cần. Email gửi qua Cloudflare tới {HR_CONTACT_EMAIL}.
+          không cần. Email gửi qua Cloudflare tới {hrContactEmail}.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -307,7 +308,7 @@ export function AskHrForm({
             />
             <span>
               Tôi xác nhận không nhập thông tin nhạy cảm nếu không cần thiết. Email
-              sẽ gửi tới HR/C&amp;B ({HR_CONTACT_EMAIL}).
+              sẽ gửi tới HR/C&amp;B ({hrContactEmail}).
             </span>
           </label>
 

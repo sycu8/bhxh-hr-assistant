@@ -1,0 +1,23 @@
+# Postgres local cho QA / E2E portal (production-like).
+# Usage: docker compose up -d && pnpm qa:setup
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: vn-insurance-fti-qa-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: vn_insurance_fti_qa
+    ports:
+      - "5432:5432"
+    volumes:
+      - vn_insurance_fti_qa_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d vn_insurance_fti_qa"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  vn_insurance_fti_qa_pg:

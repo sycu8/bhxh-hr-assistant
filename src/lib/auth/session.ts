@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { SessionType } from "@prisma/client";
 import type { User, UserRole } from "@prisma/client";
 import { getDb } from "@/lib/db/prisma";
 import {
@@ -24,6 +25,7 @@ export async function createUserSession(user: AuthUser): Promise<string> {
     data: {
       userId: user.id,
       tokenHash,
+      sessionType: SessionType.CMS,
       expiresAt,
     },
   });
@@ -58,7 +60,8 @@ export async function getSessionUser(): Promise<AuthUser | null> {
     include: { user: true },
   });
 
-  if (!session || session.expiresAt < new Date()) return null;
+  if (!session || session.sessionType !== SessionType.CMS) return null;
+  if (session.expiresAt < new Date()) return null;
   if (session.tokenHash !== (await hashSessionToken(rawToken))) return null;
   if (!session.user.isActive) return null;
   if (!canAccessAdmin(session.user.role)) return null;

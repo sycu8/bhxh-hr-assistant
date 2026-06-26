@@ -17,11 +17,15 @@ export default defineConfig({
     trace: "on-first-retry",
     locale: "vi-VN",
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "mobile-chrome", use: { ...devices["Pixel 7"] } },
+  ],
   webServer: process.env.PLAYWRIGHT_SKIP_WEBSERVER
     ? undefined
     : {
-        command: "node scripts/start-e2e-server.mjs",
+        command:
+          "node scripts/prepare-e2e-build.mjs && node scripts/start-e2e-server.mjs",
         /** Route động hay lỗi nếu build cũ — dùng làm health check. */
         url: `${baseURL}/cong-cu-luong-thue`,
         reuseExistingServer: false,

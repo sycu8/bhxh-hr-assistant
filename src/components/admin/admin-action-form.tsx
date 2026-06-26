@@ -9,8 +9,8 @@ import {
   useTransition,
   type ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
 import type { ActionFeedback } from "@/lib/admin/action-feedback";
+import { useDebouncedRouterRefresh } from "@/hooks/use-debounced-router-refresh";
 import {
   ActionToast,
   type ActionToastVariant,
@@ -37,7 +37,7 @@ export function AdminActionForm({
   className,
   successMessage = "Lưu thành công",
 }: AdminActionFormProps) {
-  const router = useRouter();
+  const refreshPage = useDebouncedRouterRefresh();
   const [pending, startTransition] = useTransition();
   const [toast, setToast] = useState<{
     message: string;
@@ -61,7 +61,7 @@ export function AdminActionForm({
             message: result?.message ?? successMessage,
             variant: result?.variant ?? "success",
           });
-          router.refresh();
+          refreshPage();
         } catch (err) {
           setToast({
             message:
@@ -73,7 +73,7 @@ export function AdminActionForm({
         }
       });
     },
-    [action, router, successMessage],
+    [action, refreshPage, successMessage],
   );
 
   return (

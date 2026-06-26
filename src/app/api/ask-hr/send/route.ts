@@ -1,5 +1,6 @@
 import { created, parseJsonBody, withApiHandler } from "@/lib/api/response";
 import { ApiError } from "@/lib/api/errors";
+import { getEmployeeSessionUser } from "@/lib/auth/employee-session";
 import { askHrSendSchema } from "@/lib/validators/ask-hr.schema";
 import { createHrTicket } from "@/lib/services/hr-ticket.service";
 import { HR_CONTACT_EMAIL } from "@/lib/copy/hr-contact";
@@ -21,10 +22,13 @@ export const POST = withApiHandler(async (req: Request) => {
     );
   }
 
+  const sessionUser = await getEmployeeSessionUser();
+
   const ticket = await createHrTicket({
     ...parsed.data,
     searchQuery: parsed.data.searchQuery,
     questionLogId: parsed.data.questionLogId,
+    createdById: sessionUser?.id,
   });
 
   return created({

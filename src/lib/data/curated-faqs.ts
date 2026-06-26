@@ -31,6 +31,7 @@ export type CuratedFaq = {
 };
 
 import { LUATVIETNAM_BAO_HIEM_FAQS } from "@/lib/data/luatvietnam-bao-hiem-faqs";
+import { OFFICIAL_BHYT_BHTN_FAQS } from "@/lib/data/official-bhyt-bhtn-faqs";
 
 /** FAQ do HR soạn tay — ưu tiên khi trùng câu hỏi với nguồn crawl. */
 const HAND_CURATED_FAQS: CuratedFaq[] = [
@@ -367,21 +368,24 @@ const HAND_CURATED_FAQS: CuratedFaq[] = [
   },
 ];
 
-function mergeCuratedFaqs(hand: CuratedFaq[], imported: CuratedFaq[]): CuratedFaq[] {
+function mergeCuratedFaqs(...groups: CuratedFaq[][]): CuratedFaq[] {
   const seen = new Set<string>();
   const merged: CuratedFaq[] = [];
-  for (const faq of [...hand, ...imported]) {
-    const key = faq.question.toLocaleLowerCase("vi-VN").trim();
-    if (seen.has(key)) continue;
-    seen.add(key);
-    merged.push(faq);
+  for (const group of groups) {
+    for (const faq of group) {
+      const key = faq.question.toLocaleLowerCase("vi-VN").trim();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      merged.push(faq);
+    }
   }
   return merged;
 }
 
-/** FAQ hiển thị tại /hoi-dap — gồm bản HR soạn + LuatVietnam Bảo hiểm (114 câu). */
+/** FAQ tại /hoi-dap — HR soạn + nguồn chính thống BHYT/BHTN + LuatVietnam crawl. */
 export const CURATED_FAQS: CuratedFaq[] = mergeCuratedFaqs(
   HAND_CURATED_FAQS,
+  OFFICIAL_BHYT_BHTN_FAQS,
   LUATVIETNAM_BAO_HIEM_FAQS,
 );
 

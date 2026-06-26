@@ -109,12 +109,19 @@ export default function BaseSalaryReferencePage() {
             <ul className="divide-y divide-border text-sm">
               {(Object.keys(regionalMinimumWages) as Array<keyof typeof regionalMinimumWages>).map(
                 (region) => (
-                  <li key={region} className="flex items-center justify-between gap-4 py-3 first:pt-0">
+                  <li
+                    key={region}
+                    className="flex flex-col gap-1 py-3 first:pt-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+                  >
                     <span className="font-medium">Vùng {region}</span>
-                    <span className="tabular-nums text-muted-foreground">
-                      {formatVnd(regionalMinimumWages[region])}
-                      <span className="mx-2 text-border">·</span>
-                      trần BHTN {formatVnd(getBhtnCapByRegion(region))}
+                    <span className="text-left tabular-nums text-muted-foreground sm:text-right">
+                      <span className="block sm:inline">{formatVnd(regionalMinimumWages[region])}</span>
+                      <span className="mx-0 my-0.5 block text-border sm:mx-2 sm:my-0 sm:inline">
+                        ·
+                      </span>
+                      <span className="block sm:inline">
+                        trần BHTN {formatVnd(getBhtnCapByRegion(region))}
+                      </span>
                     </span>
                   </li>
                 ),

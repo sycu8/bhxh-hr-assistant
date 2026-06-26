@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 function navLinkClass(item: SiteNavLink, active: boolean) {
   return cn(
-    "touch-manipulation rounded-lg px-2.5 py-2 text-sm font-medium transition-all active:scale-[0.98] sm:px-3",
+    "touch-manipulation inline-flex min-h-11 items-center justify-center rounded-lg px-3 py-2.5 text-sm font-medium transition-all active:scale-[0.98] md:min-h-0 md:px-3 md:py-2",
     item.cta
       ? "bg-fti-orange font-semibold text-fti-orange-foreground shadow-md hover:bg-fti-orange/92"
       : active
@@ -108,7 +108,7 @@ function MoreMenu({
                 href={item.href}
                 role="menuitem"
                 className={cn(
-                  "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                  "flex min-h-11 items-center rounded-lg px-3 py-3 text-sm font-medium transition-colors touch-manipulation",
                   isActive(item.href)
                     ? "bg-muted text-foreground"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -126,7 +126,7 @@ function MoreMenu({
                 href={item.href}
                 role="menuitem"
                 className={cn(
-                  "block rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  "flex min-h-10 items-center rounded-lg px-3 py-2.5 text-sm font-medium transition-colors touch-manipulation",
                   isActive(item.href)
                     ? "bg-muted text-foreground"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -167,12 +167,12 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center gap-2 px-3 py-2 sm:gap-3 sm:px-6 sm:py-2.5">
         <Link
           href="/"
-          className="flex min-w-0 shrink-0 items-center gap-2 text-sm font-semibold tracking-tight text-foreground"
-          aria-label="Trang chủ — Cổng bảo hiểm FPT Telecom"
+          className="flex min-h-11 min-w-11 shrink-0 items-center gap-2 rounded-lg px-1 text-sm font-semibold tracking-tight text-foreground touch-manipulation md:min-h-0 md:min-w-0"
+          aria-label="Trang chủ — Cổng HR FPT Telecom"
         >
           <FptTelecomLogo priority />
           <span className="hidden min-w-0 leading-none lg:inline">
-            Bảo hiểm
+            Cổng HR
           </span>
         </Link>
 

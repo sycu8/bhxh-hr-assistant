@@ -37,6 +37,7 @@ export default async function AskHrPage({ searchParams }: Props) {
         <EmployeeJourney current="hr" compact />
       </header>
       <AskHrForm
+        hrContactEmail={HR_CONTACT_EMAIL}
         initialQuestion={params?.question}
         initialDetail={params?.detail}
         initialTopic={params?.topic}

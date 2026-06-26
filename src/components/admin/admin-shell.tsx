@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/admin", label: "Tổng quan" },
+  { href: "/hr", label: "HR Console" },
   { href: "/admin/faqs", label: "FAQ" },
   { href: "/admin/topics", label: "Chủ đề" },
   { href: "/admin/tickets", label: "Ticket HR" },

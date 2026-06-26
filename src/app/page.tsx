@@ -1,3 +1,4 @@
+import { HomeHrPortalSection } from "@/components/home/home-hr-portal";
 import { MarketingHeroSection } from "@/components/marketing/MarketingHeroSection";
 import { TrustBadgesRow } from "@/components/marketing/TrustBadgesRow";
 import { HowItWorks } from "@/components/marketing/HowItWorks";
@@ -25,6 +26,7 @@ export default async function Home() {
       <MarketingHeroSection />
 
       <div className="mx-auto w-full max-w-6xl space-y-12 px-4 py-12 sm:space-y-16 sm:px-6 sm:py-14 lg:space-y-20 lg:py-16">
+        <HomeHrPortalSection />
         <TrustBadgesRow />
         <HomeTopics />
         <HowItWorks />

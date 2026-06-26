@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
-import { SiteFooter } from "@/components/layout/SiteFooter";
-import { SiteHeader } from "@/components/layout/SiteHeader";
-import { MaintenanceBanner } from "@/components/layout/MaintenanceBanner";
+import { AppChrome } from "@/components/layout/app-chrome";
 import { getEdgeFeatureFlags } from "@/lib/cloudflare/edge-feature-flags";
 import { getSiteUrl } from "@/lib/site-url";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -19,11 +17,16 @@ const beVietnamPro = Be_Vietnam_Pro({
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
-    default: "Cổng kiến thức bảo hiểm",
-    template: "%s · Bảo hiểm FPT Telecom",
+    default: "Cổng HR FPT Telecom",
+    template: "%s · Cổng HR FPT Telecom",
   },
   description:
-    "Tra cứu BHXH, BHYT, BHTN và chế độ lao động theo tài liệu đã duyệt.",
+    "Self-service nhân viên và tra cứu BHXH, BHYT, BHTN theo tài liệu đã duyệt.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default async function RootLayout({
@@ -37,18 +40,9 @@ export default async function RootLayout({
     <html lang="vi" className={`${beVietnamPro.variable} h-full`}>
       <body className="flex min-h-full flex-col font-sans antialiased">
         <JsonLd data={buildSiteJsonLd()} />
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2 focus:text-sm focus:shadow-md"
-        >
-          Bỏ qua điều hướng
-        </a>
-        <MaintenanceBanner message={maintenanceBannerVi} />
-        <SiteHeader />
-        <main id="main" className="flex flex-1 flex-col bg-background">
+        <AppChrome maintenanceBannerVi={maintenanceBannerVi}>
           {children}
-        </main>
-        <SiteFooter />
+        </AppChrome>
       </body>
     </html>
   );

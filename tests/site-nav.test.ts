@@ -24,7 +24,13 @@ describe("site navigation", () => {
 
   it("primary nav includes employee journey entry points", () => {
     const hrefs = PRIMARY_NAV.map((i) => i.href);
+    expect(hrefs).toContain("/login");
+    expect(hrefs).toContain("/bao-hiem");
     expect(hrefs).toContain("/search");
+  });
+
+  it("more menu includes FAQ and ask-hr", () => {
+    const hrefs = MORE_NAV.map((i) => i.href);
     expect(hrefs).toContain("/hoi-dap");
     expect(hrefs).toContain("/ask-hr");
   });

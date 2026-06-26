@@ -7,6 +7,7 @@ import type { AskHrSendInput } from "@/lib/validators/ask-hr.schema";
 export type CreateTicketInput = AskHrSendInput & {
   searchQuery?: string;
   questionLogId?: string;
+  createdById?: string;
 };
 
 function mapUrgentToPriority(urgent: AskHrSendInput["urgent"]): TicketPriority {
@@ -33,6 +34,11 @@ export async function createHrTicket(input: CreateTicketInput) {
   const ticketNumber = await nextTicketNumber();
   const priority = mapUrgentToPriority(input.urgent);
 
+  const slaDueAt = new Date(
+    Date.now() +
+      (priority === "URGENT" ? 1 : 3) * 24 * 60 * 60 * 1000,
+  );
+
   const ticket = await db.hrTicket.create({
     data: {
       ticketNumber,
@@ -43,7 +49,9 @@ export async function createHrTicket(input: CreateTicketInput) {
       replyEmail: input.replyEmail,
       searchQuery: input.searchQuery?.trim() || null,
       questionLogId: input.questionLogId ?? null,
+      createdById: input.createdById ?? null,
       status: "OPEN",
+      slaDueAt,
     },
   });
 
@@ -117,4 +125,26 @@ export async function updateHrTicketStatus(params: {
   });
 
   return updated;
+}
+
+export async function listHrTicketsForUser(userId: string) {
+  const db = getDb();
+  return db.hrTicket.findMany({
+    where: { createdById: userId },
+    orderBy: { createdAt: "desc" },
+    take: 50,
+  });
+}
+
+export async function getHrTicketForUser(userId: string, ticketId: string) {
+  const db = getDb();
+  return db.hrTicket.findFirst({
+    where: { id: ticketId, createdById: userId },
+    include: {
+      comments: {
+        where: { isInternal: false },
+        orderBy: { createdAt: "asc" },
+      },
+    },
+  });
 }

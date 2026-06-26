@@ -1,9 +1,12 @@
-# Cổng tra cứu bảo hiểm — FPT Telecom
+# Cổng HR & tra cứu bảo hiểm — FPT Telecom
 
-Ứng dụng web nội bộ giúp nhân viên và HR/C&B tra cứu **BHXH, BHYT, BHTN** và chế độ lao động theo **nguồn đã duyệt**, có trích dẫn, mức tin cậy và lối chuyển sang HR khi thiếu căn cứ.
+Ứng dụng web nội bộ: **Cổng HR self-service** (hồ sơ, nghỉ phép, phiếu lương, giấy tờ, ticket) và **kho kiến thức BHXH/BHYT/BHTN** theo nguồn đã duyệt, có trích dẫn, mức tin cậy và lối chuyển sang HR khi thiếu căn cứ.
 
-**Production:** https://bhxh.orangecloud.vn (Workers: https://vn-insurance-fti.sycu-lee.workers.dev)  
-**Release:** 2026-06-21 — `main` @ `7c23ba6` (scenarios S1–S5, page-load p50 < 50 ms, SEO/GEO JSON-LD; CI build OK — cần `CLOUDFLARE_API_TOKEN` để deploy Worker)
+**Production / UAT:** https://bhxh.orangecloud.vn/ (Workers: `vn-insurance-fti.sycu-lee.workers.dev`)
+
+**Release (2026-06-26):** Cổng HR self-service — OTP `/login`, shell nhân viên (`/my-hr`, `/time`, `/pay`, `/approvals`), HR Console (`/hr`), hub `/bao-hiem`, `/developers` + OpenAPI, fix OTP email & middleware Edge 1101. Kế hoạch: [docs/ROADMAP.md](docs/ROADMAP.md).
+
+**Trước đó (2026-06-21):** scenarios S1–S5, page-load p50 &lt; 50 ms, SEO/GEO JSON-LD — `pnpm test:scenarios`, `pnpm bench:pages`, `pnpm audit:seo-geo`.
 
 Repository: [github.com/sycu8/bhxh-hr-assistant](https://github.com/sycu8/bhxh-hr-assistant)
 
@@ -11,17 +14,43 @@ Repository: [github.com/sycu8/bhxh-hr-assistant](https://github.com/sycu8/bhxh-h
 
 ## Tính năng chính
 
+### Cổng HR (nhân viên — đăng nhập OTP `/login`)
+
+| Module | Route | Mô tả |
+|--------|-------|--------|
+| **Hồ sơ** | `/my-hr/profile` | Thông tin đồng bộ HRIS, quản lý trực tiếp |
+| **Nghỉ phép** | `/time/leave` | Số dư, đăng ký nghỉ, phê duyệt quản lý |
+| **Phiếu lương** | `/pay/payslips` | Xem kỳ lương + chi tiết (audit khi mở) |
+| **Giấy tờ** | `/my-hr/documents` | Xác nhận công tác / thu nhập / bảo hiểm |
+| **Chính sách** | `/my-hr/policies` | Thư viện chính sách nội bộ đã publish |
+| **Ticket** | `/my-hr/tickets` | Theo dõi ticket HR (liên kết khi đăng nhập) |
+| **Phê duyệt** | `/approvals` | Hộp thư manager/HR |
+| **Lịch sử BH** | `/bao-hiem/history` | Tham gia BHXH/BHYT/BHTN từ HRIS |
+
+### Bảo hiểm & tra cứu (công khai)
+
 | Module | Mô tả |
 |--------|--------|
-| **Tra cứu** (`/search`) | Hỏi bằng ngôn ngữ tự nhiên; trả lời ngắn gọn kèm nguồn (FAQ curated, FAQ DB, đoạn văn bản pháp lý). |
-| **FAQ** (`/hoi-dap`) | **134** câu hỏi thường gặp (HR soạn + crawl LuatVietnam Bảo hiểm), trang chi tiết SSG và trích nguồn. |
-| **Nguồn tham khảo** (`/nguon-phap-luat`) | Mục lục liên kết văn bản Thư viện Pháp Luật để đối chiếu căn cứ. |
-| **Cập nhật pháp luật** (`/legal-updates`) | Văn bản/chính sách đã publish (NĐ 168, lương cơ sở 2,53M, chính sách FTEL…); tìm kiếm, lọc, phân trang. |
-| **Hỏi HR** (`/ask-hr`) | Form gửi email tới HR qua Cloudflare Email Service (không `mailto`). |
-| **Công cụ** (`/calculators`) | Lương/thuế, lương cơ bản, miễn giảm, chế độ thai sản, tra cứu nhanh. |
-| **Admin** (`/admin`) | Duyệt crawl (hàng loạt tối đa 50/lần), import tài liệu, revalidate cache. |
-| **Cron** | Quét nguồn chính thống **06:00 ICT** mỗi ngày (`0 23 * * *` UTC). |
-| **SEO / GEO** | `/sitemap.xml`, `/robots.txt`, JSON-LD (`WebSite`, `FAQPage`, `Article`), audit 8 priority queries — `pnpm audit:seo-geo`. |
+| **Hub BHXH** (`/bao-hiem`) | Điểm vào module bảo hiểm trong Cổng HR |
+| **Tra cứu** (`/search`) | Hỏi bằng ngôn ngữ tự nhiên; trả lời kèm nguồn |
+| **FAQ** (`/hoi-dap`) | Câu hỏi thường gặp đã duyệt — gồm **BHYT/BHTN chính thống** + LuatVietnam crawl |
+| **Chủ đề BHYT/BHTN** (`/topics/bhyt`, `/topics/bhtn`) | FAQ theo chủ đề, trích nguồn BHXH VN / TLPL / Bộ LĐ-TB&XH |
+| **Nguồn tham khảo** (`/nguon-phap-luat`) | Mục lục liên kết văn bản Thư viện Pháp Luật |
+| **Cập nhật pháp luật** (`/legal-updates`) | Văn bản đã publish |
+| **Hỏi HR** (`/ask-hr`) | Form ticket + email HR |
+| **Công cụ lương** (`/calculators`, `/cong-cu-luong-thue`) | Gross/net, thai sản, v.v. |
+| **SEO / GEO** | `/sitemap.xml`, `/robots.txt`, JSON-LD — `pnpm audit:seo-geo` |
+
+### HR Console (`/hr`) & CMS (`/admin`)
+
+| Khu vực | Mô tả |
+|---------|--------|
+| **HR Console** | Dashboard, nhân viên, ticket SLA, chính sách, báo cáo headcount/ticket/leave |
+| **CMS** | FAQ, chủ đề, crawl pháp luật, công thức tính, analytics, audit |
+| **RBAC** | `EMPLOYEE`, `MANAGER`, `HR`, `CB`, `RECRUITER`, `ADMIN`, `SUPER_ADMIN` |
+| **HRIS sync** | `pnpm hr:sync` hoặc `POST /api/cron/hris-sync` (Bearer cron secret) |
+| **Import Microsoft 365** | CSV export Users → `pnpm hr:import-microsoft ./users.csv` hoặc upload tại `/hr/employees` |
+| **Cron** | Crawl pháp luật **06:00 ICT** (`0 23 * * *` UTC) |
 
 ### Nguyên tắc trả lời
 
@@ -93,15 +122,50 @@ pnpm db:seed
 pnpm dev
 ```
 
+**UAT / production (sau khi bật Cổng HR):** nếu đăng nhập OTP báo lỗi máy chủ hoặc `Unexpected token '<'`, chạy đồng bộ schema Postgres (một lần):
+
+```bash
+curl -X POST https://bhxh.orangecloud.vn/api/cron/db-schema-sync \
+  -H "Authorization: Bearer $CACHE_REVALIDATE_SECRET"
+
+curl -X POST https://bhxh.orangecloud.vn/api/cron/hris-sync \
+  -H "Authorization: Bearer $CACHE_REVALIDATE_SECRET"
+```
+
+Sau đó thử lại `/login` với email `@fpt.com` (ví dụ `employee@fpt.com` sau seed HRIS).
+
 Mở [http://localhost:3000](http://localhost:3000) — tra cứu tại [/search](http://localhost:3000/search).
+
+### Đồng bộ nhân viên từ Microsoft 365 (CSV)
+
+1. **Microsoft 365 Admin** → Users → Active users → **Export users** (hoặc Entra ID → Users → Bulk operations → Download).
+2. File CSV cần tối thiểu: **User principal name** (email), **Display name**. Nên có thêm **Department**, **Job title**, **Manager**, **Employee ID**.
+3. Import bằng một trong các cách:
+
+```bash
+# Một lần từ CLI
+pnpm hr:import-microsoft ./data/microsoft-users.csv
+
+# Hoặc đặt file cố định + cron sync nhân viên
+# .env: HRIS_SOURCE=microsoft-csv
+#       HRIS_EMPLOYEE_CSV_PATH=./data/microsoft-users.csv
+pnpm hr:sync
+```
+
+4. Hoặc đăng nhập **HR Console** → **Nhân viên** → upload file CSV.
+
+Mẫu file: [`data/microsoft-users.example.csv`](data/microsoft-users.example.csv).
+
+**Lưu ý:** Email nhân viên dùng domain **`@fpt.com`** (UPN Microsoft 365). Export Microsoft chỉ có danh sách user (email, phòng ban, quản lý). Phiếu lương, số dư nghỉ phép, lịch sử BHXH vẫn cần nguồn HRIS/payroll riêng. Tài khoản **disabled** trong CSV sẽ bị bỏ qua. User đã có vai trò HR/Admin trong hệ thống **không bị ghi đè** khi import lại.
 
 ### Dữ liệu pháp luật & FAQ (tuỳ chọn)
 
 | Lệnh | Mô tả |
 |------|--------|
 | `pnpm faq:crawl-luatvietnam-bao-hiem` | Crawl FAQ từ luatvietnam.vn → `luatvietnam-bao-hiem-faqs.ts` |
+| `pnpm faq:import-official` | Import FAQ nguồn chính thống (mẫu) |
+| `pnpm faq:import-official-bhyt-bhtn` | Import gói FAQ BHYT/BHTN từ nguồn chính thống (`official-bhyt-bhtn-faqs.ts`) |
 | `pnpm faq:import-thuvien` | Import FAQ từ Thư viện Pháp Luật vào DB |
-| `pnpm faq:import-official` | Import FAQ nguồn chính thống |
 | `pnpm pdf:ocr-import` | OCR PDF quét và import |
 
 File `src/lib/data/bhxh-published-legal-updates.json` có thể rất lớn. Nếu thiếu: chạy crawl qua **Admin → Legal crawler** hoặc dọn kho bằng:
@@ -145,6 +209,8 @@ Logo chính thức: `public/fpt-telecom-logo-horizontal.png`, `public/fpt-teleco
 | `ASK_HR_RATE_LIMIT_MAX` | Giới hạn `/api/ask-hr/send` — mặc định **5**/15 phút/IP |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Site key Turnstile (widget client) |
 | `TURNSTILE_SECRET_KEY` | Secret key Turnstile — **wrangler secret** |
+| `HRIS_SOURCE` | `mock` (mặc định) hoặc `microsoft-csv` |
+| `HRIS_EMPLOYEE_CSV_PATH` | Đường dẫn file CSV export Microsoft khi `HRIS_SOURCE=microsoft-csv` |
 
 ### Bảo mật
 
@@ -227,53 +293,66 @@ pnpm exec wrangler secret put CLOUDFLARE_EMAIL_API_TOKEN
 
 ### CI (GitHub Actions)
 
-Workflow `.github/workflows/deploy-cloudflare.yml` — push `main` hoặc **workflow_dispatch**.
+| Workflow | Trigger | Mô tả |
+|----------|---------|--------|
+| `test.yml` | PR + push `main` | Vitest + Playwright (Postgres service) |
+| `uat-streak.yml` | Nightly 01:00 ICT + manual | 15 kịch bản UAT trên `bhxh.orangecloud.vn` |
+| `deploy-cloudflare.yml` | Push `main` | Deploy OpenNext + Wrangler |
 
-**Secrets (bắt buộc):**
+**Secrets (bắt buộc deploy):** `CLOUDFLARE_API_TOKEN` (Wrangler deploy; nếu thiếu `CLOUDFLARE_ACCOUNT_ID`, workflow tự lấy account ID qua API token).
 
-- `CLOUDFLARE_API_TOKEN` — Wrangler deploy; nếu thiếu `CLOUDFLARE_ACCOUNT_ID`, workflow tự lấy account ID qua API token.
-
-**Secrets / variables (tuỳ chọn):**
-
-- `CLOUDFLARE_ACCOUNT_ID` — bỏ qua nếu token đủ quyền `Account:Read`
-- `HR_CONTACT_EMAIL`, `HR_EMAIL_FROM` (repo variables)
+**Secrets / variables (tuỳ chọn):** `CLOUDFLARE_ACCOUNT_ID`, `HR_CONTACT_EMAIL`, `HR_EMAIL_FROM`.
 
 Binding KV / D1 / Hyperdrive / R2 mặc định theo stack production `vn-insurance-fti`; override bằng env `WRANGLER_KV_NAMESPACE_ID`, `WRANGLER_D1_DATABASE_ID`, `WRANGLER_HYPERDRIVE_ID`, `WRANGLER_R2_BUCKET` nếu cần.
 
-Nếu workflow fail vì thiếu token: thêm **`CLOUDFLARE_API_TOKEN`** tại [GitHub → Settings → Secrets → Actions](https://github.com/sycu8/bhxh-hr-assistant/settings/secrets/actions) (quyền Workers Scripts Edit + Account Read), rồi chạy lại workflow **Deploy Cloudflare Workers**.
+Nếu workflow fail vì thiếu token: thêm **`CLOUDFLARE_API_TOKEN`** tại [GitHub → Settings → Secrets → Actions](https://github.com/sycu8/bhxh-hr-assistant/settings/secrets/actions), rồi chạy lại workflow **Deploy Cloudflare Workers**.
 
----
-
-## API chính
-
-| Method | Path | Ghi chú |
-|--------|------|---------|
-| `POST` | `/api/search` | Tra cứu + answer card |
-| `POST` | `/api/ask` | Ghi log câu hỏi |
-| `POST` | `/api/ask-hr/send` | Gửi email HR |
-| `POST` | `/api/cron/daily-official-crawl` | Cron (Bearer) |
-| `POST` | `/api/admin/revalidate-cache` | Xóa KV cache |
-
-Body JSON validate bằng **Zod**; lỗi trả `{ success: false, error: { code, message } }`.
+**Roadmap & QA:** [docs/ROADMAP.md](docs/ROADMAP.md) · [docs/QA-INVENTORY.md](docs/QA-INVENTORY.md)
 
 ---
 
 ## Kiểm thử
 
 ```bash
-pnpm test              # Vitest — 147 tests (logic, API, sitemap, FAQ, SEO audit…)
+docker compose up -d
+cp .env.e2e.example .env.e2e
+pnpm qa:setup
+pnpm qa:run            # Full inventory: vitest + e2e + UAT streak 15
+pnpm qa:run:lite       # Không Postgres — vitest + UAT streak only
+
+pnpm test              # Vitest (logic, API, sitemap, FAQ, crawler…)
 pnpm build && pnpm test:e2e   # Playwright — trang, nút, form
-pnpm test:all          # Cả hai
-pnpm test:scenarios    # 5 kịch bản năng lực chính (Vitest + build + E2E) → docs/scenario-evidence.json
-pnpm bench:pages       # đo tải trang (308 route, mục tiêu p50 < 50 ms) → docs/page-load-benchmark.json
-pnpm audit:seo-geo     # SEO/GEO audit + 8 priority queries → docs/seo-geo-audit.json
+pnpm test:uat-streak   # 15 kịch bản UAT liên tiếp
+pnpm test:all          # Vitest + e2e
+pnpm test:scenarios    # 5 kịch bản năng lực chính → docs/scenario-evidence.json
+pnpm bench:pages       # đo tải trang → docs/page-load-benchmark.json
+pnpm audit:seo-geo     # SEO/GEO audit → docs/seo-geo-audit.json
 ```
 
 Kế hoạch tiêu chí pass/fail: [docs/SCENARIO-TEST-PLAN.md](docs/SCENARIO-TEST-PLAN.md). Hiệu năng tải trang: [docs/PAGE-LOAD-BENCHMARK.md](docs/PAGE-LOAD-BENCHMARK.md). SEO/GEO: [docs/SEO-GEO-AUDIT.md](docs/SEO-GEO-AUDIT.md). Chi tiết và lỗi đã ghi nhận: [docs/TEST-REPORT.md](docs/TEST-REPORT.md).
 
+**Tài liệu tích hợp:** [`/developers`](/developers) — mô tả endpoint, auth, ví dụ cURL.  
+**OpenAPI 3.1:** `GET /api/openapi.json` — import Postman/Insomnia.
+
+| Method | Path | Ghi chú |
+|--------|------|---------|
+| `POST` | `/api/search` | Tra cứu + answer card |
+| `POST` | `/api/ask` | Ghi log câu hỏi |
+| `POST` | `/api/ask-hr/send` | Gửi email HR |
+| `POST` | `/api/calculators/salary-tax` | Tính lương & thuế (không Turnstile) |
+| `POST` | `/api/cron/daily-official-crawl` | Cron (Bearer) |
+| `POST` | `/api/cron/db-schema-sync` | Đồng bộ schema HR (Bearer, một lần sau deploy) |
+| `POST` | `/api/cron/hris-sync` | Đồng bộ nhân viên mock/HRIS (Bearer) |
+| `POST` | `/api/v1/auth/otp/request` | Gửi OTP đăng nhập nhân viên |
+| `POST` | `/api/v1/auth/otp/verify` | Xác minh OTP + cookie `employee_session` |
+| `POST` | `/api/admin/revalidate-cache` | Xóa KV cache |
+| `GET` | `/api/openapi.json` | OpenAPI spec |
+
+Body JSON validate bằng **Zod**; lỗi trả `{ success: false, error: { code, message } }`.
+
 ---
 
-## Menu & UX
+## API chính
 
 Menu chính: **Tra cứu** · **FAQ** · **Hỏi HR** · **Công cụ** · **Khác** (pháp luật, nguồn tham khảo, quản trị…).
 

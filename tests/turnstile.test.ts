@@ -25,11 +25,14 @@ describe("turnstile", () => {
   });
 
   it("requires token when secret is configured", async () => {
+    const prevE2e = process.env.E2E_TEST_MODE;
+    delete process.env.E2E_TEST_MODE;
     process.env.TURNSTILE_SECRET_KEY = "test-secret";
     await expect(
       assertTurnstileVerified(new Request("http://x"), undefined),
     ).rejects.toBeInstanceOf(ApiError);
     delete process.env.TURNSTILE_SECRET_KEY;
+    if (prevE2e) process.env.E2E_TEST_MODE = prevE2e;
   });
 
   it("returns true from verify when secret missing", async () => {

@@ -34,6 +34,20 @@ const nextConfig: NextConfig = {
         destination: "/legal-updates",
         permanent: false,
       },
+      { source: "/bao-hiem/search", destination: "/search", permanent: false },
+      { source: "/bao-hiem/hoi-dap", destination: "/hoi-dap", permanent: false },
+      { source: "/bao-hiem/topics", destination: "/topics", permanent: false },
+      {
+        source: "/bao-hiem/legal-updates",
+        destination: "/legal-updates",
+        permanent: false,
+      },
+      {
+        source: "/bao-hiem/nguon-phap-luat",
+        destination: "/nguon-phap-luat",
+        permanent: false,
+      },
+      { source: "/bao-hiem/ask-hr", destination: "/ask-hr", permanent: false },
     ];
   },
 };
