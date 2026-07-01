@@ -22,14 +22,14 @@ describe("calculator config service", () => {
       id: "cfg-1",
       key: "salary-tax-2026",
       name: "Test",
-      formulaJson: { baseSalary: 2340000 },
-      effectiveFrom: new Date("2026-01-01"),
+      formulaJson: { baseSalary: 2530000 },
+      effectiveFrom: new Date("2026-07-01"),
       effectiveTo: null,
     });
     const { getActiveCalculatorConfig } = await import(
       "@/lib/services/calculator-config.service"
     );
     const cfg = await getActiveCalculatorConfig("salary-tax-2026");
-    expect(cfg?.formulaJson.baseSalary).toBe(2340000);
+    expect(cfg?.formulaJson.baseSalary).toBe(2530000);
   });
 });

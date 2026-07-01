@@ -150,7 +150,7 @@ const HAND_CURATED_FAQS: CuratedFaq[] = [
     categorySlug: "thai-san",
     question: "Nghỉ thai sản được hưởng chế độ như thế nào?",
     answer:
-      "Theo Luật Dân số 2025 (hiệu lực 01/7/2026): lao động nữ nghỉ 7 tháng, nam nghỉ 10 ngày làm việc khi vợ sinh. Trợ cấp thai sản từ BHXH nếu đủ điều kiện đóng. CBNV FPT Telecom còn được hưởng thêm chính sách hỗ trợ sinh con và trợ cấp bổ sung Công ty (1069/QĐ-FTEL) — xem trang Chế độ thai sản.",
+      "Theo Luật Dân số 2025 (có hiệu lực từ 01/7/2026): lao động nữ nghỉ 7 tháng, nam nghỉ 10 ngày làm việc khi vợ sinh. Trợ cấp thai sản từ BHXH nếu đủ điều kiện đóng. CBNV FPT Telecom còn được hưởng thêm chính sách hỗ trợ sinh con và trợ cấp bổ sung Công ty (1069/QĐ-FTEL) — xem trang Chế độ thai sản.",
     keywords: ["thai sản", "nghỉ sinh", "trợ cấp", "sinh con", "7 tháng"],
     citations: [
       {
@@ -181,9 +181,9 @@ const HAND_CURATED_FAQS: CuratedFaq[] = [
   {
     slug: "luong-co-so-2-53-2026",
     categorySlug: "bhxh",
-    question: "Lương cơ sở từ 01/7/2026 là bao nhiêu và trần đóng BHXH?",
+    question: "Lương cơ sở hiện hành là bao nhiêu và trần đóng BHXH?",
     answer:
-      "Từ 01/7/2026 mức lương cơ sở tăng lên 2,53 triệu đồng/tháng. Mức lương làm căn cứ đóng BHXH bắt buộc cao nhất = 20 lần mức tham chiếu = 50,6 triệu đồng/tháng (khoản 13 Điều 141 Luật BHXH). HR cần cập nhật kê khai từ ngày hiệu lực.",
+      "Từ 01/7/2026 mức lương cơ sở là 2,53 triệu đồng/tháng (Nghị định 161/2026/NĐ-CP). Mức lương làm căn cứ đóng BHXH bắt buộc cao nhất = 20 lần mức tham chiếu = 50,6 triệu đồng/tháng (khoản 13 Điều 141 Luật BHXH). Công cụ tính lương trên cổng đã áp dụng mức mới.",
     keywords: ["lương cơ sở", "2,53", "50,6", "trần", "bhxh", "2026"],
     citations: [
       {
@@ -201,7 +201,7 @@ const HAND_CURATED_FAQS: CuratedFaq[] = [
     categorySlug: "thai-san",
     question: "Sinh con thứ hai được nghỉ thai sản khi nào (Nghị định 168)?",
     answer:
-      "Từ 01/7/2026 (Nghị định 168/2026): lao động nữ khi sinh con mà tại thời điểm sinh có một con đẻ còn sống; lao động nam khi vợ sinh và vợ có một con đẻ còn sống. Không áp dụng sảy thai/phá thai/thai chết từ đủ 22 tuần. Thủ tục hưởng theo quy định BHXH.",
+      "Từ 01/7/2026 (Nghị định 168/2026, đã có hiệu lực): lao động nữ khi sinh con mà tại thời điểm sinh có một con đẻ còn sống; lao động nam khi vợ sinh và vợ có một con đẻ còn sống. Không áp dụng sảy thai/phá thai/thai chết từ đủ 22 tuần. Thủ tục hưởng theo quy định BHXH.",
     keywords: ["con thứ hai", "nghị định 168", "luật dân số", "sinh con hai"],
     citations: [
       {
@@ -221,6 +221,20 @@ const HAND_CURATED_FAQS: CuratedFaq[] = [
       {
         title: "Nghị định 168/2026 — hỗ trợ sàng lọc",
         sourceUrl: "/legal-updates/nghi-dinh-168-2026-nd-cp-luat-dan-so",
+      },
+    ],
+  },
+  {
+    slug: "hop-dong-lao-dong-dien-tu-2026",
+    categorySlug: "bhxh",
+    question: "Từ 01/7/2026 doanh nghiệp có bắt buộc dùng hợp đồng lao động điện tử?",
+    answer:
+      "Không bắt buộc. Theo Nghị định 337/2025/NĐ-CP, từ 01/7/2026 nền tảng HĐLĐ điện tử vận hành chính thức và NSDLĐ được khuyến khích sử dụng. HĐLĐ giấy hoặc điện tử đã giao kết trước đó vẫn tiếp tục hiệu lực đến hết thời hạn; không cần ký lại toàn bộ.",
+    keywords: ["hợp đồng lao động", "điện tử", "337", "01/7/2026", "HĐLĐ"],
+    citations: [
+      {
+        title: "Nghị định 337/2025 — HĐLĐ điện tử",
+        sourceUrl: "/legal-updates/nghi-dinh-337-hop-dong-lao-dong-dien-tu",
       },
     ],
   },

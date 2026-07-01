@@ -4,6 +4,8 @@
 
 **Production / UAT:** https://bhxh.orangecloud.vn/ (Workers: `vn-insurance-fti.sycu-lee.workers.dev`)
 
+**Release (2026-07-01):** Cập nhật luật lao động hiệu lực 01/7/2026 — lương cơ sở **2,53 triệu**, trần BHXH/BHYT **50,6 triệu** (công cụ tính lương), Nghị định 168 thai sản, Nghị định 337 HĐLĐ điện tử, VBHN 18 Bộ luật Lao động.
+
 **Release (2026-06-26):** `main` @ `4b12a67` — HR portal + QA roadmap + CI test workflows. Worker version `3b287ff3-25cc-491e-8123-26e76d41ba91`. Cổng HR (OTP `/login`, `/my-hr`, `/hr`), `/developers` + OpenAPI, `docker-compose` QA, UAT streak 15.
 
 Repository: [github.com/sycu8/bhxh-hr-assistant](https://github.com/sycu8/bhxh-hr-assistant)
@@ -209,8 +211,22 @@ Logo chính thức: `public/fpt-telecom-logo-horizontal.png`, `public/fpt-teleco
 | `TURNSTILE_SECRET_KEY` | Secret key Turnstile — **wrangler secret** |
 | `HRIS_SOURCE` | `mock` (mặc định) hoặc `microsoft-csv` |
 | `HRIS_EMPLOYEE_CSV_PATH` | Đường dẫn file CSV export Microsoft khi `HRIS_SOURCE=microsoft-csv` |
+| `BHXH_EMPLOYEE_RATE` | Tuỳ chọn — tỷ lệ BHXH NLĐ (mặc định 8%) |
+| `BHYT_EMPLOYEE_RATE` | Tuỳ chọn — tỷ lệ BHYT NLĐ (mặc định 1,5%) |
+| `BHTN_EMPLOYEE_RATE` | Tuỳ chọn — tỷ lệ BHTN NLĐ (mặc định 1%) |
 
-### Bảo mật
+### Công cụ tính lương (`salary-tax-rules.ts`)
+
+Từ **01/7/2026** hệ thống áp dụng:
+
+| Tham số | Giá trị | Căn cứ |
+|---------|---------|--------|
+| Lương cơ sở | 2.530.000 đ/tháng | Nghị định 161/2026/NĐ-CP |
+| Trần BHXH + BHYT | 50.600.000 đ/tháng (×20) | Khoản 13 Điều 141 Luật BHXH |
+| Giảm trừ bản thân | 15.500.000 đ/tháng | Kỳ thuế 2026 |
+| Giảm trừ người phụ thuộc | 6.200.000 đ/tháng | Kỳ thuế 2026 |
+
+CMS có thể ghi đè qua bảng `CalculatorConfig` (key `salary-tax-2026`, `effectiveFrom` ≥ 2026-07-01). Trang tham chiếu: `/calculators/luong-co-ban`, API: `POST /api/calculators/salary-tax`.
 
 - **Security headers** (X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy) qua `next.config.ts`.
 - **Rate limit** (KV): đăng nhập CMS, API tra cứu/AI/Hỏi HR, thao tác admin server action.
@@ -337,7 +353,7 @@ Kế hoạch tiêu chí pass/fail: [docs/SCENARIO-TEST-PLAN.md](docs/SCENARIO-TE
 | `POST` | `/api/search` | Tra cứu + answer card |
 | `POST` | `/api/ask` | Ghi log câu hỏi |
 | `POST` | `/api/ask-hr/send` | Gửi email HR |
-| `POST` | `/api/calculators/salary-tax` | Tính lương & thuế (không Turnstile) |
+| `POST` | `/api/calculators/salary-tax` | Tính lương & thuế — trần BHXH/BHYT 50,6M từ 01/7/2026 |
 | `POST` | `/api/cron/daily-official-crawl` | Cron (Bearer) |
 | `POST` | `/api/cron/db-schema-sync` | Đồng bộ schema HR (Bearer, một lần sau deploy) |
 | `POST` | `/api/cron/hris-sync` | Đồng bộ nhân viên mock/HRIS (Bearer) |

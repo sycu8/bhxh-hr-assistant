@@ -1,9 +1,17 @@
 import {
+  getActiveBaseSalary,
+  getActiveBaseSalaryEffectiveFrom,
   getBhxhBhytCap,
   getBhtnCapByRegion,
   SALARY_TAX_RULES_2026,
   type SalaryRegion,
 } from "@/lib/services/salary-tax-rules";
+
+export type CalculatorServiceOptions = {
+  rates?: SocialInsuranceRates;
+  baseSalary?: number;
+  baseSalaryEffectiveFrom?: string;
+};
 
 export type SocialInsuranceRates = {
   employeeBhxh: number;
@@ -153,8 +161,9 @@ function buildInsuranceBreakdown(
   insuranceSalaryBase: number,
   region: SalaryRegion,
   rates: SocialInsuranceRates = DEFAULT_SOCIAL_INSURANCE_RATES,
+  baseSalary: number = getActiveBaseSalary(),
 ) {
-  const bhxhBhytCap = getBhxhBhytCap();
+  const bhxhBhytCap = getBhxhBhytCap(new Date(), baseSalary);
   const bhtnCap = getBhtnCapByRegion(region);
   const bhxhBase = Math.min(insuranceSalaryBase, bhxhBhytCap);
   const bhytBase = Math.min(insuranceSalaryBase, bhxhBhytCap);
@@ -233,7 +242,7 @@ function computeProgressiveTax(taxableIncome: number) {
   };
 }
 
-function buildLegalBasis() {
+function buildLegalBasis(baseSalaryEffectiveFrom: string) {
   return {
     taxYear: SALARY_TAX_RULES_2026.taxYear,
     personalDeductionEffectiveFrom:
@@ -242,7 +251,7 @@ function buildLegalBasis() {
       SALARY_TAX_RULES_2026.salaryIncomeTaxEffectiveFrom,
     regionalMinimumWageEffectiveFrom:
       SALARY_TAX_RULES_2026.regionalMinimumWageEffectiveFrom,
-    baseSalaryEffectiveFrom: SALARY_TAX_RULES_2026.baseSalaryEffectiveFrom,
+    baseSalaryEffectiveFrom,
   };
 }
 
@@ -253,8 +262,15 @@ function buildForwardSalaryResult(
   region: SalaryRegion,
   dependentCount: number,
   rates: SocialInsuranceRates = DEFAULT_SOCIAL_INSURANCE_RATES,
+  baseSalary: number = getActiveBaseSalary(),
+  baseSalaryEffectiveFrom: string = getActiveBaseSalaryEffectiveFrom(),
 ): SalaryTaxResult {
-  const insurance = buildInsuranceBreakdown(insuranceSalaryBase, region, rates);
+  const insurance = buildInsuranceBreakdown(
+    insuranceSalaryBase,
+    region,
+    rates,
+    baseSalary,
+  );
   const family = buildFamilyDeduction(dependentCount);
   const taxableIncome = Math.max(
     0,
@@ -286,7 +302,7 @@ function buildForwardSalaryResult(
       personalIncomeTax,
       taxBrackets: tax.taxBrackets,
     },
-    legalBasis: buildLegalBasis(),
+    legalBasis: buildLegalBasis(baseSalaryEffectiveFrom),
     note:
       "Công cụ ước tính thực nhận theo kỳ tính thuế năm 2026 và cần được HR/C&B đối chiếu trước khi áp dụng.",
   };
@@ -296,8 +312,15 @@ function buildSocialInsuranceModeResult(
   insuranceSalaryBase: number,
   region: SalaryRegion,
   rates: SocialInsuranceRates = DEFAULT_SOCIAL_INSURANCE_RATES,
+  baseSalary: number = getActiveBaseSalary(),
+  baseSalaryEffectiveFrom: string = getActiveBaseSalaryEffectiveFrom(),
 ): SalaryTaxResult {
-  const insurance = buildInsuranceBreakdown(insuranceSalaryBase, region, rates);
+  const insurance = buildInsuranceBreakdown(
+    insuranceSalaryBase,
+    region,
+    rates,
+    baseSalary,
+  );
 
   return {
     mode: "social-insurance",
@@ -320,7 +343,7 @@ function buildSocialInsuranceModeResult(
       personalIncomeTax: 0,
       taxBrackets: [],
     },
-    legalBasis: buildLegalBasis(),
+    legalBasis: buildLegalBasis(baseSalaryEffectiveFrom),
     note:
       "Chế độ này chỉ tập trung vào các khoản BHXH, BHYT và BHTN phía người lao động.",
   };
@@ -332,6 +355,8 @@ function solveGrossFromNet(
   region: SalaryRegion,
   dependentCount: number,
   rates: SocialInsuranceRates = DEFAULT_SOCIAL_INSURANCE_RATES,
+  baseSalary: number = getActiveBaseSalary(),
+  baseSalaryEffectiveFrom: string = getActiveBaseSalaryEffectiveFrom(),
 ): SalaryTaxResult {
   let low = 0;
   let high = Math.max(targetNetSalary, insuranceSalaryBase, 1) + 10_000_000;
@@ -342,6 +367,8 @@ function solveGrossFromNet(
     region,
     dependentCount,
     rates,
+    baseSalary,
+    baseSalaryEffectiveFrom,
   );
 
   while (highResult.summary.netSalary < targetNetSalary && high < 5_000_000_000) {
@@ -353,6 +380,8 @@ function solveGrossFromNet(
       region,
       dependentCount,
       rates,
+      baseSalary,
+      baseSalaryEffectiveFrom,
     );
   }
 
@@ -368,6 +397,8 @@ function solveGrossFromNet(
       region,
       dependentCount,
       rates,
+      baseSalary,
+      baseSalaryEffectiveFrom,
     );
     const diff = result.summary.netSalary - targetNetSalary;
     const absDiff = Math.abs(diff);
@@ -393,9 +424,19 @@ function solveGrossFromNet(
 
 export class CalculatorService {
   private readonly rates: SocialInsuranceRates;
+  private readonly baseSalary: number;
+  private readonly baseSalaryEffectiveFrom: string;
 
-  constructor(rates?: SocialInsuranceRates) {
-    this.rates = rates ?? readRatesFromEnv();
+  constructor(options?: CalculatorServiceOptions | SocialInsuranceRates) {
+    const resolved =
+      options != null && "employeeBhxh" in options
+        ? { rates: options }
+        : (options ?? {});
+
+    this.rates = resolved.rates ?? readRatesFromEnv();
+    this.baseSalary = resolved.baseSalary ?? getActiveBaseSalary();
+    this.baseSalaryEffectiveFrom =
+      resolved.baseSalaryEffectiveFrom ?? getActiveBaseSalaryEffectiveFrom();
   }
 
   computeSocialInsuranceContribution(salaryBase: number) {
@@ -409,6 +450,8 @@ export class CalculatorService {
           input.insuranceSalaryBase,
           input.region,
           this.rates,
+          this.baseSalary,
+          this.baseSalaryEffectiveFrom,
         );
       case "net-to-gross":
         return solveGrossFromNet(
@@ -417,6 +460,8 @@ export class CalculatorService {
           input.region,
           input.dependentCount,
           this.rates,
+          this.baseSalary,
+          this.baseSalaryEffectiveFrom,
         );
       case "gross-to-net":
       case "take-home":
@@ -427,6 +472,8 @@ export class CalculatorService {
           input.region,
           input.dependentCount,
           this.rates,
+          this.baseSalary,
+          this.baseSalaryEffectiveFrom,
         );
       default: {
         const exhaustive: never = input.mode;

@@ -6,10 +6,13 @@ import {
   readRatesFromEnv,
   type SocialInsuranceRates,
 } from "@/lib/services/calculator.service";
+import {
+  getActiveBaseSalary,
+  getActiveBaseSalaryEffectiveFrom,
+} from "@/lib/services/salary-tax-rules";
 
 export type CalculatorFormulaJson = {
   baseSalary?: number;
-  upcomingBaseSalary?: number;
   bhxhCapMultiplier?: number;
   employeeRates?: {
     bhxh?: number;
@@ -19,6 +22,12 @@ export type CalculatorFormulaJson = {
   taxBrackets?: Array<{ upTo: number | null; rate: number }>;
   personalDeduction?: number;
   dependentDeduction?: number;
+};
+
+export type SalaryTaxContext = {
+  rates: SocialInsuranceRates;
+  baseSalary: number;
+  baseSalaryEffectiveFrom: string;
 };
 
 export async function getActiveCalculatorConfig(
@@ -55,16 +64,35 @@ export async function getActiveCalculatorConfig(
 }
 
 export async function resolveSocialInsuranceRates(): Promise<SocialInsuranceRates> {
+  const ctx = await resolveSalaryTaxContext();
+  return ctx.rates;
+}
+
+export async function resolveSalaryTaxContext(
+  at: Date = new Date(),
+): Promise<SalaryTaxContext> {
+  let baseSalary = getActiveBaseSalary(at);
+  let baseSalaryEffectiveFrom = getActiveBaseSalaryEffectiveFrom(at);
+  let rates = readRatesFromEnv();
+
   try {
-    const cfg = await getActiveCalculatorConfig("salary-tax-2026");
-    const er = cfg?.formulaJson?.employeeRates;
-    if (!er) return readRatesFromEnv();
-    return {
-      employeeBhxh: er.bhxh ?? DEFAULT_SOCIAL_INSURANCE_RATES.employeeBhxh,
-      employeeBhyt: er.bhyt ?? DEFAULT_SOCIAL_INSURANCE_RATES.employeeBhyt,
-      employeeBhtn: er.bhtn ?? DEFAULT_SOCIAL_INSURANCE_RATES.employeeBhtn,
-    };
+    const cfg = await getActiveCalculatorConfig("salary-tax-2026", at);
+    const formula = cfg?.formulaJson;
+    if (formula?.baseSalary != null) {
+      baseSalary = formula.baseSalary;
+      baseSalaryEffectiveFrom = cfg!.effectiveFrom.toISOString().slice(0, 10);
+    }
+    const er = formula?.employeeRates;
+    if (er) {
+      rates = {
+        employeeBhxh: er.bhxh ?? DEFAULT_SOCIAL_INSURANCE_RATES.employeeBhxh,
+        employeeBhyt: er.bhyt ?? DEFAULT_SOCIAL_INSURANCE_RATES.employeeBhyt,
+        employeeBhtn: er.bhtn ?? DEFAULT_SOCIAL_INSURANCE_RATES.employeeBhtn,
+      };
+    }
   } catch {
-    return readRatesFromEnv();
+    // fallback to code defaults
   }
+
+  return { rates, baseSalary, baseSalaryEffectiveFrom };
 }

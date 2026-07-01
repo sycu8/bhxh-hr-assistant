@@ -69,6 +69,28 @@ export const THUVIEN_BHXH_20866_SECTIONS: CatalogSection[] = [
     ],
   },
   {
+    id: "lao-dong-2026",
+    heading: "Lao động & tiền lương — hiệu lực 01/7/2026",
+    links: [
+      {
+        label: "Nghị định 161/2026/NĐ-CP — lương cơ sở 2,53 triệu đồng/tháng",
+        href: "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Nghi-dinh-161-2026-ND-CP-quy-dinh-muc-luong-co-so-doi-voi-can-bo-cong-chuc-vien-chuc-va-luc-luong-vu-trang-706892.aspx",
+      },
+      {
+        label: "Văn bản hợp nhất 18/VBHN-VPQH — Bộ luật Lao động",
+        href: "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-18-vbhn-vpqh-468971.htm",
+      },
+      {
+        label: "Nghị định 337/2025/NĐ-CP — hợp đồng lao động điện tử",
+        href: "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Nghi-dinh-337-2025-ND-CP-quy-dinh-chi-tiet-mot-so-dieu-cua-Bo-luat-Lao-dong-ve-hop-dong-lao-dong-dien-tu-648507.aspx",
+      },
+      {
+        label: "Nghị định 168/2026/NĐ-CP — chi tiết Luật Dân số (thai sản)",
+        href: "https://luatvietnam.vn/tim-van-ban.html?keywords=Nghị%20định%20168%2F2026",
+      },
+    ],
+  },
+  {
     id: "nghi-dinh",
     heading: "Nghị định hướng dẫn / liên quan (theo mục 2.1 bài viết)",
     links: [

@@ -40,9 +40,9 @@ export const CURATED_LEGAL_UPDATES: CuratedLegalUpdate[] = [
     effectiveDate: "2026-07-01T00:00:00.000Z",
     impactLevel: "HIGH",
     affectedGroups: ["HR", "CBNV"],
-    hrActionRequired: true,
+    hrActionRequired: false,
     hrActionSummary:
-      "Cập nhật quy trình nghỉ thai sản con thứ hai và thông báo gói sàng lọc từ 2027.",
+      "Đã có hiệu lực từ 01/7/2026 — duy trì quy trình nghỉ thai sản con thứ hai và thông báo gói sàng lọc từ 2027.",
     publishedAt: "2026-05-31T00:00:00.000Z",
     body: `Nghị định 168/2026/NĐ-CP của Chính phủ quy định chi tiết một số điều và biện pháp tổ chức, hướng dẫn thi hành Luật Dân số (hiệu lực từ 01/7/2026).
 
@@ -64,24 +64,24 @@ Tất cả phụ nữ mang thai và trẻ sơ sinh được hưởng hỗ trợ 
   },
   {
     id: "curated-luong-co-so-2026-07",
-    title: "Tăng lương cơ sở lên 2,53 triệu đồng/tháng (từ 01/7/2026)",
+    title: "Tăng lương cơ sở lên 2,53 triệu đồng/tháng (Nghị định 161/2026)",
     slug: "tang-luong-co-so-2-53-trieu-2026",
     summary:
-      "Từ 01/7/2026 mức lương cơ sở 2,53 triệu đồng/tháng. Trần căn cứ đóng BHXH bắt buộc cao nhất = 20 lần mức tham chiếu (50,6 triệu đồng/tháng) theo khoản 13 Điều 141 Luật BHXH.",
+      "Từ 01/7/2026 mức lương cơ sở 2,53 triệu đồng/tháng (Nghị định 161/2026/NĐ-CP). Trần căn cứ đóng BHXH bắt buộc = 20 lần mức tham chiếu (50,6 triệu đồng/tháng). Công cụ tính lương đã áp dụng mức mới.",
     sourceUrl:
-      "https://luatvietnam.vn/tim-van-ban.html?keywords=lương%20cơ%20sở%202026",
-    sourceName: "LuatVietnam.vn",
+      "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Nghi-dinh-161-2026-ND-CP-quy-dinh-muc-luong-co-so-doi-voi-can-bo-cong-chuc-vien-chuc-va-luc-luong-vu-trang-706892.aspx",
+    sourceName: "Thư viện Pháp Luật",
     legalDocumentType: "DECREE",
-    documentNumber: null,
+    documentNumber: "161/2026/NĐ-CP",
     issuedDate: null,
     effectiveDate: "2026-07-01T00:00:00.000Z",
     impactLevel: "HIGH",
     affectedGroups: ["HR", "C&B"],
-    hrActionRequired: true,
+    hrActionRequired: false,
     hrActionSummary:
-      "Rà soát mức đóng BHXH/BHYT/BHTN và cập nhật cấu hình tính lương từ 01/7/2026.",
-    publishedAt: "2026-05-31T00:00:00.000Z",
-    body: `Nghị định về tăng lương cơ sở (có hiệu lực từ ngày 01/7/2026):
+      "Đã có hiệu lực — công cụ tính lương và trang lương cơ bản đã cập nhật trần BHXH/BHYT 50,6 triệu.",
+    publishedAt: "2026-07-01T00:00:00.000Z",
+    body: `Nghị định 161/2026/NĐ-CP quy định mức lương cơ sở (có hiệu lực từ ngày 01/7/2026):
 
 • Từ 01/7/2026: Mức lương cơ sở tăng lên 2,53 triệu đồng/tháng.
 
@@ -93,7 +93,67 @@ Từ 01/7/2026:
 | Mức lương làm căn cứ đóng BHXH cao nhất | 50,6 triệu đồng/tháng |
 | Lương cơ sở | 2,53 triệu đồng/tháng |
 
-HR/C&B cần đối chiếu văn bản gốc trên Công báo và cập nhật bảng lương, kê khai BHXH.`,
+Hệ thống đã cập nhật công cụ tính lương và trang tham chiếu lương cơ bản. HR/C&B vẫn cần đối chiếu văn bản gốc trên Công báo và cập nhật bảng lương, kê khai BHXH.`,
+  },
+  {
+    id: "curated-vbhn-18-lao-dong-2026",
+    title: "Văn bản hợp nhất 18/VBHN-VPQH — Bộ luật Lao động",
+    slug: "vbhn-18-bo-luat-lao-dong-2026",
+    summary:
+      "Văn bản hợp nhất số 18/VBHN-VPQH (ban hành 12/2/2026) hợp nhất các quy định sửa đổi, bổ sung vào Bộ luật Lao động 2019 — căn cứ tra cứu lao động hiện hành.",
+    sourceUrl:
+      "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-18-vbhn-vpqh-468971.htm",
+    sourceName: "Công báo Chính phủ",
+    legalDocumentType: "CONSOLIDATED",
+    documentNumber: "18/VBHN-VPQH",
+    issuedDate: "2026-02-12T00:00:00.000Z",
+    effectiveDate: null,
+    impactLevel: "MEDIUM",
+    affectedGroups: ["HR", "CBNV"],
+    hrActionRequired: false,
+    hrActionSummary: null,
+    publishedAt: "2026-07-01T00:00:00.000Z",
+    body: `Văn bản hợp nhất số 18/VBHN-VPQH do Văn phòng Quốc hội ban hành ngày 12/2/2026, hợp nhất Bộ luật Lao động.
+
+Đây không phải Bộ luật Lao động mới thay thế toàn bộ, mà là văn bản hợp nhất các quy định đã sửa đổi, bổ sung vào Bộ luật Lao động 2019 — giúp tra cứu thống nhất.
+
+HR nên dùng văn bản hợp nhất khi tư vấn về:
+• Hợp đồng lao động, thời giờ làm việc, nghỉ phép.
+• Chấm dứt hợp đồng, trách nhiệm người sử dụng lao động.
+• Kỷ luật lao động và giải quyết tranh chấp.
+
+Luôn đối chiếu văn bản gốc trên Công báo khi áp dụng cho từng tình huống cụ thể.`,
+  },
+  {
+    id: "curated-nd-337-hdld-dien-tu",
+    title: "Nghị định 337/2025/NĐ-CP — Hợp đồng lao động điện tử (từ 01/7/2026)",
+    slug: "nghi-dinh-337-hop-dong-lao-dong-dien-tu",
+    summary:
+      "Từ 01/7/2026 nền tảng HĐLĐ điện tử vận hành chính thức. Doanh nghiệp được khuyến khích sử dụng; không bắt buộc chuyển đổi toàn bộ HĐLĐ giấy hiện có.",
+    sourceUrl:
+      "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Nghi-dinh-337-2025-ND-CP-quy-dinh-chi-tiet-mot-so-dieu-cua-Bo-luat-Lao-dong-ve-hop-dong-lao-dong-dien-tu-648507.aspx",
+    sourceName: "Thư viện Pháp Luật",
+    legalDocumentType: "DECREE",
+    documentNumber: "337/2025/NĐ-CP",
+    issuedDate: null,
+    effectiveDate: "2026-07-01T00:00:00.000Z",
+    impactLevel: "MEDIUM",
+    affectedGroups: ["HR", "CBNV"],
+    hrActionRequired: false,
+    hrActionSummary: null,
+    publishedAt: "2026-07-01T00:00:00.000Z",
+    body: `Nghị định 337/2025/NĐ-CP quy định chi tiết hợp đồng lao động điện tử theo Bộ luật Lao động.
+
+Từ 01/7/2026:
+• Nền tảng hợp đồng lao động điện tử phải được đưa vào vận hành chính thức (Điều 28).
+• Người sử dụng lao động được khuyến khích sử dụng HĐLĐ điện tử thay cho HĐLĐ giấy.
+
+Lưu ý quan trọng:
+• Không bắt buộc doanh nghiệp chuyển đổi toàn bộ HĐLĐ giấy sang điện tử.
+• HĐLĐ điện tử đã giao kết trước 01/01/2026 còn hiệu lực thì tiếp tục thực hiện đến hết thời hạn.
+• Không có quy định buộc phải ký lại hoặc chuyển đổi HĐLĐ đã giao kết trước đó.
+
+HR có thể lên kế hoạch triển khai HĐLĐ điện tử khi phù hợp quy trình nội bộ, không cần chuyển đổi khẩn cấp toàn bộ hồ sơ.`,
   },
   {
     id: "curated-qd-1069-ftel-thai-san",

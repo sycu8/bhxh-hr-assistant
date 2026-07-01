@@ -48,6 +48,16 @@ describe("salary tax rules 2026", () => {
     expect(getBhtnCapByRegion("I")).toBe(106_200_000);
     expect(getBhtnCapByRegion("IV")).toBe(74_000_000);
   });
+
+  it("uses 2.53M base salary from 01/7/2026 onward", async () => {
+    const { getActiveBaseSalary } = await import("@/lib/services/salary-tax-rules");
+    expect(getActiveBaseSalary(new Date("2026-07-01T12:00:00+07:00"))).toBe(
+      2_530_000,
+    );
+    expect(getActiveBaseSalary(new Date("2026-06-30T23:59:59+07:00"))).toBe(
+      2_340_000,
+    );
+  });
 });
 
 describe("CalculatorService.computeSalaryTax", () => {
@@ -62,11 +72,12 @@ describe("CalculatorService.computeSalaryTax", () => {
       dependentCount: 0,
     });
 
-    expect(result.breakdown.insurance.bhxhBase).toBe(46_800_000);
-    expect(result.breakdown.insurance.bhytBase).toBe(46_800_000);
+    expect(result.legalBasis.baseSalaryEffectiveFrom).toBe("2026-07-01");
+    expect(result.breakdown.insurance.bhxhBase).toBe(50_600_000);
+    expect(result.breakdown.insurance.bhytBase).toBe(50_600_000);
     expect(result.breakdown.insurance.bhtnBase).toBe(106_200_000);
-    expect(result.breakdown.insurance.bhxh).toBe(3_744_000);
-    expect(result.breakdown.insurance.bhyt).toBe(702_000);
+    expect(result.breakdown.insurance.bhxh).toBe(4_048_000);
+    expect(result.breakdown.insurance.bhyt).toBe(759_000);
     expect(result.breakdown.insurance.bhtn).toBe(1_062_000);
   });
 
