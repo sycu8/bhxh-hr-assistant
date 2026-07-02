@@ -44,8 +44,8 @@ export function AppChrome({
         id="main"
         className={
           minimal
-            ? "flex min-h-dvh flex-1 flex-col bg-background"
-            : "flex flex-1 flex-col bg-background"
+            ? "flex min-h-dvh w-full min-w-0 flex-1 flex-col overflow-x-hidden bg-background"
+            : "flex w-full min-w-0 flex-1 flex-col overflow-x-hidden bg-background"
         }
       >
         {children}

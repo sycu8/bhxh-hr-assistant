@@ -9,7 +9,7 @@ export type SiteNavLink = {
 export const PRIMARY_NAV: SiteNavLink[] = [
   { href: "/login", label: "Cổng HR", shortLabel: "HR", cta: true },
   { href: "/bao-hiem", label: "Bảo hiểm", shortLabel: "BH" },
-  { href: "/search", label: "Tra cứu", shortLabel: "Tra cứu" },
+  { href: "/search", label: "Tra cứu", shortLabel: "Tra" },
 ];
 
 /** Màn rộng: thêm trực tiếp, không cần menu Khác. */

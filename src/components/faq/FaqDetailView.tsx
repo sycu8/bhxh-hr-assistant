@@ -35,14 +35,14 @@ export function FaqDetailView({ faq, topicTitle }: Props) {
   const related = faq.relatedSlugs ?? [];
 
   return (
-    <article className="space-y-8">
+    <article className="w-full min-w-0 space-y-8 break-words">
       <header className="space-y-3">
         <div className="flex flex-wrap gap-2">
           <Badge variant="secondary">FAQ đã soạn sẵn</Badge>
           <Badge variant="outline">{SOURCE_LABEL_COPY[sourceLabel]}</Badge>
           {topicTitle ? <Badge variant="outline">{topicTitle}</Badge> : null}
         </div>
-        <h1 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">
+        <h1 className="text-balance break-words text-2xl font-semibold tracking-tight sm:text-3xl">
           {faq.question}
         </h1>
       </header>
