@@ -4,6 +4,8 @@
 
 **Production / UAT:** https://bhxh.orangecloud.vn/ (Workers: `vn-insurance-fti.sycu-lee.workers.dev`)
 
+**Release (2026-07-01):** `main` @ `f90f9d2` — sửa layout mobile (overflow ngang, header/nav thu gọn). Worker version `474caa28-5c75-4f70-b545-80240ee02aac`.
+
 **Release (2026-07-01):** `main` @ `db9b180` — luật lao động hiệu lực 01/7/2026: lương cơ sở **2,53 triệu**, trần BHXH/BHYT **50,6 triệu**, NĐ 168 thai sản, NĐ 337 HĐLĐ điện tử, VBHN 18. Worker version `872c49a2-6e12-49f4-a3c9-5b4ccaa8cdd5`.
 
 **Release (2026-06-26):** `main` @ `4b12a67` — HR portal + QA roadmap + CI test workflows. Worker version `3b287ff3-25cc-491e-8123-26e76d41ba91`. Cổng HR (OTP `/login`, `/my-hr`, `/hr`), `/developers` + OpenAPI, `docker-compose` QA, UAT streak 15.
