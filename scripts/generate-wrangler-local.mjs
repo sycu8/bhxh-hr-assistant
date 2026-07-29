@@ -45,6 +45,7 @@ const r2Bucket =
   process.env.WRANGLER_R2_BUCKET?.trim() || "vn-insurance-fti-media";
 const cronBase =
   process.env.CRON_WORKER_BASE_URL?.trim() ||
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
   readExistingLocalVar("CRON_WORKER_BASE_URL") ||
   "https://bhxh.orangecloud.vn";
 const hrFrom =

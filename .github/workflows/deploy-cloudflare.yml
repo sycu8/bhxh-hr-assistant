@@ -44,7 +44,7 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CRON_WORKER_BASE_URL: https://vn-insurance-fti.sycu-lee.workers.dev
+          CRON_WORKER_BASE_URL: https://bhxh.orangecloud.vn
           HR_CONTACT_EMAIL: ${{ vars.HR_CONTACT_EMAIL }}
           HR_EMAIL_FROM: ${{ vars.HR_EMAIL_FROM }}
 

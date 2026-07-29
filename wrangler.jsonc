@@ -14,8 +14,8 @@
     "CLOUDFLARE_ACCOUNT_ID": "YOUR_CLOUDFLARE_ACCOUNT_ID",
     "HR_EMAIL_FROM": "noreply@your-verified-domain.com",
     "HR_CONTACT_EMAIL": "hr-cnb@your-company.com",
-    "CRON_WORKER_BASE_URL": "https://vn-insurance-fti.sycu-lee.workers.dev",
-    "NEXT_PUBLIC_SITE_URL": "https://vn-insurance-fti.sycu-lee.workers.dev"
+    "CRON_WORKER_BASE_URL": "https://bhxh.orangecloud.vn",
+    "NEXT_PUBLIC_SITE_URL": "https://bhxh.orangecloud.vn"
   },
   "send_email": [
     {

@@ -10,6 +10,8 @@
 
 **Release (2026-06-26):** `main` @ `4b12a67` — HR portal + QA roadmap + CI test workflows. Worker version `3b287ff3-25cc-491e-8123-26e76d41ba91`. Cổng HR (OTP `/login`, `/my-hr`, `/hr`), `/developers` + OpenAPI, `docker-compose` QA, UAT streak 15.
 
+**SEO note:** `/sitemap.xml` hardened for 200 responses; canonical site URL `https://bhxh.orangecloud.vn`.
+
 Repository: [github.com/sycu8/bhxh-hr-assistant](https://github.com/sycu8/bhxh-hr-assistant)
 
 ---

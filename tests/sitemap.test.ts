@@ -23,9 +23,15 @@ describe("sitemap entries", () => {
 
   it("uses absolute URLs with site base", () => {
     const base = getSiteUrl();
+    expect(base).toBe("https://bhxh.orangecloud.vn");
     for (const entry of buildSitemapEntries()) {
       expect(entry.url.startsWith(base)).toBe(true);
     }
+  });
+
+  it("omits lastModified when not provided for static hubs", () => {
+    const home = buildSitemapEntries().find((e) => e.url === getSiteUrl());
+    expect(home?.lastModified).toBeUndefined();
   });
 
   it("does not list admin or api routes", () => {
