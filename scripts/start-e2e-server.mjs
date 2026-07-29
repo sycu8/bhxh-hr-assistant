@@ -1,4 +1,11 @@
+import { config } from "dotenv";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { spawn, execSync } from "node:child_process";
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+config({ path: resolve(root, ".env.e2e") });
+config({ path: resolve(root, ".env") });
 
 const port = Number(process.env.PLAYWRIGHT_PORT ?? "3199");
 const host = "127.0.0.1";

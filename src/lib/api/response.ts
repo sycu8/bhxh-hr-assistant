@@ -1,4 +1,5 @@
 import { ZodError } from "zod";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ApiError } from "./errors";
 
 export function withApiHandler(
@@ -10,6 +11,14 @@ export function withApiHandler(
     } catch (e) {
       if (e instanceof ZodError) return failFromZod(e);
       if (e instanceof ApiError) return failFromApiError(e);
+      if (e instanceof PrismaClientKnownRequestError) {
+        console.error(e);
+        if (e.code === "P2022" || e.code === "P2021") {
+          return failInternal(
+            "Cơ sở dữ liệu chưa được đồng bộ schema HR. Liên hệ IT để chạy db-schema-sync.",
+          );
+        }
+      }
       console.error(e);
       return failInternal();
     }

@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmployeeJourney } from "@/components/portal/employee-journey";
+import { FormattedAnswerText } from "@/components/portal/formatted-answer-text";
 import { getApprovedFaqById } from "@/lib/db/faq-queries";
 import { getCuratedFaqBySlug, listCuratedFaqs } from "@/lib/data/curated-faqs";
 import { absoluteUrl } from "@/lib/site-url";
@@ -65,8 +66,8 @@ export default async function FaqDetailPage({ params }: Props) {
           <CardHeader className="pb-2">
             <CardTitle className="text-base text-sky-950">Câu trả lời</CardTitle>
           </CardHeader>
-          <CardContent className="text-base leading-relaxed text-sky-950">
-            {faq.shortAnswer}
+          <CardContent>
+            <FormattedAnswerText text={faq.shortAnswer} className="text-sky-950" />
           </CardContent>
         </Card>
 

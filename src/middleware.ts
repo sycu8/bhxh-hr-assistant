@@ -2,9 +2,14 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import {
   CMS_SESSION_COOKIE,
-  verifySessionPayload,
-} from "@/lib/auth/session-cookie";
-import { canAccessAdmin } from "@/lib/auth/permissions";
+  EMPLOYEE_SESSION_COOKIE,
+} from "@/lib/auth/session-cookies";
+import { verifySessionPayload } from "@/lib/auth/session-cookie";
+import {
+  canAccessAdmin,
+  canAccessEmployeePortal,
+  canAccessHrConsole,
+} from "@/lib/auth/permissions";
 import type { UserRole } from "@prisma/client";
 import { tryGetCloudflareEnv } from "@/lib/cloudflare/worker-env";
 import {
@@ -12,12 +17,21 @@ import {
   isAdminServerActionRequest,
   readAdminActionRateLimitConfig,
 } from "@/lib/security/admin-action-rate-limit";
+import { asRateLimitKv } from "@/lib/security/rate-limit-kv-adapter";
 import {
   enforceLoginRateLimit,
   enforcePublicApiRateLimit,
   PUBLIC_API_RATE_LIMIT_PATHS,
 } from "@/lib/security/edge-rate-limits";
-import { asRateLimitKv } from "@/lib/security/rate-limit-kv-adapter";
+
+const EMPLOYEE_PROTECTED_PREFIXES = [
+  "/my-hr",
+  "/time",
+  "/pay",
+  "/approvals",
+] as const;
+
+const HR_CONSOLE_PREFIX = "/hr";
 
 async function enforceAdminActionRateLimit(
   request: NextRequest,
@@ -54,10 +68,41 @@ async function enforceAdminActionRateLimit(
   );
 }
 
+function readSessionPayload(request: NextRequest, cookieName: string) {
+  const raw = request.cookies.get(cookieName)?.value;
+  if (!raw) return null;
+
+  const lastDot = raw.lastIndexOf(".");
+  if (lastDot <= 0) return null;
+
+  const signed = raw.slice(0, lastDot);
+  return verifySessionPayload(signed);
+}
+
+function isEmployeeProtectedPath(pathname: string): boolean {
+  return EMPLOYEE_PROTECTED_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === "/api/auth/login") {
+    const blocked = await enforceLoginRateLimit(request);
+    if (blocked) {
+      return NextResponse.json(await blocked.json(), {
+        status: blocked.status,
+        headers: blocked.headers,
+      });
+    }
+    return NextResponse.next();
+  }
+
+  if (
+    pathname === "/api/v1/auth/otp/request" ||
+    pathname === "/api/v1/auth/otp/verify"
+  ) {
     const blocked = await enforceLoginRateLimit(request);
     if (blocked) {
       return NextResponse.json(await blocked.json(), {
@@ -79,6 +124,47 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (pathname.startsWith(HR_CONSOLE_PREFIX)) {
+    const payload = await readSessionPayload(request, CMS_SESSION_COOKIE);
+    const employeePayload = payload
+      ? null
+      : await readSessionPayload(request, EMPLOYEE_SESSION_COOKIE);
+    const active = payload ?? employeePayload;
+
+    if (!active) {
+      return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
+
+    if (!canAccessHrConsole(active.role as UserRole)) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    const rateLimited = await enforceAdminActionRateLimit(
+      request,
+      active.userId,
+    );
+    if (rateLimited) {
+      return rateLimited;
+    }
+
+    return NextResponse.next();
+  }
+
+  if (isEmployeeProtectedPath(pathname)) {
+    const payload = await readSessionPayload(request, EMPLOYEE_SESSION_COOKIE);
+    if (!payload) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("next", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    if (!canAccessEmployeePortal(payload.role as UserRole)) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    return NextResponse.next();
+  }
+
   if (!pathname.startsWith("/admin")) {
     return NextResponse.next();
   }
@@ -87,18 +173,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const raw = request.cookies.get(CMS_SESSION_COOKIE)?.value;
-  if (!raw) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
-  }
-
-  const lastDot = raw.lastIndexOf(".");
-  if (lastDot <= 0) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
-  }
-
-  const signed = raw.slice(0, lastDot);
-  const payload = await verifySessionPayload(signed);
+  const payload = await readSessionPayload(request, CMS_SESSION_COOKIE);
   if (!payload) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
@@ -107,7 +182,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
-  const rateLimited = await enforceAdminActionRateLimit(request, payload.userId);
+  const rateLimited = await enforceAdminActionRateLimit(
+    request,
+    payload.userId,
+  );
   if (rateLimited) {
     return rateLimited;
   }
@@ -118,7 +196,18 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/admin/:path*",
+    "/hr",
+    "/hr/:path*",
+    "/my-hr",
+    "/my-hr/:path*",
+    "/time",
+    "/time/:path*",
+    "/pay",
+    "/pay/:path*",
+    "/approvals",
+    "/approvals/:path*",
     "/api/auth/login",
+    "/api/v1/auth/otp/:path*",
     "/api/search",
     "/api/ask",
     "/api/ask-hr/send",

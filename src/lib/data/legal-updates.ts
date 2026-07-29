@@ -12,22 +12,40 @@ export type LegalUpdateItem = {
 /** Dữ liệu minh họa — thay bằng CrawlItem / bản tin đã duyệt khi có module pháp lý */
 export const LEGAL_UPDATES: LegalUpdateItem[] = [
   {
+    id: "curated-luong-co-so-2026-07",
+    date: "2026-07-01",
+    title: "Lương cơ sở 2,53 triệu — trần BHXH 50,6 triệu (đã áp dụng)",
+    summary:
+      "Nghị định 161/2026/NĐ-CP có hiệu lực từ 01/7/2026. Công cụ tính lương và trang lương cơ bản đã cập nhật.",
+    sourceHint: "Thư viện Pháp Luật",
+    documentUrl: "/legal-updates/tang-luong-co-so-2-53-trieu-2026",
+  },
+  {
     id: "curated-nd-168-2026",
-    date: "2026-05-31",
-    title: "Nghị định 168/2026/NĐ-CP — Luật Dân số (01/7/2026)",
+    date: "2026-07-01",
+    title: "Nghị định 168/2026/NĐ-CP — Luật Dân số (đã có hiệu lực)",
     summary:
       "Nghỉ thai sản 7 tháng (nữ), 10 ngày (nam); điều kiện con thứ hai; hỗ trợ sàng lọc 900.000 đồng từ 2027.",
     sourceHint: "LuatVietnam.vn + tóm tắt HR",
     documentUrl: "/legal-updates/nghi-dinh-168-2026-nd-cp-luat-dan-so",
   },
   {
-    id: "curated-luong-co-so-2026-07",
-    date: "2026-05-31",
-    title: "Lương cơ sở 2,53 triệu — trần BHXH 50,6 triệu (01/7/2026)",
+    id: "curated-nd-337-hdld-dien-tu",
+    date: "2026-07-01",
+    title: "Nghị định 337/2025 — Hợp đồng lao động điện tử",
     summary:
-      "Cập nhật mức lương cơ sở và trần căn cứ đóng BHXH cho doanh nghiệp từ 01/7/2026.",
-    sourceHint: "LuatVietnam.vn",
-    documentUrl: "/legal-updates/tang-luong-co-so-2-53-trieu-2026",
+      "Nền tảng HĐLĐ điện tử vận hành từ 01/7/2026; khuyến khích sử dụng, không bắt buộc chuyển đổi toàn bộ HĐLĐ giấy.",
+    sourceHint: "Thư viện Pháp Luật",
+    documentUrl: "/legal-updates/nghi-dinh-337-hop-dong-lao-dong-dien-tu",
+  },
+  {
+    id: "curated-vbhn-18-lao-dong-2026",
+    date: "2026-07-01",
+    title: "VBHN 18/VBHN-VPQH — Bộ luật Lao động hợp nhất",
+    summary:
+      "Văn bản hợp nhất các quy định sửa đổi Bộ luật Lao động 2019 — căn cứ tra cứu lao động.",
+    sourceHint: "Công báo Chính phủ",
+    documentUrl: "/legal-updates/vbhn-18-bo-luat-lao-dong-2026",
   },
   {
     id: "curated-ftel-ho-tro-thai-san-2025",

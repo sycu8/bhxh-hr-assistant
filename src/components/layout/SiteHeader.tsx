@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 function navLinkClass(item: SiteNavLink, active: boolean) {
   return cn(
-    "touch-manipulation rounded-lg px-2.5 py-2 text-sm font-medium transition-all active:scale-[0.98] sm:px-3",
+    "touch-manipulation inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg px-2 py-2 text-xs font-medium transition-all active:scale-[0.98] sm:min-h-11 sm:px-3 sm:py-2.5 sm:text-sm md:min-h-0 md:px-3 md:py-2",
     item.cta
       ? "bg-fti-orange font-semibold text-fti-orange-foreground shadow-md hover:bg-fti-orange/92"
       : active
@@ -98,7 +98,7 @@ function MoreMenu({
       </button>
       {moreOpen ? (
         <div
-          className="absolute right-0 top-full z-50 mt-1 w-[min(100vw-1.5rem,16rem)] rounded-xl border border-border bg-card p-2 shadow-lg md:w-56"
+          className="absolute right-0 top-full z-50 mt-1 w-[min(100%,16rem)] max-w-[calc(100vw-1rem)] rounded-xl border border-border bg-card p-2 shadow-lg sm:w-56"
           role="menu"
         >
           <div className="md:hidden">
@@ -108,7 +108,7 @@ function MoreMenu({
                 href={item.href}
                 role="menuitem"
                 className={cn(
-                  "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                  "flex min-h-11 items-center rounded-lg px-3 py-3 text-sm font-medium transition-colors touch-manipulation",
                   isActive(item.href)
                     ? "bg-muted text-foreground"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -126,7 +126,7 @@ function MoreMenu({
                 href={item.href}
                 role="menuitem"
                 className={cn(
-                  "block rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  "flex min-h-10 items-center rounded-lg px-3 py-2.5 text-sm font-medium transition-colors touch-manipulation",
                   isActive(item.href)
                     ? "bg-muted text-foreground"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -163,16 +163,16 @@ export function SiteHeader() {
   const moreActive = MORE_NAV.some((item) => isActive(item.href));
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-card/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-card/80">
-      <div className="mx-auto flex max-w-6xl items-center gap-2 px-3 py-2 sm:gap-3 sm:px-6 sm:py-2.5">
+    <header className="sticky top-0 z-40 w-full overflow-x-hidden border-b border-border bg-card/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-card/80">
+      <div className="mx-auto flex w-full min-w-0 max-w-6xl items-center gap-1 px-2 py-2 sm:gap-3 sm:px-6 sm:py-2.5">
         <Link
           href="/"
-          className="flex min-w-0 shrink-0 items-center gap-2 text-sm font-semibold tracking-tight text-foreground"
-          aria-label="Trang chủ — Cổng bảo hiểm FPT Telecom"
+          className="flex min-h-10 min-w-0 shrink-0 items-center gap-2 rounded-lg px-1 text-sm font-semibold tracking-tight text-foreground touch-manipulation sm:min-h-11 md:min-h-0"
+          aria-label="Trang chủ — Cổng HR FPT Telecom"
         >
           <FptTelecomLogo priority />
           <span className="hidden min-w-0 leading-none lg:inline">
-            Bảo hiểm
+            Cổng HR
           </span>
         </Link>
 

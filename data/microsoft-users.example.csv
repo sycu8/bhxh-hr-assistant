@@ -1,0 +1,4 @@
+User principal name,Display name,Department,Job title,Manager,Employee ID,Mobile Phone,Account enabled,Object Id
+employee@fpt.com,Nguyễn Văn A,Nhân sự,Chuyên viên Nhân sự,manager@fpt.com,FTEL-0001,0901234567,True,11111111-1111-1111-1111-111111111111
+manager@fpt.com,Trần Thị B,Nhân sự,Trưởng nhóm Nhân sự,,FTEL-0002,0912345678,True,22222222-2222-2222-2222-222222222222
+hr@fpt.com,Lê Văn C,Nhân sự,Chuyên viên C&B,manager@fpt.com,FTEL-0003,0923456789,True,33333333-3333-3333-3333-333333333333

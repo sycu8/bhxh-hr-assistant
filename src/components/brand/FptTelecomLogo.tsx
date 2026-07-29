@@ -15,7 +15,7 @@ export function FptTelecomLogo({ className, priority = false }: FptTelecomLogoPr
         alt="FPT Telecom"
         width={80}
         height={56}
-        className="h-9 w-auto sm:hidden"
+        className="h-8 w-auto max-w-[4.5rem] sm:hidden"
         priority={priority}
       />
       <Image

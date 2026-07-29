@@ -44,5 +44,23 @@ export const BASE_SALARY_INCREASE_2026 = {
   effectiveFrom: "2026-07-01",
   amountVnd: 2_530_000,
   bhxhCapVnd: 50_600_000,
+  decreeNumber: "161/2026/NĐ-CP",
   legalReference: "Khoản 13 Điều 141 Luật Bảo hiểm xã hội",
+} as const;
+
+/** Tóm tắt các thay đổi lao động có hiệu lực từ 01/7/2026. */
+export const LABOR_LAW_JULY_2026_BRIEF = {
+  effectiveFrom: "2026-07-01",
+  consolidatedLaborCode: {
+    documentNumber: "18/VBHN-VPQH",
+    title: "Văn bản hợp nhất Bộ luật Lao động",
+    issuedDate: "2026-02-12",
+  },
+  electronicLaborContract: {
+    decreeNumber: "337/2025/NĐ-CP",
+    platformOperationalFrom: "2026-07-01",
+    mandatoryConversion: false,
+    note:
+      "Nền tảng HĐLĐ điện tử vận hành chính thức; doanh nghiệp được khuyến khích sử dụng, không bắt buộc chuyển đổi toàn bộ HĐLĐ giấy hiện có.",
+  },
 } as const;

@@ -1,15 +1,19 @@
+/** Mốc 00:00 ICT ngày 01/7/2026 — lương cơ sở mới & Luật Dân số. */
+const JULY_2026_EFFECTIVE_AT = new Date("2026-07-01T00:00:00+07:00");
+
 export const SALARY_TAX_RULES_2026 = {
   taxYear: 2026,
   personalDeduction: 15_500_000,
   dependentDeduction: 6_200_000,
   personalDeductionEffectiveFrom: "2026-01-01",
   salaryIncomeTaxEffectiveFrom: "2026-01-01",
-  /** Mức đang áp dụng trước 01/7/2026 — dùng cho tính lương hiện tại. */
-  baseSalary: 2_340_000,
-  baseSalaryEffectiveFrom: "2024-07-01",
-  /** Nghị định tăng lương cơ sở — hiệu lực 01/7/2026. */
-  upcomingBaseSalary: 2_530_000,
-  upcomingBaseSalaryEffectiveFrom: "2026-07-01",
+  /** Mức áp dụng từ 01/7/2026 (Nghị định 161/2026/NĐ-CP). */
+  baseSalary: 2_530_000,
+  baseSalaryEffectiveFrom: "2026-07-01",
+  /** Mức trước 01/7/2026. */
+  previousBaseSalary: 2_340_000,
+  previousBaseSalaryEffectiveFrom: "2024-07-01",
+  previousBaseSalaryEffectiveUntil: "2026-06-30",
   regionalMinimumWages: {
     I: 5_310_000,
     II: 4_730_000,
@@ -33,14 +37,28 @@ export const SALARY_TAX_RULES_2026 = {
 
 export type SalaryRegion = keyof typeof SALARY_TAX_RULES_2026.regionalMinimumWages;
 
+export function getActiveBaseSalary(at: Date = new Date()): number {
+  return at >= JULY_2026_EFFECTIVE_AT
+    ? SALARY_TAX_RULES_2026.baseSalary
+    : SALARY_TAX_RULES_2026.previousBaseSalary;
+}
+
+export function getActiveBaseSalaryEffectiveFrom(at: Date = new Date()): string {
+  return at >= JULY_2026_EFFECTIVE_AT
+    ? SALARY_TAX_RULES_2026.baseSalaryEffectiveFrom
+    : SALARY_TAX_RULES_2026.previousBaseSalaryEffectiveFrom;
+}
+
 export function getBhxhBhytCap(
-  baseSalary: number = SALARY_TAX_RULES_2026.baseSalary,
+  at: Date = new Date(),
+  baseSalary: number = getActiveBaseSalary(at),
 ) {
   return baseSalary * 20;
 }
 
+/** Trần BHXH/BHYT từ 01/7/2026 (2,53M × 20 = 50,6M). */
 export function getUpcomingBhxhBhytCap() {
-  return getBhxhBhytCap(SALARY_TAX_RULES_2026.upcomingBaseSalary);
+  return getBhxhBhytCap(JULY_2026_EFFECTIVE_AT, SALARY_TAX_RULES_2026.baseSalary);
 }
 
 export function getBhtnCapByRegion(region: SalaryRegion) {

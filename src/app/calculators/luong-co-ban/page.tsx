@@ -7,29 +7,30 @@ import { formatEffectiveDate, formatVnd } from "@/lib/format/currency";
 import { EMPLOYEE_TOOLS_SECTION_TITLE } from "@/lib/navigation/employee-tools";
 import { BASE_SALARY_INCREASE_2026 } from "@/lib/data/ftel-company-policies";
 import {
+  getActiveBaseSalary,
+  getActiveBaseSalaryEffectiveFrom,
   getBhxhBhytCap,
   getBhtnCapByRegion,
-  getUpcomingBhxhBhytCap,
   SALARY_TAX_RULES_2026,
 } from "@/lib/services/salary-tax-rules";
 
 export const metadata: Metadata = {
   title: "Cập nhật lương cơ bản",
   description:
-    "Lương cơ sở, lương tối thiểu vùng và trần đóng BHXH/BHYT/BHTN theo cấu hình đang áp dụng.",
+    "Lương cơ sở 2,53 triệu từ 01/7/2026, lương tối thiểu vùng và trần đóng BHXH/BHYT/BHTN theo cấu hình đang áp dụng.",
 };
 
 export default function BaseSalaryReferencePage() {
   const {
-    baseSalary,
-    baseSalaryEffectiveFrom,
-    upcomingBaseSalary,
-    upcomingBaseSalaryEffectiveFrom,
+    previousBaseSalary,
+    previousBaseSalaryEffectiveFrom,
+    previousBaseSalaryEffectiveUntil,
     regionalMinimumWages,
     regionalMinimumWageEffectiveFrom,
   } = SALARY_TAX_RULES_2026;
+  const baseSalary = getActiveBaseSalary();
+  const baseSalaryEffectiveFrom = getActiveBaseSalaryEffectiveFrom();
   const bhxhBhytCap = getBhxhBhytCap();
-  const upcomingCap = getUpcomingBhxhBhytCap();
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
@@ -46,17 +47,17 @@ export default function BaseSalaryReferencePage() {
         </h1>
         <p className="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">
           Các mức dưới đây lấy từ cấu hình tính lương trong hệ thống (kỳ thuế{" "}
-          {SALARY_TAX_RULES_2026.taxYear}). Đối chiếu thêm văn bản gốc trước khi áp dụng cho
-          hồ sơ thật.
+          {SALARY_TAX_RULES_2026.taxYear}). Từ 01/7/2026 lương cơ sở và trần đóng BHXH/BHYT
+          đã được cập nhật theo Nghị định 161/2026/NĐ-CP.
         </p>
       </header>
 
       <div className="space-y-4">
-        <Card className="border-border/80 shadow-sm">
+        <Card className="border-primary/20 bg-primary/5 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-base">Lương cơ sở</CardTitle>
+            <CardTitle className="text-base">Lương cơ sở hiện hành</CardTitle>
             <CardDescription>
-              Căn cứ tính mức trần đóng BHXH, BHYT (thường = lương cơ sở × 20).
+              {BASE_SALARY_INCREASE_2026.legalReference} — {BASE_SALARY_INCREASE_2026.decreeNumber}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -68,32 +69,34 @@ export default function BaseSalaryReferencePage() {
               Trần đóng BHXH + BHYT (×20):{" "}
               <span className="font-medium text-foreground">{formatVnd(bhxhBhytCap)}</span>
             </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-primary/20 bg-primary/5 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base">Lương cơ sở từ 01/7/2026</CardTitle>
-            <CardDescription>
-              Theo Nghị định tăng lương cơ sở — {BASE_SALARY_INCREASE_2026.legalReference}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <p className="text-2xl font-semibold tabular-nums">
-              {formatVnd(upcomingBaseSalary)}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Hiệu lực từ: {formatEffectiveDate(upcomingBaseSalaryEffectiveFrom)}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Trần đóng BHXH + BHYT (×20):{" "}
-              <span className="font-medium text-foreground">{formatVnd(upcomingCap)}</span>
-            </p>
             <Button asChild variant="outline" size="sm" className="mt-2">
               <Link href="/legal-updates/tang-luong-co-so-2-53-trieu-2026">
                 Văn bản tóm tắt
               </Link>
             </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/80 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-base">Mức trước 01/7/2026</CardTitle>
+            <CardDescription>
+              Lương cơ sở áp dụng đến hết {formatEffectiveDate(previousBaseSalaryEffectiveUntil)}.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <p className="text-2xl font-semibold tabular-nums">
+              {formatVnd(previousBaseSalary)}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Hiệu lực từ: {formatEffectiveDate(previousBaseSalaryEffectiveFrom)}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Trần đóng BHXH + BHYT (×20):{" "}
+              <span className="font-medium text-foreground">
+                {formatVnd(previousBaseSalary * 20)}
+              </span>
+            </p>
           </CardContent>
         </Card>
 
@@ -109,12 +112,19 @@ export default function BaseSalaryReferencePage() {
             <ul className="divide-y divide-border text-sm">
               {(Object.keys(regionalMinimumWages) as Array<keyof typeof regionalMinimumWages>).map(
                 (region) => (
-                  <li key={region} className="flex items-center justify-between gap-4 py-3 first:pt-0">
+                  <li
+                    key={region}
+                    className="flex flex-col gap-1 py-3 first:pt-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+                  >
                     <span className="font-medium">Vùng {region}</span>
-                    <span className="tabular-nums text-muted-foreground">
-                      {formatVnd(regionalMinimumWages[region])}
-                      <span className="mx-2 text-border">·</span>
-                      trần BHTN {formatVnd(getBhtnCapByRegion(region))}
+                    <span className="text-left tabular-nums text-muted-foreground sm:text-right">
+                      <span className="block sm:inline">{formatVnd(regionalMinimumWages[region])}</span>
+                      <span className="mx-0 my-0.5 block text-border sm:mx-2 sm:my-0 sm:inline">
+                        ·
+                      </span>
+                      <span className="block sm:inline">
+                        trần BHTN {formatVnd(getBhtnCapByRegion(region))}
+                      </span>
                     </span>
                   </li>
                 ),
@@ -126,8 +136,8 @@ export default function BaseSalaryReferencePage() {
         <Card className="border-dashed border-amber-200/80 bg-amber-50/40">
           <CardContent className="space-y-3 pt-6 text-sm leading-relaxed text-muted-foreground">
             <p>
-              Khi Nhà nước điều chỉnh lương cơ sở hoặc lương tối thiểu, HR/C&amp;B cập nhật cấu
-              hình — bạn có thể đối chiếu thêm tại mục pháp luật.
+              Công cụ tính lương đã áp dụng mức mới từ 01/7/2026. Khi Nhà nước điều chỉnh thêm,
+              HR/C&amp;B cập nhật cấu hình — bạn có thể đối chiếu thêm tại mục pháp luật.
             </p>
             <div className="flex flex-wrap gap-2">
               <Button asChild variant="secondary" size="sm">

@@ -6,6 +6,55 @@ function normalizeWhitespace(text: string): string {
   return text.replace(/\s+/g, " ").trim();
 }
 
+function needsDenseFormatting(text: string): boolean {
+  if (text.includes("\n")) return true;
+  return (
+    /[.!?…][\p{Lu}ĐTCBL]/u.test(text) ||
+    /[^\s](?:Bổ sung thêm|Bổ sung|Theo quy định|Căn cứ|Lưu ý|Ngoài ra|Kết luận)/u.test(text) ||
+    /:\s*[–\-+•]/u.test(text) ||
+    /[^\n+]{8,}\+\s+/u.test(text)
+  );
+}
+
+/** Tách câu trả lời crawl/import dính liền; câu trả lời ngắn bình thường giữ một đoạn. */
+export function formatAnswerForDisplay(text: string): string {
+  let s = text.replace(/\r\n/g, "\n").trim();
+  if (!s) return s;
+
+  if (!needsDenseFormatting(s)) {
+    return s
+      .split("\n")
+      .map((line) => line.replace(/[ \t]+/g, " ").trim())
+      .join("\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+
+  // Câu dính liền sau dấu chấm (thiếu khoảng trắng khi import nguồn).
+  s = s.replace(/([.!?…])(?=[\p{Lu}ĐTCBL])/gu, "$1\n\n");
+
+  // Tiêu đề/mục mới dính liền vào đoạn trước (không tách cụm " theo quy định" trong câu).
+  s = s.replace(
+    /(?<=[^\s\n])(?=Bổ sung thêm|Bổ sung|Theo quy định|Căn cứ|Lưu ý|Ngoài ra|Kết luận)/gu,
+    "\n\n",
+  );
+  s = s.replace(/(?<=[^\s\n\d])(?=Điều\s+\d+)/gu, "\n\n");
+  s = s.replace(/(?<=[^\s\n\d])(?=Khoản\s+\d+)/gu, "\n\n");
+
+  // Danh sách sau dấu hai chấm.
+  s = s.replace(/:\s*([–\-+•])\s*/g, ":\n\n$1 ");
+  s = s.replace(/([^\n])\s+([–\-])\s+(?=[\p{Lu}])/gu, "$1\n\n$2 ");
+  s = s.replace(/([^\n+]{8,})\+\s+/g, "$1\n+ ");
+
+  s = s
+    .split("\n")
+    .map((line) => line.replace(/[ \t]+/g, " ").trim())
+    .join("\n");
+  s = s.replace(/\n{3,}/g, "\n\n").trim();
+
+  return s;
+}
+
 function splitSentences(text: string): string[] {
   return normalizeWhitespace(text)
     .split(/(?<=[.!?…])\s+/u)
@@ -52,23 +101,28 @@ export function extractRelevantExcerpt(
   }
 
   if (picked.length === 0) {
-    return sentences.slice(0, 2).join(" ").slice(0, maxChars);
+    return formatAnswerForDisplay(
+      sentences.slice(0, 2).join(" ").slice(0, maxChars),
+    );
   }
 
-  return picked.join(" ");
+  return formatAnswerForDisplay(picked.join(" "));
 }
 
 export function appendLegalHint(
   answer: string,
   citations: CitationDto[],
+  options?: { alreadyFormatted?: boolean },
 ): string {
   const clause = citations.find((c) => c.legalArticle)?.legalArticle;
-  if (!clause) return normalizeWhitespace(answer);
-  const base = normalizeWhitespace(answer);
+  const base = options?.alreadyFormatted
+    ? answer.trim()
+    : formatAnswerForDisplay(answer);
+  if (!clause) return base;
   if (base.toLocaleLowerCase("vi-VN").includes(clause.toLocaleLowerCase("vi-VN"))) {
     return base;
   }
-  return `${base} (Căn cứ: ${clause}.)`;
+  return `${base}\n\n(Căn cứ: ${clause}.)`;
 }
 
 export function composeConciseAnswer(params: {
@@ -78,14 +132,14 @@ export function composeConciseAnswer(params: {
 }): string {
   const raw = params.question
     ? extractRelevantExcerpt(params.body, params.question)
-    : normalizeWhitespace(params.body);
+    : formatAnswerForDisplay(normalizeWhitespace(params.body));
 
   const clipped =
     raw.length > MAX_ANSWER_CHARS
       ? `${raw.slice(0, MAX_ANSWER_CHARS - 1).trim()}…`
       : raw;
 
-  return appendLegalHint(clipped, params.citations);
+  return appendLegalHint(clipped, params.citations, { alreadyFormatted: true });
 }
 
 export function emptyDetailedAnswer(): string {

@@ -1,7 +1,8 @@
 import { getSessionSecret } from "@/lib/security/session-secret";
 import { timingSafeEqualString } from "@/lib/security/timing-safe-equal";
+import { CMS_SESSION_COOKIE } from "@/lib/auth/session-cookies";
 
-export const CMS_SESSION_COOKIE = "cms_session";
+export { CMS_SESSION_COOKIE };
 export const CMS_SESSION_MAX_AGE_SEC = 60 * 60 * 12; // 12h
 
 export type SessionCookiePayload = {

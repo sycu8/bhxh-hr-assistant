@@ -1,30 +1,58 @@
+import { Badge } from "@/components/ui/badge";
 import { requirePermission } from "@/lib/auth/require-admin";
 import { getDb } from "@/lib/db/prisma";
+import type { Metadata } from "next";
 
-export const metadata = { title: "Công thức tính — CMS" };
+export const metadata: Metadata = { title: "Công thức tính — CMS" };
 
 export default async function AdminCalculatorsPage() {
   await requirePermission("calculator:read");
   const db = getDb();
   const configs = await db.calculatorConfig.findMany({
     orderBy: [{ key: "asc" }, { effectiveFrom: "desc" }],
+    take: 50,
   });
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">Công thức tính</h1>
-      <div className="space-y-3">
-        {configs.map((c) => (
-          <div key={c.id} className="rounded-xl border bg-card p-4 text-sm">
-            <p className="font-medium">
-              {c.name} <span className="text-muted-foreground">({c.key})</span>
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {c.status} · hiệu lực {c.effectiveFrom.toISOString().slice(0, 10)} · v
-              {c.version}
-            </p>
-          </div>
-        ))}
+      <h1 className="text-2xl font-semibold">Cấu hình công thức tính</h1>
+      <p className="text-sm text-muted-foreground">
+        Tỷ lệ BHXH/BHYT/BHTN và tham số lương thuế theo phiên bản hiệu lực.
+      </p>
+      <div className="overflow-x-auto rounded-xl border bg-card">
+        <table className="w-full text-left text-sm">
+          <thead className="border-b bg-muted/40 text-xs uppercase text-muted-foreground">
+            <tr>
+              <th className="px-4 py-3">Key</th>
+              <th className="px-4 py-3">Tên</th>
+              <th className="px-4 py-3">Hiệu lực</th>
+              <th className="px-4 py-3">Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+            {configs.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">
+                  Chưa có cấu hình DB — đang dùng quy tắc tĩnh trong{" "}
+                  <code className="text-xs">salary-tax-rules.ts</code>.
+                </td>
+              </tr>
+            ) : (
+              configs.map((c) => (
+                <tr key={c.id} className="border-b last:border-0">
+                  <td className="px-4 py-3 font-mono text-xs">{c.key}</td>
+                  <td className="px-4 py-3">{c.name}</td>
+                  <td className="px-4 py-3">
+                    {new Intl.DateTimeFormat("vi-VN").format(c.effectiveFrom)}
+                  </td>
+                  <td className="px-4 py-3">
+                    <Badge variant="outline">{c.status}</Badge>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

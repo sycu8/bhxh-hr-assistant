@@ -40,13 +40,13 @@ export function EmployeeJourney({
     <nav
       aria-label="Hành trình tra cứu bảo hiểm"
       className={cn(
-        "rounded-2xl border border-sky-100 bg-white/90 p-2 shadow-sm shadow-slate-950/5",
+        "w-full min-w-0 rounded-2xl border border-sky-100 bg-white/90 p-2 shadow-sm shadow-slate-950/5",
         className,
       )}
     >
       <ol
         className={cn(
-          "grid gap-2",
+          "grid min-w-0 gap-2",
           compact ? "grid-cols-2 lg:grid-cols-4" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
         )}
       >
@@ -56,14 +56,14 @@ export function EmployeeJourney({
           const isComplete = stop.state === "complete";
 
           return (
-            <li key={stop.id}>
+            <li key={stop.id} className="min-w-0">
               <Link
                 href={stop.href}
                 aria-current={isCurrent ? "step" : undefined}
                 className={cn(
-                  "flex h-full rounded-xl border transition-colors",
+                  "flex h-full min-w-0 rounded-xl border transition-colors",
                   compact
-                    ? "min-h-16 flex-col items-center justify-center gap-2 px-2 py-2 text-center"
+                    ? "min-h-14 flex-col items-center justify-center gap-1.5 px-1.5 py-2 text-center"
                     : "gap-3 px-3 py-3",
                   isCurrent
                     ? "border-primary bg-primary text-primary-foreground shadow-sm"
@@ -89,8 +89,8 @@ export function EmployeeJourney({
                 <span className={cn("min-w-0", compact ? "w-full" : "")}>
                   <span
                     className={cn(
-                      "block font-semibold leading-snug",
-                      compact ? "text-xs" : "text-sm",
+                      "block font-semibold leading-snug break-words",
+                      compact ? "text-[11px] leading-tight sm:text-xs" : "text-sm",
                     )}
                   >
                     <span className="mr-1 tabular-nums">{stop.number}.</span>

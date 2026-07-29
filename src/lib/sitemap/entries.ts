@@ -25,6 +25,8 @@ type SitemapEntryInput = {
 
 const STATIC_PUBLIC_PATHS: SitemapEntryInput[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
+  { path: "/bao-hiem", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/login", changeFrequency: "monthly", priority: 0.5 },
   { path: "/search", changeFrequency: "weekly", priority: 0.9 },
   { path: "/hoi-dap", changeFrequency: "weekly", priority: 0.9 },
   { path: "/ask-hr", changeFrequency: "monthly", priority: 0.8 },
@@ -37,6 +39,7 @@ const STATIC_PUBLIC_PATHS: SitemapEntryInput[] = [
   { path: "/topics", changeFrequency: "monthly", priority: 0.75 },
   { path: "/legal-updates", changeFrequency: "weekly", priority: 0.85 },
   { path: "/faq", changeFrequency: "weekly", priority: 0.7 },
+  { path: "/developers", changeFrequency: "monthly", priority: 0.55 },
 ];
 
 function parseLastModified(value?: Date | string): Date | undefined {

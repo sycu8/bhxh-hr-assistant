@@ -1,6 +1,20 @@
 # Báo cáo kiểm thử
 
-Cập nhật lần chạy gần nhất: **2026-06-21** — `pnpm test:scenarios` (5 kịch bản) + `pnpm test` (147 unit) + `pnpm audit:seo-geo` + `pnpm bench:pages`.
+Cập nhật lần chạy gần nhất: **2026-06-26** — Vitest **153/153**, E2E **31 pass / 11 skip**, UAT streak **10/10** (mục tiêu **15/15**). Trước đó **2026-06-21**: `pnpm test:scenarios` (5 kịch bản) + `pnpm test` (147 unit) + `pnpm audit:seo-geo` + `pnpm bench:pages`.
+
+## QA local (production-like)
+
+```bash
+docker compose up -d
+cp .env.e2e.example .env.e2e
+pnpm qa:setup          # cần Postgres local :5432
+pnpm qa:run            # vitest + e2e + UAT streak 15
+pnpm test:e2e          # tự build với .env.e2e + start port 3199
+```
+
+Chi tiết inventory + acceptance criteria: [docs/QA-INVENTORY.md](QA-INVENTORY.md). Kế hoạch: [docs/ROADMAP.md](ROADMAP.md).
+
+**Lưu ý OneDrive:** `pnpm test` trên thư mục OneDrive có thể lỗi esbuild EPERM — chạy từ `%TEMP%\vn-insurance-fti-deploy` hoặc `pnpm rebuild esbuild`.
 
 ## Lệnh chạy
 
@@ -74,6 +88,13 @@ Mọi check S1–S5 pass sau khi build thành công. Prisma log “Can't reach d
 
 ## Việc nên làm thêm
 
-- E2E search **không mock** khi có DB test (Docker/CI)
+| Bộ | Passed | Failed | Skipped | Ghi chú |
+|----|--------|--------|---------|---------|
+| Vitest | 153 | 0 | 0 | Chạy từ `%TEMP%\vn-insurance-fti-deploy` (tránh esbuild EPERM OneDrive) |
+| Playwright E2E | 31 | 0 | 11 | Portal/auth skip — Postgres `127.0.0.1:5432` không chạy |
+| UAT streak | 10 | 0 | — | Mục tiêu 15 — `STREAK_TARGET=15 pnpm test:uat-streak` |
+
+- E2E search **không mock** khi có DB test (Docker/CI — `pnpm qa:run`)
 - Admin E2E khi có `DATABASE_URL`
 - Gửi email HR thật (mock `/api/ask-hr/send`)
+- Visual regression (tùy chọn)

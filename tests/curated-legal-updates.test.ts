@@ -12,10 +12,12 @@ describe("curated FAQ catalog", () => {
 });
 
 describe("curated legal updates", () => {
-  it("includes Nghị định 168 and base salary briefs", () => {
+  it("includes July 2026 labor law briefs", () => {
     const slugs = CURATED_LEGAL_UPDATES.map((u) => u.slug);
     expect(slugs).toContain("nghi-dinh-168-2026-nd-cp-luat-dan-so");
     expect(slugs).toContain("tang-luong-co-so-2-53-trieu-2026");
+    expect(slugs).toContain("nghi-dinh-337-hop-dong-lao-dong-dien-tu");
+    expect(slugs).toContain("vbhn-18-bo-luat-lao-dong-2026");
     expect(slugs).toContain("ftel-ho-tro-thai-san-level-2025");
   });
 
@@ -26,9 +28,9 @@ describe("curated legal updates", () => {
   });
 });
 
-describe("upcoming base salary 2026-07", () => {
+describe("active base salary from July 2026", () => {
   it("exposes 2.53M base and 50.6M BHXH cap from July 2026", () => {
-    expect(SALARY_TAX_RULES_2026.upcomingBaseSalary).toBe(2_530_000);
+    expect(SALARY_TAX_RULES_2026.baseSalary).toBe(2_530_000);
     expect(getUpcomingBhxhBhytCap()).toBe(50_600_000);
   });
 });

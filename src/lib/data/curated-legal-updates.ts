@@ -40,9 +40,9 @@ export const CURATED_LEGAL_UPDATES: CuratedLegalUpdate[] = [
     effectiveDate: "2026-07-01T00:00:00.000Z",
     impactLevel: "HIGH",
     affectedGroups: ["HR", "CBNV"],
-    hrActionRequired: true,
+    hrActionRequired: false,
     hrActionSummary:
-      "Cập nhật quy trình nghỉ thai sản con thứ hai và thông báo gói sàng lọc từ 2027.",
+      "Đã có hiệu lực từ 01/7/2026 — duy trì quy trình nghỉ thai sản con thứ hai và thông báo gói sàng lọc từ 2027.",
     publishedAt: "2026-05-31T00:00:00.000Z",
     body: `Nghị định 168/2026/NĐ-CP của Chính phủ quy định chi tiết một số điều và biện pháp tổ chức, hướng dẫn thi hành Luật Dân số (hiệu lực từ 01/7/2026).
 
@@ -64,24 +64,24 @@ Tất cả phụ nữ mang thai và trẻ sơ sinh được hưởng hỗ trợ 
   },
   {
     id: "curated-luong-co-so-2026-07",
-    title: "Tăng lương cơ sở lên 2,53 triệu đồng/tháng (từ 01/7/2026)",
+    title: "Tăng lương cơ sở lên 2,53 triệu đồng/tháng (Nghị định 161/2026)",
     slug: "tang-luong-co-so-2-53-trieu-2026",
     summary:
-      "Từ 01/7/2026 mức lương cơ sở 2,53 triệu đồng/tháng. Trần căn cứ đóng BHXH bắt buộc cao nhất = 20 lần mức tham chiếu (50,6 triệu đồng/tháng) theo khoản 13 Điều 141 Luật BHXH.",
+      "Từ 01/7/2026 mức lương cơ sở 2,53 triệu đồng/tháng (Nghị định 161/2026/NĐ-CP). Trần căn cứ đóng BHXH bắt buộc = 20 lần mức tham chiếu (50,6 triệu đồng/tháng). Công cụ tính lương đã áp dụng mức mới.",
     sourceUrl:
-      "https://luatvietnam.vn/tim-van-ban.html?keywords=lương%20cơ%20sở%202026",
-    sourceName: "LuatVietnam.vn",
+      "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Nghi-dinh-161-2026-ND-CP-quy-dinh-muc-luong-co-so-doi-voi-can-bo-cong-chuc-vien-chuc-va-luc-luong-vu-trang-706892.aspx",
+    sourceName: "Thư viện Pháp Luật",
     legalDocumentType: "DECREE",
-    documentNumber: null,
+    documentNumber: "161/2026/NĐ-CP",
     issuedDate: null,
     effectiveDate: "2026-07-01T00:00:00.000Z",
     impactLevel: "HIGH",
     affectedGroups: ["HR", "C&B"],
-    hrActionRequired: true,
+    hrActionRequired: false,
     hrActionSummary:
-      "Rà soát mức đóng BHXH/BHYT/BHTN và cập nhật cấu hình tính lương từ 01/7/2026.",
-    publishedAt: "2026-05-31T00:00:00.000Z",
-    body: `Nghị định về tăng lương cơ sở (có hiệu lực từ ngày 01/7/2026):
+      "Đã có hiệu lực — công cụ tính lương và trang lương cơ bản đã cập nhật trần BHXH/BHYT 50,6 triệu.",
+    publishedAt: "2026-07-01T00:00:00.000Z",
+    body: `Nghị định 161/2026/NĐ-CP quy định mức lương cơ sở (có hiệu lực từ ngày 01/7/2026):
 
 • Từ 01/7/2026: Mức lương cơ sở tăng lên 2,53 triệu đồng/tháng.
 
@@ -93,7 +93,67 @@ Từ 01/7/2026:
 | Mức lương làm căn cứ đóng BHXH cao nhất | 50,6 triệu đồng/tháng |
 | Lương cơ sở | 2,53 triệu đồng/tháng |
 
-HR/C&B cần đối chiếu văn bản gốc trên Công báo và cập nhật bảng lương, kê khai BHXH.`,
+Hệ thống đã cập nhật công cụ tính lương và trang tham chiếu lương cơ bản. HR/C&B vẫn cần đối chiếu văn bản gốc trên Công báo và cập nhật bảng lương, kê khai BHXH.`,
+  },
+  {
+    id: "curated-vbhn-18-lao-dong-2026",
+    title: "Văn bản hợp nhất 18/VBHN-VPQH — Bộ luật Lao động",
+    slug: "vbhn-18-bo-luat-lao-dong-2026",
+    summary:
+      "Văn bản hợp nhất số 18/VBHN-VPQH (ban hành 12/2/2026) hợp nhất các quy định sửa đổi, bổ sung vào Bộ luật Lao động 2019 — căn cứ tra cứu lao động hiện hành.",
+    sourceUrl:
+      "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-18-vbhn-vpqh-468971.htm",
+    sourceName: "Công báo Chính phủ",
+    legalDocumentType: "CONSOLIDATED",
+    documentNumber: "18/VBHN-VPQH",
+    issuedDate: "2026-02-12T00:00:00.000Z",
+    effectiveDate: null,
+    impactLevel: "MEDIUM",
+    affectedGroups: ["HR", "CBNV"],
+    hrActionRequired: false,
+    hrActionSummary: null,
+    publishedAt: "2026-07-01T00:00:00.000Z",
+    body: `Văn bản hợp nhất số 18/VBHN-VPQH do Văn phòng Quốc hội ban hành ngày 12/2/2026, hợp nhất Bộ luật Lao động.
+
+Đây không phải Bộ luật Lao động mới thay thế toàn bộ, mà là văn bản hợp nhất các quy định đã sửa đổi, bổ sung vào Bộ luật Lao động 2019 — giúp tra cứu thống nhất.
+
+HR nên dùng văn bản hợp nhất khi tư vấn về:
+• Hợp đồng lao động, thời giờ làm việc, nghỉ phép.
+• Chấm dứt hợp đồng, trách nhiệm người sử dụng lao động.
+• Kỷ luật lao động và giải quyết tranh chấp.
+
+Luôn đối chiếu văn bản gốc trên Công báo khi áp dụng cho từng tình huống cụ thể.`,
+  },
+  {
+    id: "curated-nd-337-hdld-dien-tu",
+    title: "Nghị định 337/2025/NĐ-CP — Hợp đồng lao động điện tử (từ 01/7/2026)",
+    slug: "nghi-dinh-337-hop-dong-lao-dong-dien-tu",
+    summary:
+      "Từ 01/7/2026 nền tảng HĐLĐ điện tử vận hành chính thức. Doanh nghiệp được khuyến khích sử dụng; không bắt buộc chuyển đổi toàn bộ HĐLĐ giấy hiện có.",
+    sourceUrl:
+      "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Nghi-dinh-337-2025-ND-CP-quy-dinh-chi-tiet-mot-so-dieu-cua-Bo-luat-Lao-dong-ve-hop-dong-lao-dong-dien-tu-648507.aspx",
+    sourceName: "Thư viện Pháp Luật",
+    legalDocumentType: "DECREE",
+    documentNumber: "337/2025/NĐ-CP",
+    issuedDate: null,
+    effectiveDate: "2026-07-01T00:00:00.000Z",
+    impactLevel: "MEDIUM",
+    affectedGroups: ["HR", "CBNV"],
+    hrActionRequired: false,
+    hrActionSummary: null,
+    publishedAt: "2026-07-01T00:00:00.000Z",
+    body: `Nghị định 337/2025/NĐ-CP quy định chi tiết hợp đồng lao động điện tử theo Bộ luật Lao động.
+
+Từ 01/7/2026:
+• Nền tảng hợp đồng lao động điện tử phải được đưa vào vận hành chính thức (Điều 28).
+• Người sử dụng lao động được khuyến khích sử dụng HĐLĐ điện tử thay cho HĐLĐ giấy.
+
+Lưu ý quan trọng:
+• Không bắt buộc doanh nghiệp chuyển đổi toàn bộ HĐLĐ giấy sang điện tử.
+• HĐLĐ điện tử đã giao kết trước 01/01/2026 còn hiệu lực thì tiếp tục thực hiện đến hết thời hạn.
+• Không có quy định buộc phải ký lại hoặc chuyển đổi HĐLĐ đã giao kết trước đó.
+
+HR có thể lên kế hoạch triển khai HĐLĐ điện tử khi phù hợp quy trình nội bộ, không cần chuyển đổi khẩn cấp toàn bộ hồ sơ.`,
   },
   {
     id: "curated-qd-1069-ftel-thai-san",
@@ -176,5 +236,108 @@ Ngoài ra CBNV còn được hưởng:
 • Chế độ thai sản FTEL và trợ cấp bổ sung Công ty (1069/QĐ-FTEL).
 
 Tra cứu thêm trên Foxpro: Chức năng → Quy định và chính sách → Bảo hiểm xã hội.`,
+  },
+  {
+    id: "curated-luat-bhyt-2008",
+    title: "Luật Bảo hiểm y tế 2008 (14/2008/QH12) — khung BHYT",
+    slug: "luat-bao-hiem-y-te-2008",
+    summary:
+      "Luật nền về đối tượng tham gia BHYT, quyền và nghĩa vụ, thẻ BHYT, mức đóng và KCB. Đã được sửa đổi, bổ sung nhiều lần — áp dụng kèm Nghị định 146/2018.",
+    sourceUrl:
+      "https://thuvienphapluat.vn/van-ban/Y-te-Lao-dong-Tien-luong/Luat-Bao-hiem-y-te-2008-so-14-2008-QH12-497.aspx",
+    sourceName: "Thư viện Pháp Luật",
+    legalDocumentType: "LAW",
+    documentNumber: "14/2008/QH12",
+    issuedDate: "2008-11-14T00:00:00.000Z",
+    effectiveDate: null,
+    impactLevel: "HIGH",
+    affectedGroups: ["CBNV", "HR"],
+    hrActionRequired: false,
+    hrActionSummary: null,
+    publishedAt: "2026-06-22T00:00:00.000Z",
+    body: `Luật Bảo hiểm y tế quy định:
+• Đối tượng tham gia BHYT (người lao động, hưu trí, hộ gia đình…).
+• Mức đóng và phương thức đóng BHYT.
+• Thẻ BHYT, thời hạn sử dụng và cấp đổi.
+• Quyền được KCB và thanh toán chi phí y tế từ quỹ BHYT.
+
+HR/C&B: đảm bảo kê khai đúng, cập nhật nơi đăng ký KCB ban đầu, hướng dẫn NLĐ dùng thẻ điện tử/VssID.`,
+  },
+  {
+    id: "curated-nd-146-2018-bhyt",
+    title: "Nghị định 146/2018/NĐ-CP — chi tiết KCB BHYT",
+    slug: "nghi-dinh-146-2018-bhyt-kcb",
+    summary:
+      "Quy định thủ tục khám chữa bệnh BHYT: đăng ký ban đầu, chuyển tuyến, mức đồng chi trả, thanh toán trực tiếp và danh mục dịch vụ.",
+    sourceUrl:
+      "https://thuvienphapluat.vn/van-ban/Y-te-Lao-dong-Tien-luong/Nghi-dinh-146-2018-ND-CP-quy-dinh-chi-tiet-thi-hanh-mot-so-dieu-Luat-bao-hiem-y-te-359682.aspx",
+    sourceName: "Thư viện Pháp Luật",
+    legalDocumentType: "DECREE",
+    documentNumber: "146/2018/NĐ-CP",
+    issuedDate: "2018-10-17T00:00:00.000Z",
+    effectiveDate: "2018-12-01T00:00:00.000Z",
+    impactLevel: "HIGH",
+    affectedGroups: ["CBNV"],
+    hrActionRequired: false,
+    hrActionSummary: null,
+    publishedAt: "2026-06-22T00:00:00.000Z",
+    body: `Nghị định 146/2018 là căn cứ thường dùng khi NLĐ hỏi về:
+• Nơi đăng ký KCB ban đầu và khám trái tuyến.
+• Giấy chuyển tuyến, tái khám.
+• Mức hưởng 80%/100% chi phí KCB theo từng trường hợp.
+
+Khi trả lời nhân viên, luôn nhắc mang thẻ BHYT + giấy tờ tùy thân và tuân thủ quy trình chuyển tuyến.`,
+  },
+  {
+    id: "curated-luat-viec-lam-bhtn",
+    title: "Luật Việc làm — trợ cấp thất nghiệp (BHTN)",
+    slug: "luat-viec-lam-tro-cap-that-nghiep",
+    summary:
+      "Điều 52–55 Luật Việc làm: điều kiện, mức trợ cấp, thời gian hưởng, học nghề và trách nhiệm báo cáo tìm việc khi hưởng BHTN.",
+    sourceUrl:
+      "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Luat-Viec-lam-2013-38-2013-QH13-183193.aspx",
+    sourceName: "Thư viện Pháp Luật",
+    legalDocumentType: "LAW",
+    documentNumber: "38/2013/QH13",
+    issuedDate: "2013-11-16T00:00:00.000Z",
+    effectiveDate: null,
+    impactLevel: "HIGH",
+    affectedGroups: ["CBNV"],
+    hrActionRequired: false,
+    hrActionSummary: null,
+    publishedAt: "2026-06-22T00:00:00.000Z",
+    body: `Tóm tắt BHTN theo Luật Việc làm:
+• Đóng BHTN ≥12 tháng trong 24 tháng trước khi nghỉ.
+• Nộp hồ sơ trong 03 tháng kể từ ngày chấm dứt HĐLĐ.
+• Mức trợ cấp = 60% bình quân lương đóng BHTN 6 tháng liền kề.
+• Thời gian hưởng tùy số tháng đã đóng (tối đa 12–18 tháng).
+
+HR hỗ trợ cấp chứng nhận thời gian đóng BHTN và giải thích thủ tục tại trung tâm dịch vụ việc làm.`,
+  },
+  {
+    id: "curated-nd-274-2025-bhtn",
+    title: "Nghị định 274/2025/NĐ-CP — chậm/trốn đóng BHTN",
+    slug: "nghi-dinh-274-2025-bhtn-cham-dong",
+    summary:
+      "Hướng dẫn xử lý chậm đóng, trốn đóng BHXH bắt buộc và BHTN; quy trình khiếu nại, tố cáo và trách nhiệm người sử dụng lao động.",
+    sourceUrl:
+      "https://thuvienphapluat.vn/van-ban/Bao-hiem/Nghi-dinh-274-2025-ND-CP-huong-dan-Luat-Bao-hiem-xa-hoi-cham-tron-dong-bao-hiem-xa-hoi-653507.aspx",
+    sourceName: "Thư viện Pháp Luật",
+    legalDocumentType: "DECREE",
+    documentNumber: "274/2025/NĐ-CP",
+    issuedDate: null,
+    effectiveDate: null,
+    impactLevel: "MEDIUM",
+    affectedGroups: ["HR", "C&B"],
+    hrActionRequired: true,
+    hrActionSummary:
+      "Rà soát kỳ trích nộp BHTN và xử lý các tháng chậm/trốn đóng.",
+    publishedAt: "2026-06-22T00:00:00.000Z",
+    body: `Nghị định 274/2025 được bài tổng hợp TLPL liệt kê trong nhóm văn bản BHXH/BHTN năm 2025–2026.
+
+HR/C&B cần:
+• Trích nộp BHTN đúng hạn cùng BHXH/BHYT.
+• Lưu chứng từ nộp và đối chiếu sổ BHXH của NLĐ.
+• Phối hợp BHXH khi NLĐ khiếu nại thiếu tháng đóng ảnh hưởng quyền hưởng trợ cấp thất nghiệp.`,
   },
 ];

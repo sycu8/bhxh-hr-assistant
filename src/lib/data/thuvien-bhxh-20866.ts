@@ -69,6 +69,28 @@ export const THUVIEN_BHXH_20866_SECTIONS: CatalogSection[] = [
     ],
   },
   {
+    id: "lao-dong-2026",
+    heading: "Lao động & tiền lương — hiệu lực 01/7/2026",
+    links: [
+      {
+        label: "Nghị định 161/2026/NĐ-CP — lương cơ sở 2,53 triệu đồng/tháng",
+        href: "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Nghi-dinh-161-2026-ND-CP-quy-dinh-muc-luong-co-so-doi-voi-can-bo-cong-chuc-vien-chuc-va-luc-luong-vu-trang-706892.aspx",
+      },
+      {
+        label: "Văn bản hợp nhất 18/VBHN-VPQH — Bộ luật Lao động",
+        href: "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-18-vbhn-vpqh-468971.htm",
+      },
+      {
+        label: "Nghị định 337/2025/NĐ-CP — hợp đồng lao động điện tử",
+        href: "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Nghi-dinh-337-2025-ND-CP-quy-dinh-chi-tiet-mot-so-dieu-cua-Bo-luat-Lao-dong-ve-hop-dong-lao-dong-dien-tu-648507.aspx",
+      },
+      {
+        label: "Nghị định 168/2026/NĐ-CP — chi tiết Luật Dân số (thai sản)",
+        href: "https://luatvietnam.vn/tim-van-ban.html?keywords=Nghị%20định%20168%2F2026",
+      },
+    ],
+  },
+  {
     id: "nghi-dinh",
     heading: "Nghị định hướng dẫn / liên quan (theo mục 2.1 bài viết)",
     links: [
@@ -148,6 +170,40 @@ export const THUVIEN_BHXH_20866_SECTIONS: CatalogSection[] = [
         label:
           "Thông tư 25/2025/TT-BYT — BHXH, AT-VSLĐ (y tế), khám chữa bệnh",
         href: "https://thuvienphapluat.vn/van-ban/Bao-hiem/Thong-tu-25-2025-TT-BYT-huong-dan-Luat-bao-hiem-xa-hoi-linh-vuc-y-te-639240.aspx",
+      },
+    ],
+  },
+  {
+    id: "bhyt-bhtn-chinh-thong",
+    heading: "BHYT & BHTN — văn bản nền (TLPL / BHXH VN)",
+    links: [
+      {
+        label: "Luật Bảo hiểm y tế 2008 (14/2008/QH12) — TLPL",
+        href: "https://thuvienphapluat.vn/van-ban/Y-te-Lao-dong-Tien-luong/Luat-Bao-hiem-y-te-2008-so-14-2008-QH12-497.aspx",
+      },
+      {
+        label: "Nghị định 146/2018/NĐ-CP — KCB BHYT",
+        href: "https://thuvienphapluat.vn/van-ban/Y-te-Lao-dong-Tien-luong/Nghi-dinh-146-2018-ND-CP-quy-dinh-chi-tiet-thi-hanh-mot-so-dieu-Luat-bao-hiem-y-te-359682.aspx",
+      },
+      {
+        label: "Lĩnh vực Bảo hiểm Y tế — BHXH Việt Nam",
+        href: "https://baohiemxahoi.gov.vn/tintuc/Pages/linh-vuc-bao-hiem-y-te.aspx?CateID=169&ItemID=25518",
+      },
+      {
+        label: "Luật Việc làm 2013 — trợ cấp thất nghiệp (BHTN)",
+        href: "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Luat-Viec-lam-2013-38-2013-QH13-183193.aspx",
+      },
+      {
+        label: "Nghị định 28/2015/NĐ-CP — hướng dẫn BHTN",
+        href: "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Nghi-dinh-28-2015-ND-CP-huong-dan-Luat-Viec-lam-ve-bao-hiem-that-nghiep-282417.aspx",
+      },
+      {
+        label: "Nghị định 274/2025/NĐ-CP — chậm/trốn đóng BHTN",
+        href: "https://thuvienphapluat.vn/van-ban/Bao-hiem/Nghi-dinh-274-2025-ND-CP-huong-dan-Luat-Bao-hiem-xa-hoi-cham-tron-dong-bao-hiem-xa-hoi-653507.aspx",
+      },
+      {
+        label: "Bộ LĐ-TB&XH — chính sách việc làm & BHTN",
+        href: "https://molisa.gov.vn",
       },
     ],
   },
@@ -288,6 +344,44 @@ export const THUVIEN_BHXH_FAQ_SEEDS: ThuvienFaqSeed[] = [
           "https://thuvienphapluat.vn/phap-luat-doanh-nghiep/bai-viet/14-khoan-phu-cap-khong-dong-bhxh-tu-01-7-2025-14523.html",
         legalArticle: null,
         legalClause: null,
+      },
+    ],
+  },
+  {
+    categorySlug: "bhyt",
+    question:
+      "Nghị định 146/2018/NĐ-CP quy định gì về khám chữa bệnh BHYT?",
+    shortAnswer:
+      "Nghị định 146/2018 quy định chi tiết thủ tục KCB BHYT: đăng ký nơi KCB ban đầu, chuyển tuyến, mức đồng chi trả, danh mục dịch vụ và hồ sơ thanh toán.",
+    detailedAnswer:
+      "Đây là văn bản hướng dẫn chính khi NLĐ đi khám bằng thẻ BHYT. HR/C&B nên dẫn NLĐ đọc Điều 14–16 (chuyển tuyến) và Điều 22–23 (mức hưởng). Luôn đối chiếu bản cập nhật trên TLPL/Công báo.",
+    citations: [
+      {
+        title: "Nghị định 146/2018/NĐ-CP — TLPL",
+        sourceUrl:
+          "https://thuvienphapluat.vn/van-ban/Y-te-Lao-dong-Tien-luong/Nghi-dinh-146-2018-ND-CP-quy-dinh-chi-tiet-thi-hanh-mot-so-dieu-Luat-bao-hiem-y-te-359682.aspx",
+      },
+    ],
+  },
+  {
+    categorySlug: "bhtn",
+    question:
+      "Nghị định 28/2015/NĐ-CP hướng dẫn những nội dung BHTN nào?",
+    shortAnswer:
+      "Nghị định 28/2015 chi tiết hồ sơ, thủ tục hưởng trợ cấp thất nghiệp, mức trợ cấp, thời gian hưởng, học nghề và trách nhiệm của trung tâm dịch vụ việc làm.",
+    detailedAnswer:
+      "Văn bản bổ sung cho Điều 52–55 Luật Việc làm. NLĐ nộp hồ sơ tại trung tâm việc làm nơi cư trú trong 03 tháng sau khi chấm dứt HĐLĐ.",
+    citations: [
+      {
+        title: "Nghị định 28/2015/NĐ-CP — TLPL",
+        sourceUrl:
+          "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Nghi-dinh-28-2015-ND-CP-huong-dan-Luat-Viec-lam-ve-bao-hiem-that-nghiep-282417.aspx",
+      },
+      {
+        title: "Luật Việc làm 2013 — TLPL",
+        sourceUrl:
+          "https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Luat-Viec-lam-2013-38-2013-QH13-183193.aspx",
+        legalArticle: "Điều 52–55",
       },
     ],
   },

@@ -229,7 +229,7 @@ export function SalaryTaxTool({ initialMode = "gross-to-net" }: SalaryTaxToolPro
               thuế TNCN theo cấu hình kỳ thuế năm 2026.
             </p>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2 lg:min-w-[360px]">
+          <div className="grid min-w-0 gap-3 sm:grid-cols-2 lg:min-w-[360px]">
             <div className="rounded-2xl border border-white/12 bg-white/10 px-4 py-3">
               <p className="text-xs uppercase tracking-[0.16em] text-blue-100/70">
                 Giảm trừ bản thân
@@ -455,7 +455,7 @@ export function SalaryTaxTool({ initialMode = "gross-to-net" }: SalaryTaxToolPro
                       </h2>
                     </div>
                     {result ? (
-                      <dl className="min-w-[280px] divide-y divide-border text-sm">
+                      <dl className="min-w-0 divide-y divide-border text-sm sm:min-w-[280px]">
                         <div className="flex items-center justify-between gap-4 px-4 py-3">
                           <dt className="text-muted-foreground">BHXH nhân viên</dt>
                           <dd className="font-medium">{formatCurrency(result.breakdown.insurance.bhxh)}</dd>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import { parseJsonResponse } from "@/lib/api/parse-json-response";
 import {
   TurnstileWidget,
   isTurnstileRequiredOnClient,
@@ -46,7 +47,7 @@ export function AdminLoginForm() {
           turnstileToken: turnstileToken ?? undefined,
         }),
       });
-      const json = (await res.json()) as {
+      const json = (await parseJsonResponse(res)) as {
         success?: boolean;
         error?: { message?: string };
       };

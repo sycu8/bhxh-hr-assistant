@@ -3,6 +3,7 @@ import { expectPageText, gotoStable, mainNav } from "./helpers";
 
 test.describe("Header navigation", () => {
   test("primary nav links work", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
     const nav = mainNav(page);
 
     await gotoStable(page, "/");
@@ -10,11 +11,13 @@ test.describe("Header navigation", () => {
     await expect(page).toHaveURL(/\/search/);
 
     await gotoStable(page, "/");
-    await nav.getByRole("link", { name: "FAQ" }).click();
+    await nav.getByRole("button", { name: "Khác" }).click();
+    await page.getByRole("menuitem", { name: "FAQ" }).click();
     await expect(page).toHaveURL(/\/hoi-dap/);
 
     await gotoStable(page, "/");
-    await nav.getByRole("link", { name: "Hỏi HR" }).click();
+    await nav.getByRole("button", { name: "Khác" }).click();
+    await page.getByRole("menuitem", { name: /Hỏi HR/i }).click();
     await expect(page).toHaveURL(/\/ask-hr/);
   });
 

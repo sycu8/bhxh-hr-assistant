@@ -5,6 +5,7 @@ import {
   rateLimit429Response,
   readRateLimitConfigFromEnv,
   type RateLimitConfig,
+  type RateLimitKv,
 } from "@/lib/security/kv-rate-limit";
 import { getClientIp } from "@/lib/security/request-client-ip";
 import { asRateLimitKv } from "@/lib/security/rate-limit-kv-adapter";

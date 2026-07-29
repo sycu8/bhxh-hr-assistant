@@ -1,8 +1,8 @@
 "use client";
 
 import { Archive, CheckCircle2, XCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
+import { useDebouncedRouterRefresh } from "@/hooks/use-debounced-router-refresh";
 import {
   approveCrawlItemAction,
   archiveCrawlItemAction,
@@ -44,38 +44,18 @@ type CrawlReviewActionsProps = {
 };
 
 export function CrawlReviewActions({ itemId }: CrawlReviewActionsProps) {
-  const router = useRouter();
+  const refreshPage = useDebouncedRouterRefresh();
   const formRef = useRef<HTMLFormElement>(null);
-  const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [pending, startTransition] = useTransition();
   const [toast, setToast] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [hidden, setHidden] = useState(false);
+  const [resolved, setResolved] = useState(false);
 
   useEffect(() => {
     if (!toast) return;
     const timer = setTimeout(() => setToast(null), TOAST_MS);
     return () => clearTimeout(timer);
   }, [toast]);
-
-  useEffect(
-    () => () => {
-      if (refreshTimerRef.current) {
-        clearTimeout(refreshTimerRef.current);
-      }
-    },
-    [],
-  );
-
-  const scheduleRefresh = () => {
-    if (refreshTimerRef.current) {
-      clearTimeout(refreshTimerRef.current);
-    }
-    refreshTimerRef.current = setTimeout(() => {
-      router.refresh();
-      refreshTimerRef.current = null;
-    }, 2500);
-  };
 
   const runAction = (
     action: (formData: FormData) => Promise<void>,
@@ -88,9 +68,9 @@ export function CrawlReviewActions({ itemId }: CrawlReviewActionsProps) {
     startTransition(async () => {
       try {
         await action(formData);
-        setHidden(true);
+        setResolved(true);
         setToast(successMessage);
-        scheduleRefresh();
+        refreshPage();
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "Không thực hiện được thao tác.",
@@ -99,8 +79,15 @@ export function CrawlReviewActions({ itemId }: CrawlReviewActionsProps) {
     });
   };
 
-  if (hidden) {
-    return null;
+  if (resolved) {
+    return (
+      <>
+        <ActionToast visible={Boolean(toast)} message={toast ?? "Lưu thành công"} />
+        <p className="rounded-md border border-dashed px-4 py-3 text-sm text-muted-foreground">
+          Đã xử lý — danh sách sẽ cập nhật trong giây lát.
+        </p>
+      </>
+    );
   }
 
   return (

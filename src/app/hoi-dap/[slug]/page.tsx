@@ -41,7 +41,7 @@ export default async function HoiDapDetailPage({ params }: Props) {
   const topic = TOPICS.find((t) => t.slug === faq.categorySlug);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
+    <div className="page-container-narrow">
       <JsonLd data={buildFaqPageJsonLd({ faq, topicTitle: topic?.title })} />
       <div className="mb-6 text-sm text-muted-foreground">
         <Link href="/hoi-dap" className="font-medium text-accent hover:underline">

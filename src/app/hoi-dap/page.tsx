@@ -21,7 +21,7 @@ export default function HoiDapListPage() {
   }));
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+    <div className="page-container">
       <header className="mb-8 grid gap-5 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
         <div>
           <h1 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">

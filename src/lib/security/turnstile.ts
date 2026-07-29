@@ -65,6 +65,12 @@ export async function assertTurnstileVerified(
   req: Request,
   token: string | undefined,
 ): Promise<void> {
+  if (
+    process.env.E2E_TEST_MODE === "1" ||
+    process.env.NEXT_PUBLIC_E2E_TEST_MODE === "1"
+  ) {
+    return;
+  }
   if (!isTurnstileVerificationRequired()) return;
 
   if (!token) {

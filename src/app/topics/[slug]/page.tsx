@@ -30,7 +30,7 @@ export default async function TopicLandingPage({ params }: Props) {
   if (!topic) notFound();
 
   const Icon = topic.icon;
-  const faqs = listCuratedFaqs(slug).slice(0, 8);
+  const faqs = listCuratedFaqs(slug).slice(0, slug === "bhyt" || slug === "bhtn" ? 16 : 8);
   const searchHref = topicHref(topic.slug, topic.title);
 
   return (

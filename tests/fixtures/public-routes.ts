@@ -29,6 +29,7 @@ export const PUBLIC_ROUTE_SPECS: PublicRouteSpec[] = [
   { path: "/nguon-phap-luat", mustContain: "nguồn" },
   { path: "/topics", mustContain: "Chủ đề" },
   { path: "/legal-updates", mustContain: "pháp luật" },
+  { path: "/developers", mustContain: "API" },
   {
     path: "/cap-nhat-phap-luat",
     mustContain: "pháp luật",
