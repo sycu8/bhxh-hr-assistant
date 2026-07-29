@@ -315,6 +315,8 @@ pnpm exec wrangler secret put CLOUDFLARE_EMAIL_API_TOKEN
 | `uat-streak.yml` | Nightly 01:00 ICT + manual | 15 kịch bản UAT trên `bhxh.orangecloud.vn` |
 | `deploy-cloudflare.yml` | Push `main` | Deploy OpenNext + Wrangler |
 
+`pnpm/action-setup` lấy version từ `package.json#packageManager` (không pin `version` trong workflow — tránh `ERR_PNPM_BAD_PM_VERSION`).
+
 **Secrets (bắt buộc deploy):** `CLOUDFLARE_API_TOKEN` (Wrangler deploy; nếu thiếu `CLOUDFLARE_ACCOUNT_ID`, workflow tự lấy account ID qua API token).
 
 **Secrets / variables (tuỳ chọn):** `CLOUDFLARE_ACCOUNT_ID`, `HR_CONTACT_EMAIL`, `HR_EMAIL_FROM`.

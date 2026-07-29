@@ -22,9 +22,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # version lấy từ package.json#packageManager (không pin ở đây — tránh ERR_PNPM_BAD_PM_VERSION)
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:
