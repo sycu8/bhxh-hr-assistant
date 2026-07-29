@@ -317,7 +317,7 @@ pnpm exec wrangler secret put CLOUDFLARE_EMAIL_API_TOKEN
 | `uat-streak.yml` | Nightly 01:00 ICT + manual | 15 kịch bản UAT trên `bhxh.orangecloud.vn` |
 | `deploy-cloudflare.yml` | Push `main` | Deploy OpenNext + Wrangler |
 
-`pnpm/action-setup` lấy version từ `package.json#packageManager` (không pin `version` trong workflow — tránh `ERR_PNPM_BAD_PM_VERSION`).
+`pnpm/action-setup` lấy version từ `package.json#packageManager` (không pin `version` trong workflow — tránh `ERR_PNPM_BAD_PM_VERSION`). Actions dùng runtime Node 24 (`checkout@v5`, `setup-node@v5`, `pnpm/action-setup@v6`). UAT streak: IPv4-first + retry khi CI gặp WAF/transient.
 
 **Secrets (bắt buộc — chỉ trong GitHub / Cursor, không commit):**
 

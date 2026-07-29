@@ -20,12 +20,12 @@ jobs:
   streak:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # version lấy từ package.json#packageManager (không pin ở đây — tránh ERR_PNPM_BAD_PM_VERSION)
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: "22"
           cache: "pnpm"
@@ -36,5 +36,8 @@ jobs:
       - name: UAT realistic streak
         run: node scripts/uat-realistic-streak.mjs
         env:
-          STREAK_TARGET: ${{ github.event.inputs.streak_target || '15' }}
+          # `inputs.*` an toàn hơn `github.event.inputs` khi chạy schedule
+          STREAK_TARGET: ${{ inputs.streak_target || '15' }}
           UAT_BASE_URL: https://bhxh.orangecloud.vn
+          UAT_RETRY_ATTEMPTS: "3"
+          UAT_RETRY_MS: "2000"
